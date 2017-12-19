@@ -19,9 +19,12 @@ namespace Ted.Server.Models
 
         public bool IsMainAdmin { get; set; } = false;
 
+        public string Token { get; set; }
+
         public virtual ICollection<Workspace> Workspaces { get; set; }
 
         public virtual ICollection<UsersInGroups> UsersInGroups { get; } = new List<UsersInGroups>();
+
 
 
     }

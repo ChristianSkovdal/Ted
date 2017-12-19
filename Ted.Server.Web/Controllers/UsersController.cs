@@ -39,7 +39,7 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post([FromBody]string value)
+        public JsonResult Post([FromBody]User value)
         {
             _repo.Add(value);
             return Json(new
@@ -59,7 +59,7 @@ namespace Ted.Server.Web.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _repo.Delete(id)
+            _repo.Delete(id);
         }
     }
 }
