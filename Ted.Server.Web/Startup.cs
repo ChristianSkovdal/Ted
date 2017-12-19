@@ -13,7 +13,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Ted.Server.Data;
 using Ted.Server.Data.Repositories;
 using Ted.Server.Interfaces;
-//using Ted.Util.Logging;
+using Ted.Auxiliary.Logging;
 
 namespace Ted.Server.Web
 {
@@ -29,8 +29,18 @@ namespace Ted.Server.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
+            //loggerFactory.AddContext(LogLevel.Information, Configuration.GetConnectionString("Logging"));
+
+            //services.AddSingleton(new LoggerFactory()
+            //    .AddConsole()
+            //    .AddDebug());
+            //services.AddLogging();
+
             services.AddTransient<IConfigRepository, ConfigRepository>();
             services.AddSingleton<IConfiguration>(this.Configuration);
+            //services.AddSingleton<ILogger, DBLogger>();
 
             services.AddMvc();
 
@@ -39,21 +49,15 @@ namespace Ted.Server.Web
                 c.SwaggerDoc("v1", new Info { Title = "Ted API", Version = "v1" });
             });
 
-            //CustomLoggerDBContext.ConnectionString = Configuration.GetConnectionString("Logging");
-            //services.AddDbContext<CustomLoggerDBContext>();
-
-            var connection = @"Server=A75105;Database=EFGetStarted;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<TedContext>(options => options.UseSqlServer(connection));
-
+            services.AddDbContext<TedContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<LoggingDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Logging")));
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-            //loggerFactory.AddContext(LogLevel.Information, Configuration.GetConnectionString("Logging"));
+            loggerFactory.AddProvider(new DatabaseLoggerProvider(Configuration.GetConnectionString("Logging")));
 
             if (env.IsDevelopment())
             {

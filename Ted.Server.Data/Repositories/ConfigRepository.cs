@@ -6,37 +6,37 @@ using System.Linq;
 using Ted.Server.Interfaces;
 using Ted.Server.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Logging;
 
 namespace Ted.Server.Data.Repositories
 {
     public class ConfigRepository : BaseRepository, IConfigRepository
     {
-        public ConfigRepository(TedContext context, IConfiguration configuration)
-            : base(context, configuration)
+        public ConfigRepository(TedContext context, IConfiguration configuration, ILogger<BaseRepository> logger)
+            : base(context, configuration, logger)
         {
 
         }
 
         public object Seed()
         {
-
-            if (!db.Users.Any(u => u.FullName == "Admin"))
+            _logger.LogInformation("Seed() was called");
+            if (!_db.Users.Any(u => u.FullName == "Admin"))
             {
                 var admin = new User
                 {
                     FullName = "Admin",
-                    Password = Guid.NewGuid().ToString("N").Substring(0, 6)
+                    Password = Guid.NewGuid().ToString("N").Substring(0, 10),
+                    IsMainAdmin = true
                 };
 
-                db.Users.Add(admin);
-                db.SaveChanges();
+                _db.Users.Add(admin);
+                _db.SaveChanges();
 
                 return new {
                     success = true,
                     Id = admin.Id,
-                    password = admin.Password,
-                    IsMainAdmin = true
+                    password = admin.Password
                 };
             }
 

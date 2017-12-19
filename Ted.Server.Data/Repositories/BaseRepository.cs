@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,22 +9,25 @@ namespace Ted.Server.Data.Repositories
 {
     public class BaseRepository
     {
-        protected TedContext db;
+        protected readonly TedContext _db;
+        protected readonly ILogger _logger;
+        protected readonly IConfiguration _config;
 
-
-        public BaseRepository(TedContext context, IConfiguration configuration)
+        public BaseRepository(TedContext context, IConfiguration configuration, ILogger<BaseRepository> logger)
         {
-            db = context;
-            //var optionsBuilder = new DbContextOptionsBuilder<TedContext>();
-            //var connStr = configuration.GetConnectionString("DefaultConnection");
-            //optionsBuilder.UseSqlServer(connStr);
-            //db = new TedContext(optionsBuilder.Options);
+            _db = context;
+            _logger = logger;
+            _config = configuration;
+        }
+        public BaseRepository(TedContext context, IConfiguration configuration)
+            : this(context, configuration,null)
+        {
         }
 
         public void Dispose()
         {
-            if (db != null)
-                db.Dispose();
+            if (_db != null)
+                _db.Dispose();
         }
     }
 }

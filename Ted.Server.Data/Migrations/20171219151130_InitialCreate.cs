@@ -17,6 +17,7 @@ namespace Ted.Server.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(nullable: true),
+                    IsMainAdmin = table.Column<bool>(nullable: false),
                     Password = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

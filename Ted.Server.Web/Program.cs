@@ -20,7 +20,13 @@ namespace Ted.Server.Web
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                //.ConfigureLogging((hostingContext, logging) =>
+                //{
+                //    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                //    logging.AddConsole();
+                //    logging.AddDebug();
+                //})
                 .UseStartup<Startup>()
                 .Build();
-    }   
+    }
 }

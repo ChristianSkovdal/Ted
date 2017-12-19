@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ted.Auxiliary.Logging\Ted.Auxiliary.Logging.csproj" />
     <ProjectReference Include="..\Ted.Server.Data\Ted.Server.Data.csproj" />
   </ItemGroup>
 

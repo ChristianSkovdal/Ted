@@ -11,8 +11,8 @@ using Ted.Server.Data;
 namespace Ted.Server.Data.Migrations
 {
     [DbContext(typeof(TedContext))]
-    [Migration("20171219150518_InitialCreate4")]
-    partial class InitialCreate4
+    [Migration("20171219151130_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
