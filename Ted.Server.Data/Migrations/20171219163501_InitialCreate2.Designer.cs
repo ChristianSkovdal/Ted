@@ -11,9 +11,10 @@ using Ted.Server.Data;
 namespace Ted.Server.Data.Migrations
 {
     [DbContext(typeof(TedContext))]
-    partial class TedContextModelSnapshot : ModelSnapshot
+    [Migration("20171219163501_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,19 +53,6 @@ namespace Ted.Server.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Ted.Server.Models.UsersInGroups", b =>
-                {
-                    b.Property<int>("UserId");
-
-                    b.Property<int>("GroupId");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("UsersInGroups");
-                });
-
             modelBuilder.Entity("Ted.Server.Models.Workspace", b =>
                 {
                     b.Property<int>("Id")
@@ -79,19 +67,6 @@ namespace Ted.Server.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Workspaces");
-                });
-
-            modelBuilder.Entity("Ted.Server.Models.UsersInGroups", b =>
-                {
-                    b.HasOne("Ted.Server.Models.Group", "Group")
-                        .WithMany("UsersInGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Ted.Server.Models.User", "User")
-                        .WithMany("UsersInGroups")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Ted.Server.Models.Workspace", b =>

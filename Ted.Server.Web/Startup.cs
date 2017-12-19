@@ -39,6 +39,7 @@ namespace Ted.Server.Web
             //services.AddLogging();
 
             services.AddTransient<IConfigRepository, ConfigRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddSingleton<IConfiguration>(this.Configuration);
             //services.AddSingleton<ILogger, DBLogger>();
 

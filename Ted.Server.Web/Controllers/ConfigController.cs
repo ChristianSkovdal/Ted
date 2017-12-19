@@ -26,9 +26,13 @@ namespace Ted.Server.Web.Controllers
 
         // GET api/values/5
         [HttpGet("version")]
-        public string Version()
+        public JsonResult Version()
         {
-            return "TED v1.0";
+            return Json(new {
+                FullVersion= "TED v1.0",
+                MajorVersion=1,
+                MinorVersion=0
+            });
         }
 
 

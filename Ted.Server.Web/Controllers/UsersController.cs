@@ -3,42 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Ted.Server.Interfaces;
+using Ted.Server.Models;
 
 namespace Ted.Server.Web.Controllers
 {
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        // GET api/values
+        IUserRepository _repo;
+
+        public UsersController(IUserRepository repo)
+        {
+            _repo = repo;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public JsonResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return Json(new
+            {
+                success = true,
+                data = _repo.GetAll()
+            });
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public JsonResult Get(int id)
         {
-            return "value";
+            return Json(new
+            {
+                success = true,
+                data = _repo.GetOne(id)
+            });
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public JsonResult Post([FromBody]string value)
         {
+            _repo.Add(value);
+            return Json(new
+            {
+                success = true,
+                data = new { value.Id }
+            });
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]User value)
         {
+            _repo.Update(id, value);
         }
 
-        // DELETE api/values/5
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _repo.Delete(id)
         }
     }
 }

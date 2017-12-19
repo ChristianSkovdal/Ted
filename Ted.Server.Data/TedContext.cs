@@ -17,5 +17,11 @@ namespace Ted.Server.Data
 
         public DbSet<Workspace> Workspaces { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UsersInGroups>()
+                .HasKey(t => new { t.UserId, t.GroupId });
+        }
     }
 }
