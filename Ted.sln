@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F8808A9E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ted.Server.Web.Test", "Ted.Server.Web.Test\Ted.Server.Web.Test.csproj", "{44267581-7378-4C67-8EE8-AE3232776774}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ted.Util.Logging", "Ted.Util.Logging\Ted.Util.Logging.csproj", "{3B169A26-4728-486C-AD90-5047DCD4C4FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{44267581-7378-4C67-8EE8-AE3232776774}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44267581-7378-4C67-8EE8-AE3232776774}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44267581-7378-4C67-8EE8-AE3232776774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B169A26-4728-486C-AD90-5047DCD4C4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B169A26-4728-486C-AD90-5047DCD4C4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B169A26-4728-486C-AD90-5047DCD4C4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B169A26-4728-486C-AD90-5047DCD4C4FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

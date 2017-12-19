@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ted.Server.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class UsersController : Controller
     {
         // GET api/values
         [HttpGet]
