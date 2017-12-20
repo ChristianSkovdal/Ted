@@ -8,7 +8,7 @@ namespace Ted.Server.Interfaces
 {
     public interface IUserRepository
     {
-        int Add(User user);
+        int Create(User user);
 
         void Update(int id, User user);
 

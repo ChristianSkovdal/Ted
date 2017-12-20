@@ -13,14 +13,20 @@ namespace Ted.Server.Web.Controllers
     {
         IUserRepository _repo;
 
-        public UsersController(IUserRepository repo)
+        IAuthenticationHandler _auth;
+
+        public UsersController(IUserRepository repo, IAuthenticationHandler auth)
         {
             _repo = repo;
+            _auth = auth;
         }
 
-        [HttpGet]
-        public JsonResult Get()
+        [HttpGet("{token}")]
+        public JsonResult Get(string token)
         {
+            if (!_auth.IsSuperUser(token))
+                throw new TedExeption(ExceptionCodes.NotSuperUser);
+
             return Json(new
             {
                 success = true,
@@ -28,9 +34,12 @@ namespace Ted.Server.Web.Controllers
             });
         }
 
-        [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        [HttpGet("{token}/{id}")]
+        public JsonResult Get(string token, int id)
         {
+            if (_auth.Authenticate(token, id)==null)
+                throw new TedExeption(ExceptionCodes.Authentication);
+
             return Json(new
             {
                 success = true,
@@ -38,10 +47,15 @@ namespace Ted.Server.Web.Controllers
             });
         }
 
-        [HttpPost]
+        [HttpGet]
         public JsonResult Post([FromBody]User value)
         {
-            _repo.Add(value);
+            if (string.IsNullOrEmpty(value.FullName))
+                throw new ArgumentException(nameof(value.FullName));
+            if (string.IsNullOrEmpty(value.Email))
+                throw new ArgumentException(nameof(value.FullName));
+
+            _repo.Create(value);
             return Json(new
             {
                 success = true,
@@ -49,16 +63,22 @@ namespace Ted.Server.Web.Controllers
             });
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]User value)
+        [HttpPut("{token}/{id}")]
+        public void Put(string token, int id, [FromBody]User value)
         {
+            if (_auth.Authenticate(token, id) == null)
+                throw new TedExeption(ExceptionCodes.Authentication);
+
             _repo.Update(id, value);
         }
 
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{token}/{id}")]
+        public void Delete(string token, int id)
         {
+            if (_auth.Authenticate(token, id) == null)
+                throw new TedExeption(ExceptionCodes.Authentication);
+
             _repo.Delete(id);
         }
     }

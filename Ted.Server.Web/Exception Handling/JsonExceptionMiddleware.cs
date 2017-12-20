@@ -18,11 +18,16 @@ namespace Ted.Server.Web
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             var ex = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-            if (ex == null) return;
+            if (ex == null)
+                return;
+
+            var tedException = ex as TedExeption;
 
             var error = new
             {
-                error = ex.Message
+                success = false,
+                message = ex.Message,
+                error = tedException != null ? tedException.Code : 0
             };
 
             context.Response.ContentType = "application/json";
@@ -30,7 +35,6 @@ namespace Ted.Server.Web
             using (var writer = new StreamWriter(context.Response.Body))
             {
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(error));
-                //new JsonSerializer().Serialize(writer, error);
                 await writer.FlushAsync().ConfigureAwait(false);
             }
         }

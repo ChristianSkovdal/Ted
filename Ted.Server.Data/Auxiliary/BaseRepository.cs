@@ -5,21 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ted.Server.Data.Repositories
+namespace Ted.Server.Data.Auxiliary
 {
-    public class BaseRepository
+    public class BaseDataRepository
     {
         protected readonly TedContext _db;
         protected readonly ILogger _logger;
         protected readonly IConfiguration _config;
 
-        public BaseRepository(TedContext context, IConfiguration configuration, ILogger<BaseRepository> logger)
+        public BaseDataRepository(TedContext context, IConfiguration configuration, ILogger<BaseDataRepository> logger)
         {
             _db = context;
             _logger = logger;
             _config = configuration;
         }
-        public BaseRepository(TedContext context, IConfiguration configuration)
+        public BaseDataRepository(TedContext context, IConfiguration configuration)
             : this(context, configuration,null)
         {
         }

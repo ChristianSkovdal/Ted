@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
 namespace Ted.Server.Models
 {
-    public class User
+    public class User : BaseEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
-        public int Id { get; set; }
 
         public string FullName { get; set; }
 
@@ -17,15 +11,15 @@ namespace Ted.Server.Models
 
         public string Password { get; set; }
 
-        public bool IsMainAdmin { get; set; } = false;
+        public bool IsSuperUser { get; set; } = false;
 
         public string Token { get; set; }
 
-        public virtual ICollection<Workspace> Workspaces { get; set; }
-
         public virtual ICollection<UsersInGroups> UsersInGroups { get; } = new List<UsersInGroups>();
 
+        public virtual ICollection<Workspace> MyWorkspaces { get; } = new List<Workspace>();
 
+        public string WorkspaceList { get; set; }
 
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using Ted.Server.Models;
 
-namespace Ted.Server.Data
+namespace Ted.Server.Data.Auxiliary
 {
     public class TedContext : DbContext
     {

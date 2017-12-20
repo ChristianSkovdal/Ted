@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using Ted.Server.Data;
+using Ted.Server.Data.Auxiliary;
 
 namespace Ted.Server.Data.Migrations
 {
@@ -25,7 +25,17 @@ namespace Ted.Server.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedTime");
+
+                    b.Property<bool>("Deleted");
+
                     b.Property<string>("Description");
+
+                    b.Property<int>("ModifiedBy");
+
+                    b.Property<DateTime>("ModifiedTime");
 
                     b.Property<string>("Name");
 
@@ -39,13 +49,27 @@ namespace Ted.Server.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedTime");
+
+                    b.Property<bool>("Deleted");
+
                     b.Property<string>("Email");
 
                     b.Property<string>("FullName");
 
-                    b.Property<bool>("IsMainAdmin");
+                    b.Property<bool>("IsSuperUser");
+
+                    b.Property<int>("ModifiedBy");
+
+                    b.Property<DateTime>("ModifiedTime");
 
                     b.Property<string>("Password");
+
+                    b.Property<string>("Token");
+
+                    b.Property<string>("WorkspaceList");
 
                     b.HasKey("Id");
 
@@ -70,7 +94,27 @@ namespace Ted.Server.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ComponentModifiers");
+
+                    b.Property<string>("ComponentTree");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedTime");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("EventHandlers");
+
+                    b.Property<int>("ModifiedBy");
+
+                    b.Property<DateTime>("ModifiedTime");
+
                     b.Property<string>("Name");
+
+                    b.Property<string>("SecurityGroups");
 
                     b.Property<int?>("UserId");
 
@@ -97,7 +141,7 @@ namespace Ted.Server.Data.Migrations
             modelBuilder.Entity("Ted.Server.Models.Workspace", b =>
                 {
                     b.HasOne("Ted.Server.Models.User")
-                        .WithMany("Workspaces")
+                        .WithMany("MyWorkspaces")
                         .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618

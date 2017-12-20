@@ -7,12 +7,13 @@ using Ted.Server.Interfaces;
 using Ted.Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Ted.Server.Data.Auxiliary;
 
 namespace Ted.Server.Data.Repositories
 {
-    public class ConfigRepository : BaseRepository, IConfigRepository
+    public class ConfigRepository : BaseDataRepository, IConfigRepository
     {
-        public ConfigRepository(TedContext context, IConfiguration configuration, ILogger<BaseRepository> logger)
+        public ConfigRepository(TedContext context, IConfiguration configuration, ILogger<BaseDataRepository> logger)
             : base(context, configuration, logger)
         {
 
@@ -27,7 +28,7 @@ namespace Ted.Server.Data.Repositories
                 {
                     FullName = "Admin",
                     Password = Guid.NewGuid().ToString("N").Substring(0, 10),
-                    IsMainAdmin = true
+                    IsSuperUser = true
                 };
 
                 _db.Users.Add(admin);
