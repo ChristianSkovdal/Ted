@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Ted.Server.Exceptions;
 
 namespace Ted.Server.Web
 {

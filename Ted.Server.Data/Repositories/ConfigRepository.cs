@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Ted.Server.Interfaces;
 using Ted.Server.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Ted.Server.Data.Auxiliary;
 
-namespace Ted.Server.Data.Repositories
+namespace Ted.Server.Data
 {
-    public class ConfigRepository : BaseDataRepository, IConfigRepository
+    public class ConfigRepository : BaseDataRepository
     {
         public ConfigRepository(TedContext context, IConfiguration configuration, ILogger<BaseDataRepository> logger)
             : base(context, configuration, logger)
@@ -19,25 +15,28 @@ namespace Ted.Server.Data.Repositories
 
         }
 
-        public object Seed()
+        public object Seed(string email)
         {
             _logger.LogInformation("Seed() was called");
-            if (!_db.Users.Any(u => u.FullName == "Admin"))
+
+            if (!_db.Users.Any(u => u.fullName == "Admin"))
             {
                 var admin = new User
                 {
-                    FullName = "Admin",
-                    Password = Guid.NewGuid().ToString("N").Substring(0, 10),
-                    IsSuperUser = true
+                    fullName = "Admin",
+                    email = email,
+                    password = Guid.NewGuid().ToString("N").Substring(0, 10),
+                    isSuperUser = true
                 };
 
                 _db.Users.Add(admin);
                 _db.SaveChanges();
 
-                return new {
+                return new
+                {
                     success = true,
-                    Id = admin.Id,
-                    password = admin.Password
+                    id = admin.id,
+                    password = admin.password
                 };
             }
 
@@ -46,5 +45,5 @@ namespace Ted.Server.Data.Repositories
                 success = false
             };
         }
-}
+    }
 }

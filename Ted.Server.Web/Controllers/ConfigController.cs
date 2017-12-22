@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Ted.Server.Data;
 using Ted.Server.Interfaces;
 
 namespace Ted.Server.Web.Controllers
@@ -10,9 +11,9 @@ namespace Ted.Server.Web.Controllers
     [Route("api/[controller]")]
     public class ConfigController : Controller
     {
-        IConfigRepository _repo;
+        ConfigRepository _repo;
 
-        public ConfigController(IConfigRepository repo)
+        public ConfigController(ConfigRepository repo)
         {
             _repo = repo;
         }
@@ -30,10 +31,10 @@ namespace Ted.Server.Web.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("seed")]
-        public JsonResult Seed()
+        [HttpGet("seed/{email}")]
+        public JsonResult Seed(string email)
         {
-            return Json(_repo.Seed());
+            return Json(_repo.Seed(email));
         }
         
 

@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Ted.Server.Data;
-using Ted.Server.Data.Repositories;
 using Ted.Server.Interfaces;
 using Ted.Auxiliary.Logging;
-using Ted.Server.Data.Auxiliary;
 
 namespace Ted.Server.Web
 {
@@ -31,9 +24,9 @@ namespace Ted.Server.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddTransient<IConfigRepository, ConfigRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IAuthenticationHandler, AuthenticationHandler>();
+            services.AddTransient<ConfigRepository, ConfigRepository>();
+            services.AddTransient<UserRepository, UserRepository>();
+            services.AddTransient<AuthenticationHandler, AuthenticationHandler>();
             services.AddSingleton<IConfiguration>(this.Configuration);
 
             services.AddMvc();

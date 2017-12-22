@@ -2,7 +2,7 @@
 using System;
 using Ted.Server.Models;
 
-namespace Ted.Server.Data.Auxiliary
+namespace Ted.Server.Data
 {
     public class TedContext : DbContext
     {
@@ -21,7 +21,7 @@ namespace Ted.Server.Data.Auxiliary
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UsersInGroups>()
-                .HasKey(t => new { t.UserId, t.GroupId });
+                .HasKey(t => new { t.userId, t.groupId });
         }
     }
 }

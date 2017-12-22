@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using FastMember;
 using Microsoft.Extensions.Configuration;
-using Ted.Server.Data.Auxiliary;
+using Newtonsoft.Json.Linq;
+using Ted.Server.Exceptions;
 using Ted.Server.Interfaces;
 using Ted.Server.Models;
 
-namespace Ted.Server.Data.Repositories
+namespace Ted.Server.Data
 {
-    public class UserRepository : BaseDataRepository, IUserRepository
+    public class UserRepository : BaseDataRepository
     {
         public UserRepository()
             : base(null, null, null)
@@ -21,27 +23,43 @@ namespace Ted.Server.Data.Repositories
         {
 
         }
+        private void NeuterUser(User user)
+        {
+            user.isSuperUser = false;
+            user.modifiedTime = DateTime.Now;
+            user.workspaceList = null;
+        }
 
         public int Create(User user)
         {
+            // Are there already a user with the email address
+            if (_db.Users.Any(u => u.email !=null && u.email.Equals(user.email, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new TedExeption(ExceptionCodes.UserExist);
+            }
+
+            NeuterUser(user);
+            user.createdTime = DateTime.Now;
+            user.createdBy = -1;
+
             _db.Add(user);
-            user.CreatedTime = DateTime.Now;
+            user.createdTime = DateTime.Now;
             _db.SaveChanges();
-            return user.Id;
+            return user.id;
         }
 
         public void Delete(int id)
         {
-            var user = _db.Users.SingleOrDefault(u => u.Id == id);
+            var user = _db.Users.SingleOrDefault(u => u.id == id);
             if (user == null)
                 throw new Exception($"User with Id {id} not found");
             //_db.Remove(user);
-            user.ModifiedTime = DateTime.Now;
-            user.Deleted = true;
+            user.modifiedTime = DateTime.Now;
+            user.deleted = true;
 
-            foreach (var ws in user.MyWorkspaces)
+            foreach (var ws in user.myWorkspaces)
             {
-                ws.Deleted = true;
+                ws.deleted = true;
             }
 
             _db.SaveChanges();
@@ -50,17 +68,34 @@ namespace Ted.Server.Data.Repositories
 
         public IQueryable<User> GetAll()
         {
-            return _db.Users.Where(u => !u.Deleted).OrderByDescending(u => u.Id);
+            return _db.Users.Where(u => !u.deleted).OrderByDescending(u => u.id);
         }
 
         public User GetOne(int id)
         {
-            return _db.Users.SingleOrDefault(u => u.Id == id && !u.Deleted);
+            return _db.Users.SingleOrDefault(u => u.id == id && !u.deleted);
         }
 
-        public void Update(int id, User user)
+        public void Update(int id, JObject data)
         {
-            user.ModifiedTime=DateTime.Now;
+            var user = GetOne(id);
+
+            foreach (var prop in data)
+            {
+                string propName = prop.Key;
+                JToken propValue = prop.Value;
+
+                PropertyInfo propInfo = user.GetType().GetProperty(propName);
+                if (propInfo == null)
+                    throw new TedExeption(ExceptionCodes.Generic, $"Cannot get property {propName} for user {id}");
+                var value = Convert.ChangeType(propValue.ToString(), propInfo.PropertyType);
+                propInfo.SetValue(user, value);
+            }
+
+            NeuterUser(user);
+            user.modifiedTime = DateTime.Now;
+
+            _db.SaveChanges();
         }
     }
 }

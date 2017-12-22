@@ -11,9 +11,10 @@ using Ted.Server.Data;
 namespace Ted.Server.Data.Migrations
 {
     [DbContext(typeof(TedContext))]
-    partial class TedContextModelSnapshot : ModelSnapshot
+    [Migration("20171222093022_initial1")]
+    partial class initial1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

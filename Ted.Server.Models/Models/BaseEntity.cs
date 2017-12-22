@@ -10,16 +10,16 @@ namespace Ted.Server.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public int ModifiedBy { get; set; }
+        public int modifiedBy { get; set; }
 
-        public int CreatedBy { get; set; }
+        public int createdBy { get; set; }
 
-        public DateTime ModifiedTime { get; set; }
+        public DateTime modifiedTime { get; set; }
 
-        public DateTime CreatedTime { get; set; }
+        public DateTime createdTime { get; set; }
 
-        public bool Deleted { get; set; }
+        public bool deleted { get; set; }
     }
 }

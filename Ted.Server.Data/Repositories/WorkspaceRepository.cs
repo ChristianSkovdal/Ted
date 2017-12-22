@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Ted.Server.Data.Auxiliary;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace Ted.Server.Data.Repositories
+namespace Ted.Server.Data
 {
     public class WorkspaceRepository : BaseDataRepository
     {

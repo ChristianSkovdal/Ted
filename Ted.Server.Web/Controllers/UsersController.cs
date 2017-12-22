@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Ted.Server.Interfaces;
+using Newtonsoft.Json.Linq;
+using Ted.Server.Data;
+using Ted.Server.Exceptions;
 using Ted.Server.Models;
 
 namespace Ted.Server.Web.Controllers
@@ -11,11 +10,11 @@ namespace Ted.Server.Web.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        IUserRepository _repo;
+        UserRepository _repo;
 
-        IAuthenticationHandler _auth;
+        AuthenticationHandler _auth;
 
-        public UsersController(IUserRepository repo, IAuthenticationHandler auth)
+        public UsersController(UserRepository repo, AuthenticationHandler auth)
         {
             _repo = repo;
             _auth = auth;
@@ -37,7 +36,7 @@ namespace Ted.Server.Web.Controllers
         [HttpGet("{token}/{id}")]
         public JsonResult Get(string token, int id)
         {
-            if (_auth.Authenticate(token, id)==null)
+            if (_auth.Authenticate(token, id)==null && !_auth.IsSuperUser(token))
                 throw new TedExeption(ExceptionCodes.Authentication);
 
             return Json(new
@@ -47,24 +46,54 @@ namespace Ted.Server.Web.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpPost]
         public JsonResult Post([FromBody]User value)
         {
-            if (string.IsNullOrEmpty(value.FullName))
-                throw new ArgumentException(nameof(value.FullName));
-            if (string.IsNullOrEmpty(value.Email))
-                throw new ArgumentException(nameof(value.FullName));
+            if (string.IsNullOrEmpty(value.fullName))
+                throw new ArgumentException(nameof(value.fullName));
+            if (string.IsNullOrEmpty(value.email))
+                throw new ArgumentException(nameof(value.email));
+            if (string.IsNullOrEmpty(value.password))
+                throw new ArgumentException(nameof(value.password));
 
             _repo.Create(value);
+
             return Json(new
             {
                 success = true,
-                data = new { value.Id }
+                data = new { id = value.id }
             });
         }
 
+        [HttpPost("login")]
+        public JsonResult Login([FromBody]Login value)
+        {
+            if (string.IsNullOrEmpty(value.Email))
+                throw new ArgumentException(nameof(value.Email));
+            if (string.IsNullOrEmpty(value.Password))
+                throw new ArgumentException(nameof(value.Password));
+
+            var user = _auth.Login(value.Email, value.Password);
+            if (user==null)
+            {
+                return Json(new
+                {
+                    success = false
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    success = true,
+                    data = user
+                });
+            }
+            
+        }
+
         [HttpPut("{token}/{id}")]
-        public void Put(string token, int id, [FromBody]User value)
+        public void Put(string token, int id, [FromBody]JObject value)
         {
             if (_auth.Authenticate(token, id) == null)
                 throw new TedExeption(ExceptionCodes.Authentication);

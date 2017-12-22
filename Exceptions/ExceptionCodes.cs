@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ted.Server.Web
+namespace Ted.Server.Exceptions
 {
     public enum ExceptionCodes : int
     {
@@ -11,6 +11,6 @@ namespace Ted.Server.Web
 
         Authentication = 100,
         NotSuperUser=101,
-
+        UserExist = 102,
     }
 }

@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ted.Server.Web.Test", "Ted.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ted.Auxiliary.Logging", "Ted.Auxiliary.Logging\Ted.Auxiliary.Logging.csproj", "{F8A415AF-1675-48FC-B197-681E8FF285F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ted.Test.Auxiliary", "Ted.Test.Auxiliary\Ted.Test.Auxiliary.csproj", "{CC8B202A-0EED-43B6-A43B-96AE35A3C188}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ted.Test.Auxiliary", "Ted.Test.Auxiliary\Ted.Test.Auxiliary.csproj", "{CC8B202A-0EED-43B6-A43B-96AE35A3C188}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ted.Server.Exceptions", "Exceptions\Ted.Server.Exceptions.csproj", "{D4340F8D-5F82-40FA-8E9D-236F80E3569A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{CC8B202A-0EED-43B6-A43B-96AE35A3C188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC8B202A-0EED-43B6-A43B-96AE35A3C188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC8B202A-0EED-43B6-A43B-96AE35A3C188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4340F8D-5F82-40FA-8E9D-236F80E3569A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4340F8D-5F82-40FA-8E9D-236F80E3569A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4340F8D-5F82-40FA-8E9D-236F80E3569A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4340F8D-5F82-40FA-8E9D-236F80E3569A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

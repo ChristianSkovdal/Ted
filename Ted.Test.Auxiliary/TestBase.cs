@@ -1,21 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ted.Server.Data.Auxiliary;
-using System.Data.Common;
-using System;
-using System.Data;
+using Ted.Server.Data;
 
 namespace Ted.Test.Auxiliary
 {
 
-    public class TestBase<INTERFACE_REPO, IMPLEMENTATION_REPO>
-        where INTERFACE_REPO : class
-        where IMPLEMENTATION_REPO : INTERFACE_REPO, new()
+    public class TestBase<REPO>
+        where REPO:  new()
     {
         protected TedContext _db;
 
-        protected INTERFACE_REPO _repository;
+        protected REPO _repository;
 
         [TestInitialize]
 
@@ -25,11 +21,11 @@ namespace Ted.Test.Auxiliary
             // $"Data Source=.;Initial Catalog=TedIntegrationTests_{Guid.NewGuid().ToString("N")};Integrated Security=False;User ID=nunit;Password=test;Pooling=True;TrustServerCertificate=True;Authentication=\"Sql Password\""
             optionsBuilder.UseSqlServer($"Data Source =.; Initial Catalog=TedIntegrationTests;Integrated Security=True;");
             _db = new TedContext(optionsBuilder.Options);
-            
-            
-            //_db.Database.EnsureDeleted();
-            //_db.Database.EnsureCreated();
-            
+
+
+            _db.Database.EnsureDeleted();
+            _db.Database.EnsureCreated();
+
         }
 
 

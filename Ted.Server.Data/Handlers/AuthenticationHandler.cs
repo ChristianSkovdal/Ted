@@ -2,13 +2,12 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using Ted.Server.Data.Auxiliary;
 using Ted.Server.Interfaces;
 using Ted.Server.Models;
 
 namespace Ted.Server.Data
 {
-    public class AuthenticationHandler : BaseDataRepository, IAuthenticationHandler
+    public class AuthenticationHandler : BaseDataRepository
     {
         public AuthenticationHandler(TedContext context, IConfiguration configuration, ILogger<BaseDataRepository> logger)
             : base(context, configuration, logger)
@@ -18,8 +17,8 @@ namespace Ted.Server.Data
 
         public User Authenticate(string token, int userId)
         {
-            var user = _db.Users.SingleOrDefault(u => u.Token == token);
-            if (user != null && (user.Id == userId || user.IsSuperUser))
+            var user = _db.Users.SingleOrDefault(u => u.token == token);
+            if (user != null && (user.id == userId || user.isSuperUser))
                 return user;
             return null;
         }
@@ -29,14 +28,14 @@ namespace Ted.Server.Data
             return Authenticate(token, -1)!=null;
         }
 
-        public string Login(string username, string password)
+        public User Login(string username, string password)
         {
-            var user = _db.Users.SingleOrDefault(u => username.Equals(u.Email, StringComparison.OrdinalIgnoreCase) && u.Password == password);
+            var user = _db.Users.SingleOrDefault(u => username.Equals(u.email, StringComparison.OrdinalIgnoreCase) && u.password == password);
             if (user!=null)
             {
-                user.Token = Guid.NewGuid().ToString("N");
+                user.token = Guid.NewGuid().ToString("N");
                 _db.SaveChanges();
-                return user.Token;
+                return user;
             }
             return null;
         }
