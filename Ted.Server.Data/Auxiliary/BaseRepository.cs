@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using Ted.Server.Exceptions;
 
 namespace Ted.Server.Data
 {
@@ -28,6 +31,21 @@ namespace Ted.Server.Data
         {
             if (_db != null)
                 _db.Dispose();
+        }
+
+        protected void Update(object obj, JObject data)
+        {
+            foreach (var prop in data)
+            {
+                string propName = prop.Key;
+                JToken propValue = prop.Value;
+
+                PropertyInfo propInfo = obj.GetType().GetProperty(propName);
+                if (propInfo == null)
+                    throw new TedExeption(ExceptionCodes.Generic, $"Cannot get property {propName} for entity");
+                var value = Convert.ChangeType(propValue.ToString(), propInfo.PropertyType);
+                propInfo.SetValue(obj, value);
+            }
         }
     }
 }

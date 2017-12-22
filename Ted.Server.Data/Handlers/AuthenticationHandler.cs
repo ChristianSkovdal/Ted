@@ -23,6 +23,11 @@ namespace Ted.Server.Data
             return null;
         }
 
+        public User Authenticate(string token)
+        {
+            return _db.Users.SingleOrDefault(u => u.token == token);            
+        }
+
         public bool IsSuperUser(string token)
         {
             return Authenticate(token, -1)!=null;

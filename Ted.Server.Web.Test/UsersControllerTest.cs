@@ -47,12 +47,9 @@ namespace Ted.Server.Web.Test
         public void UserController_CreateLoginUpdateDeleteUser()
         {
             // Arrange
-
-            string userToken = "";
-
             var repo = new UserRepository(_db, null);
             var auth = new AuthenticationHandler(_db, null, null);
-            var controller = new UsersController(repo, auth);
+            var controller = new UserController(repo, auth);
             var u = new User
             {
                 fullName = "Test User",

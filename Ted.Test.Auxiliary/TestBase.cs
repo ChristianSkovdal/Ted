@@ -23,8 +23,7 @@ namespace Ted.Test.Auxiliary
             _db = new TedContext(optionsBuilder.Options);
 
 
-            _db.Database.EnsureDeleted();
-            _db.Database.EnsureCreated();
+            //_db.Database.EnsureDeleted();_db.Database.EnsureCreated();
 
         }
 

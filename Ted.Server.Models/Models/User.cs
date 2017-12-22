@@ -15,10 +15,12 @@ namespace Ted.Server.Models
 
         public string token { get; set; }
 
-        public virtual ICollection<UsersInGroups> usersInGroups { get; } = new List<UsersInGroups>();
+        //public virtual ICollection<UsersInGroups> usersInGroups { get; } = new List<UsersInGroups>();
 
+        // Workspaces created by me
         public virtual ICollection<Workspace> myWorkspaces { get; } = new List<Workspace>();
 
+        // List of workspaces I use
         public string workspaceList { get; set; }
 
     }

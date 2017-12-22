@@ -8,13 +8,13 @@ using Ted.Server.Models;
 namespace Ted.Server.Web.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         UserRepository _repo;
 
         AuthenticationHandler _auth;
 
-        public UsersController(UserRepository repo, AuthenticationHandler auth)
+        public UserController(UserRepository repo, AuthenticationHandler auth)
         {
             _repo = repo;
             _auth = auth;

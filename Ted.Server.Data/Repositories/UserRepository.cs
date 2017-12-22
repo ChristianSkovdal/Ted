@@ -40,7 +40,7 @@ namespace Ted.Server.Data
 
             NeuterUser(user);
             user.createdTime = DateTime.Now;
-            user.createdBy = -1;
+            user.createdBy = user;
 
             _db.Add(user);
             user.createdTime = DateTime.Now;
@@ -80,17 +80,19 @@ namespace Ted.Server.Data
         {
             var user = GetOne(id);
 
-            foreach (var prop in data)
-            {
-                string propName = prop.Key;
-                JToken propValue = prop.Value;
+            Update(user,data);
 
-                PropertyInfo propInfo = user.GetType().GetProperty(propName);
-                if (propInfo == null)
-                    throw new TedExeption(ExceptionCodes.Generic, $"Cannot get property {propName} for user {id}");
-                var value = Convert.ChangeType(propValue.ToString(), propInfo.PropertyType);
-                propInfo.SetValue(user, value);
-            }
+            //foreach (var prop in data)
+            //{
+            //    string propName = prop.Key;
+            //    JToken propValue = prop.Value;
+
+            //    PropertyInfo propInfo = user.GetType().GetProperty(propName);
+            //    if (propInfo == null)
+            //        throw new TedExeption(ExceptionCodes.Generic, $"Cannot get property {propName} for user {id}");
+            //    var value = Convert.ChangeType(propValue.ToString(), propInfo.PropertyType);
+            //    propInfo.SetValue(user, value);
+            //}
 
             NeuterUser(user);
             user.modifiedTime = DateTime.Now;

@@ -27,6 +27,10 @@ namespace Ted.Test.Auxiliary
                         retval = temp;
                     }
                 }
+                else
+                {
+                    throw new Exception($"Cannot find token '{token}'");
+                }
             }
             return default(T);
         }
