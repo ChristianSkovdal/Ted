@@ -47,7 +47,7 @@ namespace Ted.Auxiliary.Logging
                 LogLevel = (int)logLevel,
                 CreatedTime = DateTime.UtcNow
             });
-            _db.SaveChanges();
+            //_db.SaveChanges();
         }
     }
 }
