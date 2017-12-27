@@ -29,7 +29,7 @@ namespace Ted.Server.Web.Controllers
             return Json(new
             {
                 success = true,
-                data = _repo.GetOne(workspaceId)
+                data = _repo.GetOneWorkspace(workspaceId)
             });
         }
 
@@ -43,7 +43,7 @@ namespace Ted.Server.Web.Controllers
             return Json(new
             {
                 success = true,
-                data = _repo.GetAllForUser(user)
+                data = _repo.GetAllWorkspacesForUser(user)
             });
         }
 
@@ -55,7 +55,7 @@ namespace Ted.Server.Web.Controllers
             if (string.IsNullOrEmpty(value.name))
                 throw new ArgumentException(nameof(value.name));
 
-            _repo.Create(value, user);
+            _repo.CreateWorkspace(value, user);
 
             return Json(new
             {
@@ -71,7 +71,7 @@ namespace Ted.Server.Web.Controllers
             if (user == null)
                 throw new TedExeption(ExceptionCodes.Authentication);
 
-            _repo.Update(id, value, user);
+            _repo.UpdateWorkspace(id, value, user);
         }
 
 
@@ -81,7 +81,9 @@ namespace Ted.Server.Web.Controllers
             if (_auth.Authenticate(token) == null)
                 throw new TedExeption(ExceptionCodes.Authentication);
 
-            _repo.Delete(id);
+            _repo.DeleteWorkspace(id);
         }
+
+
     }
 }

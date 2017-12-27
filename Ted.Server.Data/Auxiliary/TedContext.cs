@@ -10,7 +10,7 @@ namespace Ted.Server.Data
         public TedContext(DbContextOptions<TedContext> options)
             : base(options)
         {
-			//Database.EnsureCreated();
+			Database.EnsureCreated();
         }
         
         public DbSet<User> Users { get; set; }

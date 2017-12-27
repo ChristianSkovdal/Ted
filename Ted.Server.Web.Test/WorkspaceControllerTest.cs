@@ -105,12 +105,12 @@ namespace Ted.Server.Web.Test
 
             _user.workspaceList = string.Join(',',wsids.Select(r => r.ToString()));
             var wsForUser = _wsCtl.GetAllForUser(_user.token);
-            Assert.AreEqual(11, wsForUser.Get<IEnumerable<Workspace>>("data").Count());
+            Assert.AreEqual(11, wsForUser.Get<IEnumerable<WorkspaceDTO>>("data").Count());
 
             _wsCtl.DeleteWorkspace(anotherToken, wsids.First());
 
             var wsForUserAfterDelete = _wsCtl.GetAllForUser(_user.token);
-            Assert.AreEqual(11, wsForUser.Get<IEnumerable<Workspace>>("data").Count());
+            Assert.AreEqual(11, wsForUser.Get<IEnumerable<WorkspaceDTO>>("data").Count());
 
         }
 
@@ -145,7 +145,7 @@ namespace Ted.Server.Web.Test
             _wsCtl.DeleteWorkspace(_token, wsid);
 
             // Assert
-            Assert.IsNull(_wsCtl.GetOne(_token, wsid).Get<Workspace>("data"));
+            Assert.IsNull(_wsCtl.GetOne(_token, wsid).Get<WorkspaceDTO>("data"));
         }
 
 

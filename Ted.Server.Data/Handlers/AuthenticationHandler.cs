@@ -44,5 +44,19 @@ namespace Ted.Server.Data
             }
             return null;
         }
+
+        public User AuthenticateForWorkspace(string token, int workspaceId)
+        {
+            var user = Authenticate(token);
+            if (user!=null)
+            {
+                var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId);
+                if (ws.id==user.id)
+                {
+                    return user;
+                }
+            }
+            return null;
+        }
     }
 }

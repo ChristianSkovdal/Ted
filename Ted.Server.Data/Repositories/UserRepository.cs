@@ -40,7 +40,7 @@ namespace Ted.Server.Data
 
             NeuterUser(user);
             user.createdTime = DateTime.Now;
-            user.createdBy = user;
+            user.createdBy = user.id;
 
             _db.Add(user);
             user.createdTime = DateTime.Now;

@@ -12,11 +12,11 @@ namespace Ted.Server.Models
         [Key]
         public int id { get; set; }
 
-        [NotMapped]
-        public User modifiedBy { get; set; }
+        //[NotMapped]
+        public int modifiedBy { get; set; }
 
-        [NotMapped]
-        public User  createdBy { get; set; }
+        //[NotMapped]
+        public int createdBy { get; set; }
 
         public DateTime modifiedTime { get; set; }
 

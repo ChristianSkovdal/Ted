@@ -22,13 +22,13 @@ namespace Ted.Server.Data
 
         }
 
-        public WorkspaceDTO GetOne(int workspaceId)
+        public WorkspaceDTO GetOneWorkspace(int workspaceId)
         {
-            return _db.Workspaces.Select(r => new WorkspaceDTO(r))
-            .SingleOrDefault(r => r.id == workspaceId && !r.deleted);
+            var ws = _db.Workspaces.SingleOrDefault(r => r.id == workspaceId && !r.deleted);
+            return ws==null ? null : new WorkspaceDTO(ws);
         }
 
-        public IEnumerable<WorkspaceDTO> GetAllForUser(User user)
+        public IEnumerable<WorkspaceDTO> GetAllWorkspacesForUser(User user)
         {
             var ids = user.workspaceList.Split(',').Select(r => int.Parse(r));
             var workspaces = _db.Workspaces
@@ -38,10 +38,10 @@ namespace Ted.Server.Data
             return workspaces.ToList();
         }
 
-        public int Create(Workspace value, User user)
+        public int CreateWorkspace(Workspace value, User user)
         {
-            value.createdBy = user;
-            value.modifiedBy = user;
+            value.createdBy = user.id;
+            value.modifiedBy = user.id;
             value.createdTime = DateTime.Now;
             value.componentTree = "{}";
 
@@ -51,7 +51,7 @@ namespace Ted.Server.Data
             return value.id;
         }
 
-        public void Delete(int id)
+        public void DeleteWorkspace(int id)
         {
             var ws = _db.Workspaces.SingleOrDefault(u => u.id == id);
             if (ws == null)
@@ -69,16 +69,33 @@ namespace Ted.Server.Data
             _db.SaveChanges();
         }
 
-        public void Update(int id, JObject data, User user)
+        public void UpdateWorkspace(int id, JObject data, User user)
         {
-            var ws = GetOne(id);
+            var ws = _db.Workspaces.SingleOrDefault(u => u.id == id);
 
             Update(ws, data);
 
             ws.modifiedTime = DateTime.Now;
-            ws.modifiedBy = user;
+            ws.modifiedBy = user.id;
 
             _db.SaveChanges();
+        }
+
+
+        public void DeleteComponent(int workspaceId, string componentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetComponentTree(int workspaceId)
+        {
+            var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId);
+            return ws.componentTree;
+        }
+
+        public void InsertComponent(Component value, int workspaceId, int position, User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
