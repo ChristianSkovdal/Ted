@@ -91,7 +91,7 @@ namespace Ted.Server.Web.Test
 
             for (int i = 0; i < 10; i++)
             {
-                wsids.Add(_wsCtl.Post(anotherToken, new Workspace
+                wsids.Add(_wsCtl.AddWorkspace(anotherToken, new Workspace
                 {
                     name = "Test Workspace #" + i
                 }).Get<int>("data.id"));
@@ -99,7 +99,7 @@ namespace Ted.Server.Web.Test
 
             Assert.AreEqual(10, anotherUser.myWorkspaces.Count);
 
-            _wsCtl.Post(_token, new Workspace { name = "MyWorkspace" });
+            _wsCtl.AddWorkspace(_token, new Workspace { name = "MyWorkspace" });
 
             Assert.AreEqual(1, _user.myWorkspaces.Count());
 
@@ -107,7 +107,7 @@ namespace Ted.Server.Web.Test
             var wsForUser = _wsCtl.GetAllForUser(_user.token);
             Assert.AreEqual(11, wsForUser.Get<IEnumerable<Workspace>>("data").Count());
 
-            _wsCtl.Delete(anotherToken, wsids.First());
+            _wsCtl.DeleteWorkspace(anotherToken, wsids.First());
 
             var wsForUserAfterDelete = _wsCtl.GetAllForUser(_user.token);
             Assert.AreEqual(11, wsForUser.Get<IEnumerable<Workspace>>("data").Count());
@@ -127,7 +127,7 @@ namespace Ted.Server.Web.Test
             };
 
             // Act
-            var result = _wsCtl.Post(_token, ws);
+            var result = _wsCtl.AddWorkspace(_token, ws);
 
             // Assert
             Assert.IsTrue(result.Get<bool>("success"));
@@ -135,14 +135,14 @@ namespace Ted.Server.Web.Test
             Assert.IsTrue(wsid > 0);
 
             // Act
-            _wsCtl.Put(_token, wsid, JObject.Parse("{description:'abc'}"));
+            _wsCtl.UpdateWorkspace(_token, wsid, JObject.Parse("{description:'abc'}"));
             result = _wsCtl.GetOne(_token, wsid);
 
             // Assert
             Assert.AreEqual("abc", result.Get<string>("data.description"));
 
             // Act
-            _wsCtl.Delete(_token, wsid);
+            _wsCtl.DeleteWorkspace(_token, wsid);
 
             // Assert
             Assert.IsNull(_wsCtl.GetOne(_token, wsid).Get<Workspace>("data"));

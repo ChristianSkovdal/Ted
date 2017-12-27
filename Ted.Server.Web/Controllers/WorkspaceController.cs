@@ -48,7 +48,7 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPost("{token}")]
-        public JsonResult Post(string token, [FromBody]Workspace value)
+        public JsonResult AddWorkspace(string token, [FromBody]Workspace value)
         {
             var user = _auth.Authenticate(token);
 
@@ -65,7 +65,7 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPut("{token}/{id}")]
-        public void Put(string token, int id, [FromBody]JObject value)
+        public void UpdateWorkspace(string token, int id, [FromBody]JObject value)
         {
             var user = _auth.Authenticate(token);
             if (user == null)
@@ -76,7 +76,7 @@ namespace Ted.Server.Web.Controllers
 
 
         [HttpDelete("{token}/{id}")]
-        public void Delete(string token, int id)
+        public void DeleteWorkspace(string token, int id)
         {
             if (_auth.Authenticate(token) == null)
                 throw new TedExeption(ExceptionCodes.Authentication);

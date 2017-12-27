@@ -22,17 +22,19 @@ namespace Ted.Server.Data
 
         }
 
-        public Workspace GetOne(int workspaceId)
+        public WorkspaceDTO GetOne(int workspaceId)
         {
-            return _db.Workspaces.SingleOrDefault(r => r.id == workspaceId && !r.deleted);
+            return _db.Workspaces.Select(r => new WorkspaceDTO(r))
+            .SingleOrDefault(r => r.id == workspaceId && !r.deleted);
         }
 
-        public IEnumerable<Workspace> GetAllForUser(User user)
+        public IEnumerable<WorkspaceDTO> GetAllForUser(User user)
         {
             var ids = user.workspaceList.Split(',').Select(r => int.Parse(r));
             var workspaces = _db.Workspaces
+                .Select(r => new WorkspaceDTO(r))
                 .Where(r => ids.Contains(r.id) && !r.deleted)
-                .Concat(user.myWorkspaces);
+                .Concat(user.myWorkspaces.Select(r => new WorkspaceDTO(r)));
             return workspaces.ToList();
         }
 
