@@ -46,17 +46,27 @@ Ext.define('Admin.view.main.Toolbar', {
     },
         */
         {
-        //ui: 'header',
-        iconCls: 'x-fa fa-cog',
-        href: '#edit',
-        margin: '0 7 0 0',
-        handler: 'editButtonClick',
-        bind: {
-            pressed: '{editMode}'
+            //ui: 'header',
+            iconCls: 'x-fa fa-calendar-plus-o',
+            //href: '#edit',
+            margin: '0 7 0 0',
+            handler: 'addPageButtonClick',
+            bind: {
+                hidden: '{!editMode}'
+            }
         },
-        //pressed: true,
-        //enableToggle: true
-        } /*
+        {
+            //ui: 'header',
+            iconCls: 'x-fa fa-edit',
+            href: '#edit',
+            margin: '0 7 0 0',
+            handler: 'editButtonClick',
+            bind: {
+                pressed: '{editMode}'
+            }
+        }
+      
+        /*
         , {
         ui: 'header',
         iconCls: 'x-fa fa-envelope',

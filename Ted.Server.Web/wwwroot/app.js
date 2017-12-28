@@ -13,6 +13,6 @@ Ext.application({
     // explicitly.
     //
     requires: [
-        'Admin.*'
+        'Admin.*'       
     ]
 });

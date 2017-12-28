@@ -3,6 +3,13 @@
     alias: 'viewmodel.main',
 
     data: {
-        editMode: true
+        editMode: true,
+        ready: false,
+        token: '',
+
+        email: '',
+        password: '',
+        fullname: '',
+        rememberMe: false
     }
 });

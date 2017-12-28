@@ -6,10 +6,10 @@ Ext.define('Admin.view.main.MainController', {
         'Ext.MessageBox'
     ],
 
-    listen : {
-        controller : {
-            '#' : {
-                unmatchedroute : 'setCurrentView'
+    listen: {
+        controller: {
+            '#': {
+                unmatchedroute: 'setCurrentView'
             }
         }
     },
@@ -40,7 +40,7 @@ Ext.define('Admin.view.main.MainController', {
 
     onSwitchToClassic: function () {
         Ext.Msg.confirm('Switch to Classic', 'Are you sure you want to switch toolkits?',
-                        'onSwitchToClassicConfirmed', this);
+            'onSwitchToClassicConfirmed', this);
     },
 
     onSwitchToClassicConfirmed: function (choice) {
@@ -64,25 +64,36 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     setCurrentView: function (hashTag) {
+
         hashTag = (hashTag || '').toLowerCase();
 
         var view = this.getView(),
             navigationTree = this.lookup('navigationTree'),
-            store = navigationTree.getStore(),
-            node = store.findNode('routeId', hashTag) ||
-                   store.findNode('viewType', hashTag),
+            store = navigationTree ? navigationTree.getStore() : null,
+            node =  store.findNode('routeId', hashTag) ||
+                    store.findNode('viewType', hashTag),
             item = view.child('component[routeId=' + hashTag + ']');
 
         if (!item) {
             item = {
-                xtype: node.get('viewType'),
+                xtype: hashTag,// node.get('viewType'),
                 routeId: hashTag
             };
         }
 
-        view.setActiveItem(item);
+        try {
+            view.setActiveItem(item);
+        }
+        catch (e) {
+            //this.setCurrentView('login');
+        }
+        
 
-        navigationTree.setSelection(node);
+        if (node) {
+            navigationTree.setSelection(node);
+        }
+
+
     },
 
     updateShowNavigation: function (showNavigation, oldValue) {
@@ -134,18 +145,65 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     editButtonClick(btn) {
-        //debugger;
         let vm = this.getViewModel();
         vm.set('editMode', !vm.get('editMode'));
-        console.log('editMode=' + vm.get('editMode'));
-        //let tb = this.getReferences().navigation.down('toolbar');
-        ////let tb = this.getReferences().editTreeToolbar;
-        
-        //debugger;
-        //if (vm.get('editMode'))
-        //    tb.show();
-        //else tb.hide();
-        //navigation.doLayout();
-        //tb.doLayout();
+    },
+
+    addPageButtonClick() {
+
+        let navigationTree = this.lookup('navigationTree');
+        let root = navigationTree.getStore().getRoot();
+
+        root.on('insert', (node, newNode, refNode) => {
+            this.redirectTo('tedpage');
+        });
+
+        root.insertChild(0, {
+            text: 'New Page',
+            //href: '#NewPage01',
+            iconCls: 'x-fa fa-calendar-plus-o',
+            rowCls: 'nav-tree-badge nav-tree-badge-hot',
+            viewType: 'tedpage',
+            leaf: true
+        });
+    },
+
+    onWorkspacesInitialize() {
+
+        try {
+            let vm = this.getViewModel();
+            if (vm.get('token') == '') {
+
+                let loginStr = localStorage.getItem('login_data');
+                if (loginStr) {
+                    var login = JSON.parse(loginStr);
+                    if (login) {
+                        Admin.view.authentication.AuthController.ajaxPost('api/user/login',
+                            login,
+                            null,
+                            () => this.redirectTo('login')
+                        );
+                    }
+                    else {
+                        this.redirectTo('login');
+                    }
+                }
+                else {
+                    this.redirectTo('login');
+                }
+            } 
+        } catch (e) {
+            this.redirectTo('login');
+        }       
+    },
+
+    signoutButtonClick() {
+        Ext.Msg.confirm('Sign Out', 'Are you sure?', (answer) => {
+            if (answer == 'yes') {
+                localStorage.setItem('login_data', null);
+                this.redirectTo('login');
+            }
+        });
     }
+
 });

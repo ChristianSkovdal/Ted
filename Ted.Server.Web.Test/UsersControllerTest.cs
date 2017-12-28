@@ -67,8 +67,8 @@ namespace Ted.Server.Web.Test
             // Make a failed login
             result = controller.Login(new Login
             {
-                Email = u.email,
-                Password = "WRONG_PASSWORD"
+                email = u.email,
+                password = "WRONG_PASSWORD"
             });
 
             Assert.IsFalse(result.Get<bool>("success"));
@@ -76,8 +76,8 @@ namespace Ted.Server.Web.Test
             // Now make the real login
             result = controller.Login(new Login
             {
-                Email = u.email,
-                Password = u.password
+                email = u.email,
+                password = u.password
             });
 
             Assert.IsTrue(result.Get<bool>("success"));

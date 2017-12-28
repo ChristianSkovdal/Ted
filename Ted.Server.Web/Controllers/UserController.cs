@@ -68,12 +68,12 @@ namespace Ted.Server.Web.Controllers
         [HttpPost("login")]
         public JsonResult Login([FromBody]Login value)
         {
-            if (string.IsNullOrEmpty(value.Email))
-                throw new ArgumentException(nameof(value.Email));
-            if (string.IsNullOrEmpty(value.Password))
-                throw new ArgumentException(nameof(value.Password));
+            if (string.IsNullOrEmpty(value.email))
+                throw new ArgumentException(nameof(value.email));
+            if (string.IsNullOrEmpty(value.password))
+                throw new ArgumentException(nameof(value.password));
 
-            var user = _auth.Login(value.Email, value.Password);
+            var user = _auth.Login(value.email, value.password);
             if (user==null)
             {
                 return Json(new

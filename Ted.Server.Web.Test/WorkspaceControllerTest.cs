@@ -49,8 +49,8 @@ namespace Ted.Server.Web.Test
             // Now make the real login
             var result = _userCtl.Login(new Login
             {
-                Email = u.email,
-                Password = u.password
+                email = u.email,
+                password = u.password
             });
 
             Assert.IsTrue(result.Get<bool>("success"));
@@ -85,8 +85,8 @@ namespace Ted.Server.Web.Test
 
             var anotherToken = _userCtl.Login(new Login()
             {
-                Email = anotherUser.email,
-                Password = anotherUser.password
+                email = anotherUser.email,
+                password = anotherUser.password
             }).Get<string>("data.token");
 
             for (int i = 0; i < 10; i++)

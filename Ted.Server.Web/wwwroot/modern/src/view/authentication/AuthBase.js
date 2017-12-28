@@ -1,9 +1,12 @@
 Ext.define('Admin.view.authentication.AuthBase', {
     extend: 'Ext.Panel',
+
     controller: 'auth',
+    //viewModel:'auth',
 
     requires: [
-        'Ext.layout.VBox'
+        'Ext.layout.VBox',
+        'Admin.view.authentication.AuthModel'
     ],
 
     baseCls: 'auth-locked',

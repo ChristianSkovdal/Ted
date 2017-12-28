@@ -9,6 +9,10 @@ Ext.define('Admin.view.authentication.Login', {
         'Ext.layout.HBox'
     ],
 
+    listeners: {
+        initialize: 'loginInitialize'
+    },
+
     items: [{
         xtype: 'panel',
         padding: 20,
@@ -20,37 +24,49 @@ Ext.define('Admin.view.authentication.Login', {
             html: 'Sign into your account'
         }, {
             xtype: 'emailfield',
-            placeholder: 'Email'
+            placeholder: 'Email',
+            bind: {
+                value: '{email}'
+            }
         }, {
             xtype: 'passwordfield',
-            placeholder: 'Password'
+            placeholder: 'Password',
+            bind: {
+                value: '{password}'
+            }
         }, {
             layout: 'hbox',
             items: [{
                 xtype: 'checkboxfield',
-                boxLabel: 'Remember Me'
+                boxLabel: 'Remember Me',
+                bind: {
+                    checked: '{rememberMe}'
+                }
             }, {
                 xtype: 'component',
                 html: '<a href="#passwordreset">Forgot Password</a>',
                 margin: '7 0 0 45'
             }]
-        }, {
+        },
+        {
             xtype: 'button',
             width: '100%',
             text: 'Login',
             iconAlign: 'right',
             iconCls: 'x-fa fa-angle-right',
             ui: 'confirm',
-            handler: 'goToDashboard'
-        }, {
-            xtype: 'button',
-            width: '100%',
-            text: 'Login with Facebook',
-            iconAlign: 'right',
-            iconCls: 'x-fa fa-facebook',
-            ui: 'facebook',
-            handler: 'goToDashboard'
-        }, {
+            handler: 'tryLogin'
+        },
+        //{
+        //    xtype: 'button',
+        //    width: '100%',
+        //    text: 'Login with Facebook',
+        //    iconAlign: 'right',
+        //    iconCls: 'x-fa fa-facebook',
+        //    ui: 'facebook',
+        //    handler: 'goToDashboard'
+        //},
+        {
             xtype: 'button',
             width: '100%',
             margin: 0,

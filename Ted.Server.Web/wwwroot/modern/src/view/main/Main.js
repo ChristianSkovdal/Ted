@@ -4,7 +4,11 @@ Ext.define('Admin.view.main.Main', {
     requires: [
         'Ext.Button',
         'Ext.list.Tree',
-        'Ext.navigation.View'
+        'Ext.navigation.View',
+        'Admin.view.pages.TedPage',
+        'Admin.view.pages.WorkspacesPage'
+        //'Admin.view.authentication.Login',
+        //'Admin.view.authentication.Register'
     ],
 
     controller: 'main',
@@ -19,47 +23,32 @@ Ext.define('Admin.view.main.Main', {
         }
     },
 
-    items: [{
-        xtype: 'maintoolbar',
-        docked: 'top',
-        userCls: 'main-toolbar',
-        shadow: true
-    }, {
-        xtype: 'container',
-        docked: 'left',
-        userCls: 'main-nav-container',
-        reference: 'navigation',
-        layout: 'fit',
+    items: [
+        {
+            xtype: 'maintoolbar',
+            docked: 'top',
+            userCls: 'main-toolbar',
+            shadow: true,
+            bind: {
+                hidden: '{!ready}'
+            },
 
-       
-        
-        items: [{
+        },
+        //{
+        //    xtype: 'login',
+        //    bind: {
+        //        hidden: '{authenticated}'
+        //    },
+        //},
+        {
             xtype: 'container',
+            docked: 'left',
+            userCls: 'main-nav-container',
+            reference: 'navigation',
             layout: 'fit',
-            //title:'ffdsfdsf',
-            margin:10,
-
-            dockedItems: [
-                {
-                    xtype: 'toolbar',
-                    dock: 'top',
-                    //reference: 'editTreeToolbar',
-                    visible: true,
-                    hidden: false,
-                    height: 30,
-                    //hidden: false,
-                    //bind: {
-                    //    hidden: '{editMode}'
-                    //},
-                    items: [
-                        {
-                            xtype: 'button',
-                            text: '+',
-                        }
-                    ]
-                }
-            ],
-
+            bind: {
+                hidden: '{!ready}'
+            },
             items: [
                 {
                     xtype: 'treelist',
@@ -68,13 +57,13 @@ Ext.define('Admin.view.main.Main', {
                     ui: 'nav',
                     store: 'NavigationTree',
                     expanderFirst: false,
-                    expanderOnly: false,
+                    expaderOnly: false,
                     listeners: {
                         itemclick: 'onNavigationItemClick',
                         selectionchange: 'onNavigationTreeSelectionChange'
                     }
                 }
             ]
-        }]
-    }]
+        }
+    ]
 });

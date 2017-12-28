@@ -99,22 +99,22 @@ Ext.define('Admin.view.authentication.Register', {
                         }
                     }
                 },
-                {
-                    xtype: 'checkbox',
-                    flex: 1,
-                    name: 'agrees',
-                    cls: 'form-panel-font-color rememberMeCheckbox',
-                    height: 32,
-                    bind: '{agrees}',
-                    allowBlank : false,
-                    boxLabel: 'I agree with the Terms and Conditions',
+                //{
+                //    xtype: 'checkbox',
+                //    flex: 1,
+                //    name: 'agrees',
+                //    cls: 'form-panel-font-color rememberMeCheckbox',
+                //    height: 32,
+                //    bind: '{agrees}',
+                //    allowBlank : false,
+                //    boxLabel: 'I agree with the Terms and Conditions',
 
-                    // In this case, the form operation is not VALID unless Terms are agreed upon
-                    isValid: function() {
-                        var me = this;
-                        return me.checked || me.disabled;
-                    }
-                },
+                //    // In this case, the form operation is not VALID unless Terms are agreed upon
+                //    isValid: function() {
+                //        var me = this;
+                //        return me.checked || me.disabled;
+                //    }
+                //},
                 {
                     xtype: 'button',
                     scale: 'large',
