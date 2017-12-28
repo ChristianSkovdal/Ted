@@ -48,7 +48,7 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPost("{token}")]
-        public JsonResult AddWorkspace(string token, [FromBody]Workspace value)
+        public JsonResult AddWorkspace(string token, WorkspaceDTO value)
         {
             var user = _auth.Authenticate(token);
 

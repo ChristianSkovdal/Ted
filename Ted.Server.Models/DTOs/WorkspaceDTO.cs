@@ -4,6 +4,10 @@ namespace Ted.Server.Models
 {
     public class WorkspaceDTO : BaseEntity
     {
+        public WorkspaceDTO()
+        {
+
+        }
         public WorkspaceDTO(Workspace workspace)
         {
             id = workspace.id;

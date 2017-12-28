@@ -91,7 +91,7 @@ namespace Ted.Server.Web.Test
 
             for (int i = 0; i < 10; i++)
             {
-                wsids.Add(_wsCtl.AddWorkspace(anotherToken, new Workspace
+                wsids.Add(_wsCtl.AddWorkspace(anotherToken, new WorkspaceDTO
                 {
                     name = "Test Workspace #" + i
                 }).Get<int>("data.id"));
@@ -99,7 +99,7 @@ namespace Ted.Server.Web.Test
 
             Assert.AreEqual(10, anotherUser.myWorkspaces.Count);
 
-            _wsCtl.AddWorkspace(_token, new Workspace { name = "MyWorkspace" });
+            _wsCtl.AddWorkspace(_token, new WorkspaceDTO { name = "MyWorkspace" });
 
             Assert.AreEqual(1, _user.myWorkspaces.Count());
 
@@ -121,7 +121,7 @@ namespace Ted.Server.Web.Test
         {
             // Arrange
 
-            var ws = new Workspace
+            var ws = new WorkspaceDTO
             {
                 name = "Test Workspace",
             };

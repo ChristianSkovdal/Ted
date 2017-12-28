@@ -5,7 +5,7 @@
     data: {
         editMode: true,
         ready: false,
-        token: '',
+        user: null,
 
         email: '',
         password: '',
@@ -21,12 +21,29 @@
             autoLoad: false,
             proxy: {
                 type: 'ajax',
-                //api: {
-                //    read: 'api/workspace/' + this.data.token
-                //},
                 reader: {
                     type: 'json',
                     rootProperty: 'data'
+                },
+                listeners: {
+                    exception: function (proxy, response, operation) {
+                        debugger;
+                        let msg = 'Unknown Error';
+                        if (response && response.responseText) {
+                            var errObj = JSON.parse(response.responseText);
+                            if (errObj && !errObj.success && errObj.message) {
+                                msg=errObj.message;
+                            }
+                            else {
+                                msg = resp.responseText;
+                            }
+                        }
+                        else if (operation && operation.error) {
+                            msg = 'Error Code '+operation.error.status+' '+operation.error.statusText;
+                        }
+
+                        Ext.Msg.alert('Data Error', msg);
+                    }
                 }
             }
         },

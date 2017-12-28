@@ -25,12 +25,16 @@ namespace Ted.Server.Data
         public WorkspaceDTO GetOneWorkspace(int workspaceId)
         {
             var ws = _db.Workspaces.SingleOrDefault(r => r.id == workspaceId && !r.deleted);
-            return ws==null ? null : new WorkspaceDTO(ws);
+            return ws == null ? null : new WorkspaceDTO(ws);
         }
 
         public IEnumerable<WorkspaceDTO> GetAllWorkspacesForUser(User user)
         {
-            var ids = user.workspaceList.Split(',').Select(r => int.Parse(r));
+            var ids = new List<int>();
+            if (!string.IsNullOrEmpty(user.workspaceList))
+            {
+                ids = user.workspaceList.Split(',').Select(r => int.Parse(r)).ToList();
+            }
             var workspaces = _db.Workspaces
                 .Select(r => new WorkspaceDTO(r))
                 .Where(r => ids.Contains(r.id) && !r.deleted)
@@ -38,14 +42,14 @@ namespace Ted.Server.Data
             return workspaces.ToList();
         }
 
-        public int CreateWorkspace(Workspace value, User user)
+        public int CreateWorkspace(WorkspaceDTO value, User user)
         {
             value.createdBy = user.id;
             value.modifiedBy = user.id;
             value.createdTime = DateTime.Now;
-            value.componentTree = "{}";
+            //value.componentTree = "{}";
 
-            user.myWorkspaces.Add(value);
+            user.myWorkspaces.Add(new Workspace(value));
             _db.Add(value);
             _db.SaveChanges();
             return value.id;

@@ -173,7 +173,7 @@ Ext.define('Admin.view.main.MainController', {
         try {
             let me = this;
             let vm = this.getViewModel();
-            if (vm.get('token') == '') {
+            if (!vm.get('user')) {
 
                 let loginStr = localStorage.getItem('login_data');
                 if (loginStr) {
@@ -182,8 +182,8 @@ Ext.define('Admin.view.main.MainController', {
                         Admin.view.authentication.AuthController.ajaxPost('api/user/login',
                             login,
                             (result) => {
-                                vm.set('token', result.data.token);
-                                me.getView().fireEvent('authenticated', me.getView(), result.data.token);
+                                vm.set('user', result.data);
+                                me.getView().fireEvent('authenticated', me.getView(), result.data);
                             },
                             () => this.redirectTo('login')
                         );
@@ -197,24 +197,22 @@ Ext.define('Admin.view.main.MainController', {
                 }
             }
             else {
-                me.getView().fireEvent('authenticated', me.getView(), vm.get('token'));
+                me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
             }
         } catch (e) {
             this.redirectTo('login');
         }       
     },
 
-    onWorkspacesAuthenticated(wsPage, token) {
-        debugger;
+    onWorkspacesAuthenticated(wsPage, user) {
         var store = wsPage.down('dataview').getStore();
-        store.getProxy().setUrl('api/workspace/' + token);
+        store.getProxy().setUrl('api/workspace/' + user.token);
         store.load();
-
     },
 
     signoutButtonClick() {
         Ext.Msg.confirm('Sign Out', 'Are you sure?', (answer) => {
-            if (answer == 'yes') {
+            if (answer === 'yes') {
                 localStorage.setItem('login_data', null);
                 this.redirectTo('login');
             }
@@ -222,9 +220,14 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     addWorkspaceButtonClick() {
-
-
-
+        var view = this.lookupReference('workspaceView');
+        var store = view.getStore();
+        let vm = this.getViewModel();
+        store.add({
+            name: 'New workspace',
+            description: 'A new workspace created by ' + vm.get('user').fullName
+        });
+        store.sync();
     }
 
 });

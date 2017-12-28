@@ -11,7 +11,6 @@ Ext.define('Admin.view.pages.WorkspacesPage', {
 
     controller: 'main',
 
-
     //controller: 'workspaces',
     //viewModel: 'auth',
 
@@ -50,6 +49,7 @@ Ext.define('Admin.view.pages.WorkspacesPage', {
         {
             xtype: 'dataview',
             style: 'background-color:lightblue;',
+            reference: 'workspaceView',
             bind: {
                 store: '{workspaces}'
             },

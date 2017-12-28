@@ -13,14 +13,14 @@ namespace Ted.Server.Models
         public int id { get; set; }
 
         //[NotMapped]
-        public int modifiedBy { get; set; }
+        public int? modifiedBy { get; set; }
 
         //[NotMapped]
-        public int createdBy { get; set; }
+        public int? createdBy { get; set; }
 
-        public DateTime modifiedTime { get; set; }
+        public DateTime? modifiedTime { get; set; }
 
-        public DateTime createdTime { get; set; }
+        public DateTime? createdTime { get; set; }
 
         public bool deleted { get; set; }
     }
