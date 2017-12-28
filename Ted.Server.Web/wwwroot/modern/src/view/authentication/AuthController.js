@@ -70,6 +70,7 @@ Ext.define('Admin.view.authentication.AuthController', {
                 let vm = this.getViewModel();
                 vm.set('token', result.data.token);
                 this.redirectTo('workspacespage');
+                me.getView().fireEvent('authenticated', me.getView(), result.data.token);
                 if (vm.get('rememberMe')) {
                     // Persist passwords
                     localStorage.setItem('login_data', JSON.stringify(login));

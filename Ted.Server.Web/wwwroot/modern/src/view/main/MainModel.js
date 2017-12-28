@@ -11,5 +11,24 @@
         password: '',
         fullname: '',
         rememberMe: false
+    },
+
+    stores: {
+        workspaces: {
+
+            model: 'Admin.model.Workspace',
+
+            autoLoad: false,
+            proxy: {
+                type: 'ajax',
+                //api: {
+                //    read: 'api/workspace/' + this.data.token
+                //},
+                reader: {
+                    type: 'json',
+                    rootProperty: 'data'
+                }
+            }
+        },
     }
 });

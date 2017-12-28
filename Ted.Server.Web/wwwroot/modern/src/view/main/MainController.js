@@ -168,9 +168,10 @@ Ext.define('Admin.view.main.MainController', {
         });
     },
 
-    onWorkspacesInitialize() {
+    onWorkspacesShow() {
 
         try {
+            let me = this;
             let vm = this.getViewModel();
             if (vm.get('token') == '') {
 
@@ -180,7 +181,10 @@ Ext.define('Admin.view.main.MainController', {
                     if (login) {
                         Admin.view.authentication.AuthController.ajaxPost('api/user/login',
                             login,
-                            null,
+                            (result) => {
+                                vm.set('token', result.data.token);
+                                me.getView().fireEvent('authenticated', me.getView(), result.data.token);
+                            },
                             () => this.redirectTo('login')
                         );
                     }
@@ -191,10 +195,21 @@ Ext.define('Admin.view.main.MainController', {
                 else {
                     this.redirectTo('login');
                 }
-            } 
+            }
+            else {
+                me.getView().fireEvent('authenticated', me.getView(), vm.get('token'));
+            }
         } catch (e) {
             this.redirectTo('login');
         }       
+    },
+
+    onWorkspacesAuthenticated(wsPage, token) {
+        debugger;
+        var store = wsPage.down('dataview').getStore();
+        store.getProxy().setUrl('api/workspace/' + token);
+        store.load();
+
     },
 
     signoutButtonClick() {
@@ -204,6 +219,12 @@ Ext.define('Admin.view.main.MainController', {
                 this.redirectTo('login');
             }
         });
+    },
+
+    addWorkspaceButtonClick() {
+
+
+
     }
 
 });

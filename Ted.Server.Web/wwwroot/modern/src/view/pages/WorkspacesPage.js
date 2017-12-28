@@ -34,7 +34,8 @@ Ext.define('Admin.view.pages.WorkspacesPage', {
 
 
     listeners: {
-        initialize: 'onWorkspacesInitialize'
+        show: 'onWorkspacesShow',
+        authenticated: 'onWorkspacesAuthenticated'
     },
 
 
@@ -48,7 +49,10 @@ Ext.define('Admin.view.pages.WorkspacesPage', {
         },
         {
             xtype: 'dataview',
-            //style: 'background-color:red;'            
+            style: 'background-color:lightblue;',
+            bind: {
+                store: '{workspaces}'
+            },
         }
     ]
 });
