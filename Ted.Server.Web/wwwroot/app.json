@@ -1,21 +1,13 @@
 {
-    "name": "Ted",
-    "namespace": "Ted",
-    "version": "1.0.0.0",
-    "framework": "ext",
-
     /**
-     * The list of required packages (with optional versions; default is "latest").
-     *
-     * For example,
-     *
-     *      "requires": [
-     *          "charts"
-     *      ]
+     * The application's namespace.
      */
-    "requires": [
-        "font-awesome"
-    ],
+    "name": "Admin",
+    
+    /**
+     * The version of the application.
+     */
+    "version": "1.0.0.0",
 
     /**
      * The relative path to the application's markup file (html, jsp, asp, etc.).
@@ -23,10 +15,11 @@
     "indexHtmlPath": "index.html",
 
     /**
-     * Comma-separated string with the paths of directories or files to search. Any classes
-     * declared in these locations will be available in your class "requires" or in calls
-     * to "Ext.require". The "app.dir" variable below is expanded to the path where the
-     * application resides (the same folder in which this file is located).
+     * The list of directories or files to search for classes.
+     *
+     * Any classes declared in these locations will be available in your class "requires"
+     * or in calls to "Ext.require". The "app.dir" variable below is expanded to the path
+     * where the application resides (the same folder in which this file is located).
      */
     "classpath": [
         "app",
@@ -34,8 +27,11 @@
     ],
 
     /**
-     * Comma-separated string with the paths of directories or files to search. Any classes
-     * declared in these locations will be automatically required and included in the build.
+     * Comma-separated string with the paths of directories or files to search.
+     *
+     * Any classes declared in these locations will be automatically required and included
+     * in the build.
+     *
      * If any file defines an Ext JS override (using Ext.define with an "override" property),
      * that override will in fact only be included in the build if the target class specified
      * in the "override" property is also included.
@@ -46,17 +42,18 @@
     ],
 
     /**
-     * Fashion build configuration properties.
+     * The Sencha Framework for this application.
      */
-    "fashion": {
-        "missingParameters": "error",
-        "inliner": {
-            /**
-             * Disable resource inliner. Production builds enable this by default.
-             */
-            "enable": false
-        }
-    },
+    "framework": "ext",
+
+    /**
+     * The list of required packages (with optional versions; default is "latest").
+     */
+    "requires": [
+        "charts",
+        "font-awesome",
+        "ux"
+    ],
 
     /**
      * Sass configuration properties.
@@ -64,28 +61,19 @@
     "sass": {
         /**
          * The root namespace to use when mapping *.scss files to classes in the
-         * sass/src and sass/var directories. For example, "Ted.view.Foo" would
-         * map to "sass/src/view/Foo.scss". If we changed this to "Ted.view" then
+         * sass/src and sass/var directories. For example, "Admin.view.Foo" would
+         * map to "sass/src/view/Foo.scss". If we changed this to "Admin.view" then
          * it would map to "sass/src/Foo.scss". To style classes outside the app's
          * root namespace, change this to "". Doing so would change the mapping of
-         * "Ted.view.Foo" to "sass/src/Ted/view/Foo.scss".
+         * "Admin.view.Foo" to "sass/src/Admin/view/Foo.scss".
          */
-        "namespace": "Ted",
+        "namespace": "Admin",
 
         /**
-         * Generated sass source settings
-         *
-         *      "generated": {
-         *         // The file used to save sass variables edited via Sencha Inspector and Sencha Themer.
-         *         // This file will automatically be applied to the end of the scss build.
-         *         "var": "sass/save.scss",
-         *      
-         *         // The directory used to save generated sass sources.
-         *         // This directory will automatically be applied to the end of the scss build.
-         *         "src": "sass/save"
-         *      }
-         *
+         * File used to save sass variables edited via Sencha Inspector. This file
+         * will automatically be applied to the end of the scss build.
          */
+        // "save": "sass/${build.id}.json"
 
         /**
          * Comma-separated list of files or folders containing extra Sass. These
@@ -116,20 +104,17 @@
          * files. These file can also define Sass mixins for use by components.
          *
          * All "var" files are included after "etc" files in the Sass compilation in
-         * dependency order:
+         * roughly reverse dependency order:
          *
+         *      +-----------------+
+         *      | application     |
          *      +-------+---------+
-         *      |       | base    |
-         *      | theme +---------+
          *      |       | derived |
+         *      | theme +---------+
+         *      |       | base    |
          *      +-------+---------+
          *      | packages        |  (in package dependency order)
          *      +-----------------+
-         *      | application     |
-         *      +-----------------+
-         *
-         * The "sass/var/all.scss" file is always included at the start of the var
-         * block before any files associated with JavaScript classes.
          */
         "var": [
             "sass/var/all.scss",
@@ -201,22 +186,20 @@
      *      }
      *
      */
-    "js": [
-        {
-            "path": "app.js",
-            "bundle": true
-        }
-    ],
+    "js": [{
+        "path": "app.js",
+        "bundle": true
+    }],
 
     /**
      * Settings specific to classic toolkit builds.
      */
     "classic": {
         "js": [
-            // Remove this entry to individually load sources from the framework.
-            {
-                "path": "${framework.dir}/build/ext-all-rtl-debug.js"
-            }
+//            // Remove this entry to individually load sources from the framework.
+//            {
+//                "path": "${framework.dir}/build/ext-all-rtl-debug.js"
+//            }
         ]
     },
 
@@ -225,10 +208,10 @@
      */
     "modern": {
         "js": [
-            // Remove this entry to individually load sources from the framework.
-            {
-                "path": "${framework.dir}/build/ext-modern-all-debug.js"
-            }
+//            // Remove this entry to individually load sources from the framework.
+//            {
+//                "path": "${framework.dir}/build/ext-modern-all-debug.js"
+//            }
         ]
     },
 
@@ -257,16 +240,13 @@
      *          "update": ""      // OPTIONAL
      *      }
      */
-    "css": [
-        {
-            // this entry uses an ant variable that is the calculated
-            // value of the generated output css file for the app,
-            // defined in .sencha/app/defaults.properties
-            "path": "${build.out.css.path}",
-            "bundle": true,
-            "exclude": ["fashion"]
-        }
-    ],
+    "css": [{
+        // This entry uses an ant variable that is the calculated value of the generated
+        // output css file for the app, defined in .sencha/app/defaults.properties
+        "path": "${build.out.css.path}",
+        "bundle": true,
+        "exclude": ["fashion"]
+    }],
 
     /**
      * This option is used to configure the dynamic loader. At present these options
@@ -295,34 +275,44 @@
     "production": {
         "output": {
             "appCache": {
-                "enable": true,
-                "path": "cache.appcache"
+                "enable": false,
+                "path": "../cache.appcache"
             }
+            
         },
         "loader": {
             "cache": "${build.timestamp}"
         },
         "cache": {
-            "enable": true
-        },
-        "compressor": {
-            "type": "yui"
+            "enable": false
         }
     },
-
+    
     /**
      * Settings specific to testing builds.
      */
     "testing": {
+        "output": {
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
     },
-
+    
     /**
      * Settings specific to development builds.
      */
     "development": {
-        "watch": {
-            "delay": 250
-        }
+        "tags": [
+            // You can add this tag to enable Fashion when using app watch or
+            // you can add "?platformTags=fashion:1" to the URL to enable Fashion
+            // without changing this file.
+            //
+            // "fashion"
+        ]
     },
 
     /**
@@ -335,7 +325,7 @@
      * form:
      *
      *      "bootstrap": {
-     *          "base": "${app.dir}",
+     *          "base": "${app.dir},
      *          "manifest": "bootstrap.json",
      *          "microloader": "bootstrap.js",
      *          "css": "bootstrap.css"
@@ -354,9 +344,7 @@
      */
     "bootstrap": {
         "base": "${app.dir}",
-
         "manifest": "${build.id}.json",
-
         "microloader": "bootstrap.js",
         "css": "bootstrap.css"
     },
@@ -376,12 +364,7 @@
      *              "enable": false
      *          },
      *          "css": "${app.output.resources}/${app.name}-all.css",
-     *          "js": {
-     *              "path": "app.js",
-     *              // This setting constrols the output language level.  Set to 'ES6' to 
-     *              // disable the transpiler
-     *              "version": "ES5"
-     *          },
+     *          "js": "app.js",
      *          "microloader": {
      *              "path": "microloader.js",
      *              "embed": true,
@@ -406,18 +389,12 @@
      *      }
      *
      */
-
     "output": {
-        "base": "${workspace.build.dir}/${build.environment}/${app.name}",
-        "page": "index.html",
-        "manifest": "${build.id}.json",
-        "js": "${build.id}/app.js",
+		"base": "${workspace.build.dir}/${build.environment}/${app.name}/${build.id}",
+        "page": "../index.html",
+        "manifest": "../${build.id}.json",
         "appCache": {
             "enable": false
-        },
-        "resources": {
-            "path": "${build.id}/resources",
-            "shared": "resources"
         }
     },
 
@@ -432,14 +409,13 @@
     *       // If set to a string the value will be used as the path to where deltas will be generated relative to you build.
     *       // If set to a Truthy Value the default path ok "deltas" will be used
     *       // If set to a Falsey value or if this property is not present deltas will be disabled and not generated.
-    *
+    *       //
     *       "deltas": "deltas"
     *   }
     */
-
     "cache": {
         "enable": false,
-        "deltas": "${build.id}/deltas"
+        "deltas": false
     },
 
     /**
@@ -469,17 +445,20 @@
      * Extra resources to be copied into the resource folder as specified in the "resources"
      * property of the "output" object. Folders specified in this list will be deeply copied.
      */
-    "resources": [
-        {
-            "path": "resources",
-            "output": "shared"
-        },
-        {
+    "resources": [{
+            "path": "resources", //copy from the folder resources 
+            "output": "shared" //to the shared output folder resources
+        },{
             "path": "${toolkit.name}/resources"
-        },
-        {
-            "path": "${build.id}/resources"
         }
+    ],
+
+    /**
+     * File / directory name patttern to ignore when copying to the builds. Must be a
+     * valid regular expression.
+     */
+    "ignore": [
+        "(^|/)CVS(/?$|/.*?$)"
     ],
 
     /**
@@ -487,8 +466,49 @@
      * generated inside this directory must be kept intact for proper generation of
      * deltas between updates.
      */
+    "archivePath": "archive",
 
-    "archivePath": "archive/${build.id}",
+    /**
+     * Additional resources used during theme slicing operations
+     */
+    "slicer": {
+        "js": [
+            {
+                "path": "sass/example/custom.js",
+                "isWidgetManifest": true
+            }
+        ],
+        "output": {
+            "appCache": {
+                "enable": false
+            }
+        },
+        "cache": {
+            "enable": false
+        }
+    },
+
+    /**
+     * This config object is used by the "sencha app publish" command to publish
+     * a version of this application to Sencha Web Application Manager:
+     *
+     *      "manager": {
+     *          // the space id for this application
+     *          "id": 12345,
+     *
+     *          // space host
+     *          "host": "https://api.space.sencha.com/json.rpc",
+     *
+     *          // Either a zip file path or a folder to be zipped
+     *          // this example shows how to publish the root folder for all build profiles
+     *          "file": "${app.output.base}/../",
+     *
+     *          // These may be specified here, but are best specified in your user
+     *          // ~/.sencha/cmd/sencha.cfg file
+     *          "apiKey": "",
+     *          "secret": ""
+     *      }
+     */
 
     /**
      * Build Profiles. This object's properties are each a "build profile". You can
@@ -510,42 +530,35 @@
      *     }
      *
      */
-
     "builds": {
-        "classic": {
-            "toolkit": "classic",
+        // iOS Native Build profile example
+       /* "ios": {
+            "toolkit": "modern",
             "theme": "theme-triton",
-            "sass": {
-                "generated": {
-                    "var": "classic/sass/save.scss",
-                    "src": "classic/sass/save"
+            "packager": "cordova",
+            "cordova" : {
+                "config": {
+                    "platforms": "ios",
+                    "id": "com.foo.AdminDashboard",
+                    "name": "AdminDashboard"
                 }
             }
+        },*/
+
+        "classic": {
+            "toolkit": "classic",
+            "theme": "theme-triton"
         },
 
         "modern": {
             "toolkit": "modern",
-            "theme": "theme-material",
-            "sass": {
-                "generated": {
-                    "var": "modern/sass/save.scss",
-                    "src": "modern/sass/save"
-                }
-            }
+            "theme": "theme-triton"
         }
     },
-
-    /**
-     * File / directory name patttern to ignore when copying to the builds. Must be a
-     * valid regular expression.
-     */
-    "ignore": [
-        "(^|/)CVS(/?$|/.*?$)"
-    ],
 
     /**
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "830b09b4-1e67-452a-8a84-eb9ee8ca6e7d"
+    "id": "39acbe74-575a-4e77-8062-a62324a1e58f"
 }

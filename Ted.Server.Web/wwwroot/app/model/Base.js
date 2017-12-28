@@ -1,7 +1,7 @@
-Ext.define('Ted.model.Base', {
+Ext.define('Admin.model.Base', {
     extend: 'Ext.data.Model',
 
     schema: {
-        namespace: 'Ted.model'
+        namespace: 'Admin.model'
     }
 });

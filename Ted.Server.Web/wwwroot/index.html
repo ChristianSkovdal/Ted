@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html manifest="">
+<html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes">
+    <meta charset="UTF-8">
 
-    <title>Ted</title>
+    <title>Admin Dashboard</title>
 
     <script type="text/javascript">
         var Ext = Ext || {}; // Ext namespace won't be defined yet...
@@ -28,9 +28,16 @@
             else if (s.match(/\bmodern\b/)) {
                 profile = 'modern';
             }
+            // uncomment this if you have added native build profiles to your app.json
+            /*else if (tags.webview) {
+                if (tags.ios) {
+                    profile = 'ios';
+                }
+                // add other native platforms here
+            }*/
             else {
-                profile = tags.desktop ? 'classic' : 'modern';
-                //profile = tags.phone ? 'modern' : 'classic';
+                //profile = tags.desktop ? 'classic' : 'modern';
+                profile = tags.phone ? 'modern' : 'classic';
             }
 
             Ext.manifest = profile; // this name must match a build profile name
@@ -43,9 +50,10 @@
             //};
         };
     </script>
-
+    
+    
     <!-- The line below must be kept intact for Sencha Cmd to build your application -->
-    <script id="microloader" data-app="830b09b4-1e67-452a-8a84-eb9ee8ca6e7d" type="text/javascript" src="bootstrap.js"></script>
+    <script id="microloader" type="text/javascript" src="bootstrap.js"></script>
 
 </head>
 <body></body>

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="Ted" default=".help">
-
-    <!-- Find and load Sencha Cmd ant tasks -->
+<project name="Admin" default=".help">
+    <!--
+    The build-impl.xml file imported here contains the guts of the build process. It is
+    a great idea to read that file to understand how the process works, but it is best to
+    limit your changes to this file.
+    -->
     <script language="javascript">
         <![CDATA[
             var dir = project.getProperty("basedir"),
                 cmdDir = project.getProperty("cmd.dir"),
                 cmdLoaded = project.getReference("senchaloader");
-
+            
             if (!cmdLoaded) {
                 function echo(message, file) {
                     var e = project.createTask("echo");
@@ -19,7 +22,7 @@
                 };
 
                 if (!cmdDir) {
-
+                    
                     function exec(args) {
                         var process = java.lang.Runtime.getRuntime().exec(args),
                             input = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream())),
@@ -40,7 +43,7 @@
                         process.waitFor();
                         return !!cmdDir;
                     }
-
+                    
                     if (!exec(["sencha", "which"])) {
                         var tmpFile = "tmp.sh";
                         echo("source ~/.bash_profile; sencha " + whichArgs.join(" "), tmpFile);
@@ -51,13 +54,10 @@
             }
 
             if (cmdDir && !project.getTargets().containsKey("init-cmd")) {
-                var importDir = project.getProperty("build-impl.dir") || 
-                                (cmdDir + "/ant/build/app/build-impl.xml");
                 var importTask = project.createTask("import");
-
                 importTask.setOwningTarget(self.getOwningTarget());
                 importTask.setLocation(self.getLocation());
-                importTask.setFile(importDir);
+                importTask.setFile(cmdDir + "/ant/build/app/build-impl.xml");
                 importTask.execute();
             }
         ]]>
@@ -83,7 +83,7 @@
 
             <target name="-before-init"/>
             <target name="-after-init"/>
-
+        
         The "page" target performs the call to Sencha Cmd to build the 'all-classes.js' file.
 
             <target name="-before-page"/>
@@ -94,5 +94,19 @@
             <target name="-before-build"/>
             <target name="-after-build"/>
     -->
+    <target name="-after-resources">
+        <!--
+        Determine the location of the built version of the page and copy shared
+        resources to that location.
+        -->
+        <dirname property="shared.resources.dir"
+                 file="${app.output.base}/${app.output.page.path}"/>
+
+        <x-echo>Copying shared resources to ${shared.resources.dir}...</x-echo>
+
+        <copy todir="${shared.resources.dir}">
+            <fileset dir="${app.dir}" includes="resources/**/*"/>
+        </copy>
+    </target>
 
 </project>

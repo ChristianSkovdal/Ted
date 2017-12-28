@@ -1,56 +1,80 @@
-/**
- * This class is the main view for the application. It is specified in app.js as the
- * "mainView" property. That setting causes an instance of this class to be created and
- * added to the Viewport container.
- */
-Ext.define('Ted.view.main.Main', {
-    extend: 'Ext.tab.Panel',
-    xtype: 'app-main',
+Ext.define('Admin.view.main.Main', {
+    extend: 'Ext.navigation.View',
 
     requires: [
-        'Ext.MessageBox',
-        'Ext.layout.Fit'
+        'Ext.Button',
+        'Ext.list.Tree',
+        'Ext.navigation.View'
     ],
 
     controller: 'main',
     viewModel: 'main',
 
-    defaults: {
-        tab: {
-            iconAlign: 'top'
+    navigationBar: false,
+    userCls: 'main-container',
+
+    platformConfig: {
+        phone: {
+            controller: 'phone-main'
         }
     },
 
-    tabBarPosition: 'bottom',
+    items: [{
+        xtype: 'maintoolbar',
+        docked: 'top',
+        userCls: 'main-toolbar',
+        shadow: true
+    }, {
+        xtype: 'container',
+        docked: 'left',
+        userCls: 'main-nav-container',
+        reference: 'navigation',
+        layout: 'fit',
 
-    items: [
-        // TODO - Replace the content of this view to suit the needs of your application.
-        {
-            title: 'Home',
-            iconCls: 'x-fa fa-home',
+       
+        
+        items: [{
+            xtype: 'container',
             layout: 'fit',
-            // The following grid shares a store with the classic version's grid as well!
-            items: [{
-                xtype: 'mainlist'
-            }]
-        },{
-            title: 'Users',
-            iconCls: 'x-fa fa-user',
-            bind: {
-                html: '{loremIpsum}'
-            }
-        },{
-            title: 'Groups',
-            iconCls: 'x-fa fa-users',
-            bind: {
-                html: '{loremIpsum}'
-            }
-        },{
-            title: 'Settings',
-            iconCls: 'x-fa fa-cog',
-            bind: {
-                html: '{loremIpsum}'
-            }
-        }
-    ]
+            //title:'ffdsfdsf',
+            margin:10,
+
+            dockedItems: [
+                {
+                    xtype: 'toolbar',
+                    dock: 'top',
+                    //reference: 'editTreeToolbar',
+                    visible: true,
+                    hidden: false,
+                    height: 30,
+                    //hidden: false,
+                    //bind: {
+                    //    hidden: '{editMode}'
+                    //},
+                    items: [
+                        {
+                            xtype: 'button',
+                            text: '+',
+                        }
+                    ]
+                }
+            ],
+
+            items: [
+                {
+                    xtype: 'treelist',
+                    reference: 'navigationTree',
+                    scrollable: true,
+                    ui: 'nav',
+                    store: 'NavigationTree',
+                    expanderFirst: false,
+                    expanderOnly: false,
+                    listeners: {
+                        itemclick: 'onNavigationItemClick',
+                        selectionchange: 'onNavigationTreeSelectionChange'
+                    }
+                }
+            ]
+        }]
+    }]
 });

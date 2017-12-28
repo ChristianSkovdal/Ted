@@ -1,18 +1,18 @@
 /*
- * This file launches the application by asking Ext JS to create
- * and launch() the Application class.
+ * This file is responsible for launching the application. Application logic should be
+ * placed in the Admin.Application class.
  */
 Ext.application({
-    extend: 'Ted.Application',
+    name: 'Admin',
 
-    name: 'Ted',
+    extend: 'Admin.Application',
 
+    // Simply require all classes in the application. This is sufficient to ensure
+    // that all Admin classes will be included in the application build. If classes
+    // have specific requirements on each other, you may need to still require them
+    // explicitly.
+    //
     requires: [
-        // This will automatically load all classes in the Ted namespace
-        // so that application classes do not need to require each other.
-        'Ted.*'
-    ],
-
-    // The name of the initial view to create.
-    mainView: 'Ted.view.main.Main'
+        'Admin.*'
+    ]
 });

@@ -5,7 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Compile Remove="wwwroot\%24{ext.dir}\**" />
+    <Compile Remove="wwwroot\build\**" />
+    <Compile Remove="wwwroot\ext\**" />
+    <Compile Remove="wwwroot\resources\**" />
+    <Content Remove="wwwroot\%24{ext.dir}\**" />
+    <Content Remove="wwwroot\build\**" />
+    <Content Remove="wwwroot\ext\**" />
+    <Content Remove="wwwroot\resources\**" />
+    <EmbeddedResource Remove="wwwroot\%24{ext.dir}\**" />
+    <EmbeddedResource Remove="wwwroot\build\**" />
+    <EmbeddedResource Remove="wwwroot\ext\**" />
+    <EmbeddedResource Remove="wwwroot\resources\**" />
+    <None Remove="wwwroot\%24{ext.dir}\**" />
+    <None Remove="wwwroot\build\**" />
+    <None Remove="wwwroot\ext\**" />
+    <None Remove="wwwroot\resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\%2a%2a" />
+    <Content Remove="wwwroot\.jshintrc" />
+    <Content Remove="wwwroot\bootstrap.css" />
+    <Content Remove="wwwroot\bootstrap.js" />
+    <Content Remove="wwwroot\build.xml" />
+    <Content Remove="wwwroot\classic.json" />
+    <Content Remove="wwwroot\classic.jsonp" />
+    <Content Remove="wwwroot\modern.json" />
+    <Content Remove="wwwroot\modern.jsonp" />
+    <Content Remove="wwwroot\Readme.md" />
+    <Content Remove="wwwroot\workspace.json" />
   </ItemGroup>
 
   <ItemGroup>
