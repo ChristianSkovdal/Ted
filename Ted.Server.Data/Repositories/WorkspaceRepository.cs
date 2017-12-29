@@ -42,14 +42,14 @@ namespace Ted.Server.Data
             return workspaces.ToList();
         }
 
-        public int CreateWorkspace(WorkspaceDTO value, User user)
+        public int CreateWorkspace(Workspace value, User user)
         {
             value.createdBy = user.id;
             value.modifiedBy = user.id;
             value.createdTime = DateTime.Now;
             //value.componentTree = "{}";
 
-            user.myWorkspaces.Add(new Workspace(value));
+            user.myWorkspaces.Add(value);
             _db.Add(value);
             _db.SaveChanges();
             return value.id;

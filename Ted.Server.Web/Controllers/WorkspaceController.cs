@@ -55,12 +55,13 @@ namespace Ted.Server.Web.Controllers
             if (string.IsNullOrEmpty(value.name))
                 throw new ArgumentException(nameof(value.name));
 
-            _repo.CreateWorkspace(value, user);
+			var ws = new Workspace(value);
+			_repo.CreateWorkspace(ws, user);
 
             return Json(new
             {
                 success = true,
-                data = value
+                data = ws
             });
         }
 
