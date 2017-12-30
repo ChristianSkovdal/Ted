@@ -45,7 +45,7 @@ namespace Ted.Server.Data
             _db.Add(user);
             user.createdTime = DateTime.Now;
             _db.SaveChanges();
-            return user.id;
+            return (int)user.id;
         }
 
         public void Delete(int id)

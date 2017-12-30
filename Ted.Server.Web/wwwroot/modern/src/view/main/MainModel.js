@@ -20,14 +20,20 @@
 
             autoLoad: false,
             proxy: {
-                type: 'ajax',
+				type: 'rest',
+				appendId: false,
+
                 reader: {
                     type: 'json',
                     rootProperty: 'data'
-                },
+				},
+				writer: {
+					type: 'json',
+					writeRecordId:false,
+					writeAllFields: false
+				},
                 listeners: {
                     exception: function (proxy, response, operation) {
-                        debugger;
                         let msg = 'Unknown Error';
                         if (response && response.responseText) {
                             var errObj = JSON.parse(response.responseText);

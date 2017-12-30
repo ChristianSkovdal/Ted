@@ -91,16 +91,16 @@ namespace Ted.Server.Web.Test
             u.password = "abc";
 
             var jsonObj = JObject.Parse("{password:'123'}");
-            controller.Put(token, u.id, jsonObj);
+            controller.Put(token, (int)u.id, jsonObj);
 
             // Get it
-            result = controller.Get(token, verifiedUser.id);
+            result = controller.Get(token, (int)verifiedUser.id);
             Assert.AreEqual("123", result.Get<string>("data.password"));
 
             // Delete it
-            controller.Delete(token, verifiedUser.id);
+            controller.Delete(token, (int)verifiedUser.id);
 
-            result = controller.Get(token, verifiedUser.id);
+            result = controller.Get(token, (int)verifiedUser.id);
             Assert.IsNull(result.Get<User>("data"));
         }
 

@@ -1,2 +1,2 @@
 // @tag full-page
-// @require C:\dev\test\Ted\Ted.Server.Web\wwwroot\app.js
+// @require C:\dev\Ted\Ted.Server.Web\wwwroot\app.js

@@ -1,5 +1,5 @@
 $app-name:  dynamic( 'Admin' );
-$image-search-path: 'C:/dev/test/Ted/Ted.Server.Web/wwwroot/build/development/Admin/modern/resources';
+$image-search-path: 'C:/dev/Ted/Ted.Server.Web/wwwroot/build/development/Admin/modern/resources';
 $theme-name:  dynamic( 'theme-triton' );
 $include-admin-application: dynamic(true);;
 $include-admin-data-pie: dynamic(true);;
@@ -34,6 +34,8 @@ $include-admin-model-multidataxy: dynamic(true);;
 $include-admin-model-panelsetting: dynamic(true);;
 $include-admin-model-personalinfo: dynamic(true);;
 $include-admin-model-subscription: dynamic(true);;
+$include-admin-model-user: dynamic(true);;
+$include-admin-model-workspace: dynamic(true);;
 $include-admin-model-yearwisedata: dynamic(true);;
 $include-admin-model-email-email: dynamic(true);;
 $include-admin-model-email-friend: dynamic(true);;
@@ -53,6 +55,7 @@ $include-admin-store-search-results: dynamic(true);;
 $include-admin-store-search-users: dynamic(true);;
 $include-admin-view-authentication-authbase: dynamic(true);;
 $include-admin-view-authentication-authcontroller: dynamic(true);;
+$include-admin-view-authentication-authmodel: dynamic(true);;
 $include-admin-view-authentication-lockscreen: dynamic(true);;
 $include-admin-view-authentication-login: dynamic(true);;
 $include-admin-view-authentication-passwordreset: dynamic(true);;
@@ -107,6 +110,8 @@ $include-admin-view-pages-error404: dynamic(true);;
 $include-admin-view-pages-error500: dynamic(true);;
 $include-admin-view-pages-errorbase: dynamic(true);;
 $include-admin-view-pages-tedpage: dynamic(true);;
+$include-admin-view-pages-workspacespage: dynamic(true);;
+$include-admin-view-pages-workspacestoolbar: dynamic(true);;
 $include-admin-view-phone-email-compose: dynamic(true);;
 $include-admin-view-phone-email-email: dynamic(true);;
 $include-admin-view-phone-email-emailcontroller: dynamic(true);;
@@ -1599,14 +1604,6 @@ $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/pages/TedPage';
 
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\authentication\AuthBase.js */
-$default-resource-root: '' !default;
-$default-resource-path: 'images' !default;
-$current-package: false;
-$current-resource-root: $default-resource-root;
-$relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/authentication/AuthBase';
-
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\main\Main.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;
@@ -1638,6 +1635,14 @@ $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/tablet/email/Email';
+
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\authentication\AuthBase.js */
+$default-resource-root: '' !default;
+$default-resource-path: 'images' !default;
+$current-package: false;
+$current-resource-root: $default-resource-root;
+$relative-image-path-for-uis: $default-resource-path;
+@import '../../../../../modern/src/view/authentication/AuthBase';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\authentication\LockScreen.js */
 $default-resource-root: '' !default;

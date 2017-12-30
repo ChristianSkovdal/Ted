@@ -11,7 +11,7 @@ namespace Ted.Server.Data
             : base(options)
         {
 			Database.EnsureCreated();
-        }
+		}
         
         public DbSet<User> Users { get; set; }
 

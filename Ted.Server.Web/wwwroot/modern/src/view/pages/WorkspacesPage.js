@@ -52,7 +52,8 @@ Ext.define('Admin.view.pages.WorkspacesPage', {
             reference: 'workspaceView',
             bind: {
                 store: '{workspaces}'
-            },
+			},
+			itemTpl: '<div>WS: {name}</div>'
         }
     ]
 });

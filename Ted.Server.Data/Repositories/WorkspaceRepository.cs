@@ -37,7 +37,7 @@ namespace Ted.Server.Data
             }
             var workspaces = _db.Workspaces
                 .Select(r => new WorkspaceDTO(r))
-                .Where(r => ids.Contains(r.id) && !r.deleted)
+                .Where(r => ids.Contains((int)r.id) && !r.deleted)
                 .Concat(user.myWorkspaces.Select(r => new WorkspaceDTO(r)));
             return workspaces.ToList();
         }
@@ -52,7 +52,7 @@ namespace Ted.Server.Data
             user.myWorkspaces.Add(value);
             _db.Add(value);
             _db.SaveChanges();
-            return value.id;
+            return (int)value.id;
         }
 
         public void DeleteWorkspace(int id)

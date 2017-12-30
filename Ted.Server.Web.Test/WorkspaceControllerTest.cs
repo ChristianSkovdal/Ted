@@ -64,7 +64,7 @@ namespace Ted.Server.Web.Test
         [TestCleanup]
         public void Cleanup()
         {
-            _userCtl.Delete(_token, _user.id);
+            _userCtl.Delete(_token, (int)_user.id);
         }
 
 
@@ -94,7 +94,7 @@ namespace Ted.Server.Web.Test
                 wsids.Add(_wsCtl.AddWorkspace(anotherToken, new WorkspaceDTO
                 {
                     name = "Test Workspace #" + i
-                }).Get<int>("data.id"));
+                }).Get<int>("data"));
             }
 
             Assert.AreEqual(10, anotherUser.myWorkspaces.Count);
@@ -131,7 +131,7 @@ namespace Ted.Server.Web.Test
 
             // Assert
             Assert.IsTrue(result.Get<bool>("success"));
-            int wsid = result.Get<int>("data.id");
+            int wsid = result.Get<int>("data");
             Assert.IsTrue(wsid > 0);
 
             // Act

@@ -83,8 +83,8 @@ Ext.define('Admin.view.authentication.AuthController', {
     registerUser() {
 
         let vm = this.getViewModel();
-
-        this.ajaxPost('api/user',
+		let me = this;
+		Admin.view.authentication.AuthController.ajaxPost('api/user',
             {
                 email: vm.get('email'),
                 password: vm.get('password'),

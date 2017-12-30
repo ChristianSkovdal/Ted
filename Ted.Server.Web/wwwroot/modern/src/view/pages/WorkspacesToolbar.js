@@ -13,7 +13,7 @@ Ext.define('Admin.view.pages.WorkspacesToolbar', {
         xtype: 'component',
         reference: 'logo',
         userCls: 'main-logo',
-        html: 'Sencha'
+        html: 'TED'
     },
     '->',
     /*
@@ -48,16 +48,25 @@ Ext.define('Admin.view.pages.WorkspacesToolbar', {
         width: 100
 
     },
-    {
-        ui: 'header',
-        iconCls: 'x-fa fa-minus-circle',
-        //href: '#edit',
-        margin: '0 7 0 0',
-        handler: 'deleteWorkspaceButtonClick',
-        text: 'Remove',
-        width: 100
+	{
+		ui: 'header',
+		iconCls: 'x-fa fa-minus-circle',
+		//href: '#edit',
+		margin: '0 7 0 0',
+		handler: 'deleteWorkspaceButtonClick',
+		text: 'Remove',
+		width: 100
 
-    },
+	}, {
+		ui: 'header',
+		iconCls: 'x-fa fa-refresh',
+		//href: '#edit',
+		margin: '0 7 0 0',
+		handler: 'refreshWorkspaceButtonClick',
+		text: 'Refresh',
+		width: 100
+
+	},
     {
         ui: 'header',
         iconCls: 'x-fa fa-sign-out',

@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using Ted.Server.Interfaces;
+using System.Data.Entity;
 using Ted.Server.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ted.Server.Data
 {
@@ -25,7 +26,16 @@ namespace Ted.Server.Data
 
         public User Authenticate(string token)
         {
-            return _db.Users.SingleOrDefault(u => u.token == token);            
+			//var users = _db.Users.Include(u => u.myWorkspaces);
+
+
+			return _db.Users.SingleOrDefault(u => u.token == token);    
+			//var optionsBuilder = new DbContextOptionsBuilder<TedContext>();
+			//optionsBuilder.UseSqlServer($"Data Source =.; Initial Catalog=Ted;Integrated Security=True;");
+			//using (var db = new TedContext(optionsBuilder.Options))
+			//{
+			//	return db.Users.SingleOrDefault(u => u.token == token);
+			//}
         }
 
         public bool IsSuperUser(string token)

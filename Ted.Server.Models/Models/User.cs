@@ -4,7 +4,10 @@ namespace Ted.Server.Models
 {
     public class User : BaseEntity
     {
-
+		public User()
+		{
+			myWorkspaces = new HashSet<Workspace>();
+		}
         public string fullName { get; set; }
 
         public string email { get; set; }
@@ -18,7 +21,7 @@ namespace Ted.Server.Models
         //public virtual ICollection<UsersInGroups> usersInGroups { get; } = new List<UsersInGroups>();
 
         // Workspaces created by me
-        public virtual ICollection<Workspace> myWorkspaces { get; } = new List<Workspace>();
+        public  ICollection<Workspace> myWorkspaces { get; set; }
 
         // List of workspaces I use
         public string workspaceList { get; set; }
