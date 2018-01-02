@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
-using System.Data.Entity;
 using Ted.Server.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ted.Server.Data
 {

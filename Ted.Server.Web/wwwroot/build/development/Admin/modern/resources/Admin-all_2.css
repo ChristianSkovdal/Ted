@@ -1,3 +1,25 @@
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1422 */
+.x-button-soft-purple.x-pressing,
+.x-button-soft-purple.x-pressed {
+    color: #f0f0f0;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1425 */
+.x-button-soft-purple.x-pressing .x-inner-el,
+.x-button-soft-purple.x-pressed .x-inner-el {
+    border-color: #543650;
+    background-color: #6d4668;
+    background-image: none;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1430 */
+.x-button-soft-purple.x-pressing .x-icon-el,
+.x-button-soft-purple.x-pressed .x-icon-el {
+    color: #f0f0f0;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1434 */
+.x-button-soft-purple.x-pressing .x-arrow-el,
+.x-button-soft-purple.x-pressed .x-arrow-el {
+    color: #f0f0f0;
+}
 /* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1458 */
 .x-keyboard-mode .x-button-soft-purple.x-focused:after {
     border-color: #e9dfe8;

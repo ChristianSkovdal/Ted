@@ -38,26 +38,26 @@ Ext.define('Admin.view.main.MainController', {
 		}
 	},
 
-	onSwitchToClassic: function () {
-		Ext.Msg.confirm('Switch to Classic', 'Are you sure you want to switch toolkits?',
-			'onSwitchToClassicConfirmed', this);
-	},
+	//onSwitchToClassic: function () {
+	//	Ext.Msg.confirm('Switch to Classic', 'Are you sure you want to switch toolkits?',
+	//		'onSwitchToClassicConfirmed', this);
+	//},
 
-	onSwitchToClassicConfirmed: function (choice) {
-		if (choice === 'yes') {
-			var obj = Ext.Object.fromQueryString(location.search);
+	//onSwitchToClassicConfirmed: function (choice) {
+	//	if (choice === 'yes') {
+	//		var obj = Ext.Object.fromQueryString(location.search);
 
-			delete obj.modern;
+	//		delete obj.modern;
 
-			obj.classic = '';
+	//		obj.classic = '';
 
-			location.search = '?' + Ext.Object.toQueryString(obj).replace('classic=', 'classic');
-		} else {
-			var button = this.lookup('toolkitSwitch');
+	//		location.search = '?' + Ext.Object.toQueryString(obj).replace('classic=', 'classic');
+	//	} else {
+	//		var button = this.lookup('toolkitSwitch');
 
-			button.setValue(Ext.isModern ? 'modern' : 'classic');
-		}
-	},
+	//		button.setValue(Ext.isModern ? 'modern' : 'classic');
+	//	}
+	//},
 
 	onToggleNavigationSize: function () {
 		this.setShowNavigation(!this.getShowNavigation());
@@ -65,7 +65,60 @@ Ext.define('Admin.view.main.MainController', {
 
 	setCurrentView: function (hashTag) {
 
+		//var vm = this.getViewModel();
+		//if (hashTag != 'login') {
+		//	if (!vm.get('user')) {
+
+		//		this.redirectTo('login');
+		//		return;
+		//	}
+		//}
+
 		hashTag = (hashTag || '').toLowerCase();
+
+
+		if (hashTag != 'login') {
+			try {
+				let me = this;
+				let vm = this.getViewModel();
+				if (!vm.get('user')) {
+
+					let loginStr = localStorage.getItem('login_data');
+					if (loginStr) {
+						var login = JSON.parse(loginStr);
+						if (login) {
+							Admin.view.authentication.AuthController.ajaxPost('api/user/login',
+								login,
+								(result) => {
+									vm.set('user', result.data);
+									// The next page to show.....
+								},
+								() => {
+									me.redirectTo('login');
+									return;
+								}
+							);
+						}
+						else {
+							me.redirectTo('login');
+							return;
+						}
+					}
+					else {
+						me.redirectTo('login');
+						return;
+					}
+				}
+				else {
+					//me.loadWorkspaces();
+					//me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
+				}
+			} catch (e) {
+				Ext.Msg.alert('Exception', e.message);
+				me.redirectTo('login');
+				return;
+			}
+		}
 
 		var view = this.getView(),
 			navigationTree = this.lookup('navigationTree'),
@@ -168,46 +221,58 @@ Ext.define('Admin.view.main.MainController', {
 		});
 	},
 
-	onWorkspacesShow() {
+	loadWorkspaces() {
 
-		try {
-			let me = this;
-			let vm = this.getViewModel();
-			if (!vm.get('user')) {
+	},
 
-				let loginStr = localStorage.getItem('login_data');
-				if (loginStr) {
-					var login = JSON.parse(loginStr);
-					if (login) {
-						Admin.view.authentication.AuthController.ajaxPost('api/user/login',
-							login,
-							(result) => {
-								vm.set('user', result.data);
-								me.getView().fireEvent('authenticated', me.getView(), result.data);
-							},
-							() => this.redirectTo('login')
-						);
-					}
-					else {
-						this.redirectTo('login');
-					}
-				}
-				else {
-					this.redirectTo('login');
-				}
-			}
-			else {
-				me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
-			}
-		} catch (e) {
-			this.redirectTo('login');
-		}
+	onWorkspaceViewShow(workspaceView) {
+		debugger;
+		let store = workspaceView.getStore();
+		let vm = this.getViewModel();
+		store.getProxy().setUrl('api/workspace/' + vm.get('user').token);
+		store.load();
+
+		//try {
+		//	let me = this;
+		//	let vm = this.getViewModel();
+		//	if (!vm.get('user')) {
+
+		//		let loginStr = localStorage.getItem('login_data');
+		//		if (loginStr) {
+		//			var login = JSON.parse(loginStr);
+		//			if (login) {
+		//				Admin.view.authentication.AuthController.ajaxPost('api/user/login',
+		//					login,
+		//					(result) => {
+		//						vm.set('user', result.data);
+		//						//me.loadWorkspaces();
+		//						//me.getView().fireEvent('authenticated', me.getView(), result.data);
+		//					},
+		//					() => this.redirectTo('login')
+		//				);
+		//			}
+		//			else {
+		//				this.redirectTo('login');
+		//			}
+		//		}
+		//		else {
+		//			this.redirectTo('login');
+		//		}
+		//	}
+		//	else {
+		//		//me.loadWorkspaces();
+		//		//me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
+		//	}
+		//} catch (e) {
+		//	Ext.Msg.alert('Exception', e.message);
+		//	this.redirectTo('login');
+		//}
 	},
 
 	onWorkspacesAuthenticated(wsPage, user) {
-		var store = wsPage.down('dataview').getStore();
-		store.getProxy().setUrl('api/workspace/' + user.token);
-		store.load();
+		//debugger;
+		//console.log(this.getViewModel().get('user').token);
+		//var view = this.lookupReference('workspaceView');
 	},
 
 	signoutButtonClick() {
@@ -220,20 +285,86 @@ Ext.define('Admin.view.main.MainController', {
 	},
 
 	addWorkspaceButtonClick() {
-		var view = this.lookupReference('workspaceView');
-		var store = view.getStore();
-		let vm = this.getViewModel();
-		store.add({
-			//id:null,
-			name: 'New workspace',
-			description: 'A new workspace created by ' + vm.get('user').fullName
+
+		var dialog = Ext.create({
+			xtype: 'newworkspacedlg',
 		});
-		store.sync();
+
+		dialog.show();
+
+		dialog.on('ok', (cmp, ws) => {
+
+			var view = this.lookupReference('workspaceView');
+			var store = view.getStore();
+			let vm = this.getViewModel();
+
+			// Does it exist already with this name
+			function compareCaseInsensitiveFn(column, value) {
+				var re = new RegExp('^' + value + '$', 'i');
+				return function (rec) {
+					return re.test(rec.get(column));
+				}
+			}
+
+			function containsCaseInsensitive(store, column, value) {
+				return store.findBy(compareCaseInsensitiveFn(column, value)) >= 0;
+			}
+
+			if (containsCaseInsensitive(store, 'name', ws.name)) {
+				Ext.Msg.alert('Workspace', 'A workspace with that name already exist', f => dialog.down('textfield').focus());
+			}
+			else {
+				store.insert(0, ws);
+				store.sync({
+					callback(batch, opt) {
+						vm.set('selectedWorkspace', store.first());
+						dialog.destroy();
+					}
+				});
+			}
+		});
 	},
 
 
 	refreshWorkspaceButtonClick() {
+		var view = this.lookupReference('workspaceView');
+		var store = view.getStore();
+		store.load();
+	},
 
+	workspaceDblTap(view, location, options) {
+		this.openWorkspace(location.record);
+	},
+
+	openWorkspaceButtonClick() {
+		let vm = this.getViewModel();
+		this.openWorkspace(vm.get('selectedWorkspace'));
+	},
+
+	openWorkspace(ws) {
+		console.log('Opening ' + ws.data.name);
+		let vm = this.getViewModel();
+		vm.set('workspace', ws);
+		this.redirectTo('email');
+	},
+
+	deleteWorkspaceButtonClick() {
+		Ext.Msg.confirm('Delete Workspace', 'Are you sure', answer => {
+
+			if (answer == 'yes') {
+				var view = this.lookupReference('workspaceView');
+				var store = view.getStore();
+				let vm = this.getViewModel();
+				let record = vm.get('selectedWorkspace');
+				store.remove(record);
+				store.sync({
+					callback(batch, opt) {
+						if (store.count() > 0) {
+							vm.set('selectedWorkspace', store.first());
+						}
+					}
+				});
+			}
+		});
 	}
-
 });

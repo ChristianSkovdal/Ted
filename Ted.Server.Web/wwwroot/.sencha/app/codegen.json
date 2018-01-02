@@ -263,17 +263,6 @@
         "viewName": "Main",
         "viewNamespace": "Ted.view"
       }
-    },
-    "app/controller/Admin/view/pages/WorkspacesController.js": {
-      "source": "{controllerFileName}.js.tpl.merge",
-      "version": "b092f4aad11d2f7eaab5ce3e2dcc2fc3134f3188",
-      "parameters": {
-        "appName": "Admin",
-        "controllerFileName": "Admin/view/pages/WorkspacesController",
-        "controllerName": "Admin.view.pages.WorkspacesController",
-        "controllerNamespace": "Admin.controller",
-        "name": "Admin.view.pages.WorkspacesController"
-      }
     }
   }
 }

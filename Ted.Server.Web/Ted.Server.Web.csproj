@@ -6,18 +6,22 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\%24{ext.dir}\**" />
+    <Compile Remove="wwwroot\app\controller\**" />
     <Compile Remove="wwwroot\build\**" />
     <Compile Remove="wwwroot\ext\**" />
     <Compile Remove="wwwroot\resources\**" />
     <Content Remove="wwwroot\%24{ext.dir}\**" />
+    <Content Remove="wwwroot\app\controller\**" />
     <Content Remove="wwwroot\build\**" />
     <Content Remove="wwwroot\ext\**" />
     <Content Remove="wwwroot\resources\**" />
     <EmbeddedResource Remove="wwwroot\%24{ext.dir}\**" />
+    <EmbeddedResource Remove="wwwroot\app\controller\**" />
     <EmbeddedResource Remove="wwwroot\build\**" />
     <EmbeddedResource Remove="wwwroot\ext\**" />
     <EmbeddedResource Remove="wwwroot\resources\**" />
     <None Remove="wwwroot\%24{ext.dir}\**" />
+    <None Remove="wwwroot\app\controller\**" />
     <None Remove="wwwroot\build\**" />
     <None Remove="wwwroot\ext\**" />
     <None Remove="wwwroot\resources\**" />

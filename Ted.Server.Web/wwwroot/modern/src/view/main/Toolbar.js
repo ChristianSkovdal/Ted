@@ -64,7 +64,14 @@ Ext.define('Admin.view.main.Toolbar', {
             bind: {
                 pressed: '{editMode}'
             }
-        }
+		},
+		{
+			ui: 'header',
+			iconCls: 'x-fa fa-sign-out',
+			margin: '0 7 0 0',
+			handler: 'signoutButtonClick',
+			tooltip: 'Sign out'
+		}
       
         /*
         , {

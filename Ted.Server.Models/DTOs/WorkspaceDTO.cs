@@ -17,13 +17,15 @@ namespace Ted.Server.Models
             description = workspace.description;
             modifiedTime = workspace.modifiedTime;
             name = workspace.name;
+			deleted = workspace.deleted;
+			componentTree = workspace.componentTree;
         }
 
-		public string name { get; set; }
-
-	
+		public string name { get; set; }	
 
 		public string description { get; set; }
 
-    }
+		public string componentTree { get; set; }
+
+	}
 }

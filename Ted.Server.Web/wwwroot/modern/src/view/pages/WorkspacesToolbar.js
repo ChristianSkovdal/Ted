@@ -55,6 +55,9 @@ Ext.define('Admin.view.pages.WorkspacesToolbar', {
 		margin: '0 7 0 0',
 		handler: 'deleteWorkspaceButtonClick',
 		text: 'Remove',
+		bind: {
+			disabled: '{!selectedWorkspace}',
+		},
 		width: 100
 
 	}, {
@@ -66,7 +69,20 @@ Ext.define('Admin.view.pages.WorkspacesToolbar', {
 		text: 'Refresh',
 		width: 100
 
+	}, {
+		ui: 'header',
+		iconCls: 'x-fa fa-check-circle ',
+		//href: '#edit',
+		margin: '0 7 0 0',
+		handler: 'openWorkspaceButtonClick',
+		text: 'Open',
+		bind: {
+			disabled: '{!selectedWorkspace}',
+		},
+		width: 100
+
 	},
+	//'-',
     {
         ui: 'header',
         iconCls: 'x-fa fa-sign-out',

@@ -14127,6 +14127,51 @@ div.x-trigger.x-grouped {
 .blank-page-container .blank-page-text {
     font-size: 0.5rem;
 }
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:1 */
+.dataview-multisort-item {
+    padding: 8px;
+    margin: 8px 8px 4px 8px;
+    cursor: pointer;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:7 */
+.dataview-multisort-item {
+    width: 128px;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:10 */
+.dataview-multisort-item img {
+    border-radius: 5%;
+    -webkit-user-drag: none;
+    -webkit-box-shadow: 0px 8px 10px -6px black;
+    -moz-box-shadow: 0px 8px 10px -6px black;
+    box-shadow: 0px 8px 10px -6px black;
+    margin-left: 16px;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:17 */
+.dataview-multisort-item .name {
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    padding-top: 5px;
+    margin: 0;
+    overflow: hidden;
+    width: 110px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:30 */
+.dataview-multisort-item.x-focused {
+    background-color: deepskyblue;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:33 */
+.dark-mode .dataview-multisort-item.x-focused {
+    background-color: #232323;
+}
+/* C:/dev/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacesPage.scss:39 */
+.ws-description {
+    font-weight: bold;
+    font-size: 20px;
+}
 /* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1239 */
 .x-button-bright-blue {
     color: #fff;
@@ -14689,27 +14734,5 @@ div.x-trigger.x-grouped {
 }
 /* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1407 */
 .x-button-soft-purple.x-hovered .x-arrow-el {
-    color: #f0f0f0;
-}
-/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1422 */
-.x-button-soft-purple.x-pressing,
-.x-button-soft-purple.x-pressed {
-    color: #f0f0f0;
-}
-/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1425 */
-.x-button-soft-purple.x-pressing .x-inner-el,
-.x-button-soft-purple.x-pressed .x-inner-el {
-    border-color: #543650;
-    background-color: #6d4668;
-    background-image: none;
-}
-/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1430 */
-.x-button-soft-purple.x-pressing .x-icon-el,
-.x-button-soft-purple.x-pressed .x-icon-el {
-    color: #f0f0f0;
-}
-/* C:/dev/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1434 */
-.x-button-soft-purple.x-pressing .x-arrow-el,
-.x-button-soft-purple.x-pressed .x-arrow-el {
     color: #f0f0f0;
 }

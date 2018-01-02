@@ -8,7 +8,7 @@ Ext.define('Admin.Application', {
     
     name: 'Admin',
 
-    defaultToken : 'dashboard',
+    defaultToken : 'login',
 
     mainView: 'Admin.view.main.Main',
 

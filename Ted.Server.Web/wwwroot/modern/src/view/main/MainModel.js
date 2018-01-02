@@ -10,8 +10,26 @@
         email: '',
         password: '',
         fullname: '',
-        rememberMe: false
+		rememberMe: false,
+
+		selectedWorkspace: null,
+		workspace: null
     },
+
+	formulas: {
+		workspaceInfo: function (get) {
+			let ws = get('selectedWorkspace');
+			if (ws)
+				return {
+					description: ws.data.description,
+					created: ws.data.createdTime
+				};
+		},
+		noSelection(get) {
+			let ws = get('selectedWorkspace');
+			return ws == null;
+		}
+	},
 
     stores: {
         workspaces: {
@@ -21,7 +39,7 @@
             autoLoad: false,
             proxy: {
 				type: 'rest',
-				appendId: false,
+				appendId: true,
 
                 reader: {
                     type: 'json',

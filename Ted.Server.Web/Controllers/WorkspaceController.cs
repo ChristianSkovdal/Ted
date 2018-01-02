@@ -61,8 +61,8 @@ namespace Ted.Server.Web.Controllers
             return Json(new
             {
                 success = true,
-                data = ws.id
-            });
+                data = ws
+			});
         }
 
         [HttpPut("{token}/{id}")]

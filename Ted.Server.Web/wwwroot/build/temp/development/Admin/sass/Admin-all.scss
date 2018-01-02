@@ -87,6 +87,9 @@ $include-admin-view-dashboard-todos: dynamic(true);;
 $include-admin-view-dashboard-todoscontroller: dynamic(true);;
 $include-admin-view-dashboard-topmovie: dynamic(true);;
 $include-admin-view-dashboard-weather: dynamic(true);;
+$include-admin-view-dialogs-newworkspacedialog: dynamic(true);;
+$include-admin-view-dialogs-newworkspacedlgcontroller: dynamic(true);;
+$include-admin-view-dialogs-newworkspacedlgmodel: dynamic(true);;
 $include-admin-view-email-actions: dynamic(true);;
 $include-admin-view-email-emailcontroller: dynamic(true);;
 $include-admin-view-email-emailmodel: dynamic(true);;
@@ -1603,6 +1606,14 @@ $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/pages/TedPage';
+
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspacesPage.js */
+$default-resource-root: '' !default;
+$default-resource-path: 'images' !default;
+$current-package: false;
+$current-resource-root: $default-resource-root;
+$relative-image-path-for-uis: $default-resource-path;
+@import '../../../../../modern/src/view/pages/WorkspacesPage';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\main\Main.js */
 $default-resource-root: '' !default;

@@ -10,21 +10,21 @@ Ext.define('Admin.store.NavigationTree', {
     root: {
         expanded: true,
         children: [
-            {
-                text: 'Dashboard',
-                iconCls: 'x-fa fa-desktop',
-                rowCls: 'nav-tree-badge nav-tree-badge-new',
-                viewType: 'admindashboard',
-                routeId: 'dashboard', // routeId defaults to viewType
-                leaf: true
-            },
-            {
-                text: 'Email',
-                iconCls: 'x-fa fa-send',
-                rowCls: 'nav-tree-badge nav-tree-badge-hot',
-                viewType: 'email',
-                leaf: true
-            },
+            //{
+            //    text: 'Dashboard',
+            //    iconCls: 'x-fa fa-desktop',
+            //    rowCls: 'nav-tree-badge nav-tree-badge-new',
+            //    viewType: 'admindashboard',
+            //    routeId: 'dashboard', // routeId defaults to viewType
+            //    leaf: true
+            //},
+            //{
+            //    text: 'Email',
+            //    iconCls: 'x-fa fa-send',
+            //    rowCls: 'nav-tree-badge nav-tree-badge-hot',
+            //    viewType: 'email',
+            //    leaf: true
+            //},
             /*
             {
                 text: 'Profile',
