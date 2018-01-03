@@ -17,6 +17,7 @@ namespace Ted.Server.Data
 
         public DbSet<Workspace> Workspaces { get; set; }
 
+        public DbSet<TreeNode> TreeNode { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

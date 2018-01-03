@@ -94,7 +94,7 @@ namespace Ted.Server.Web.Test
                 wsids.Add(_wsCtl.AddWorkspace(anotherToken, new WorkspaceDTO
                 {
                     name = "Test Workspace #" + i
-                }).Get<int>("data"));
+                }).Get<Workspace>("data").id);
             }
 
             Assert.AreEqual(10, anotherUser.myWorkspaces.Count);
@@ -131,21 +131,21 @@ namespace Ted.Server.Web.Test
 
             // Assert
             Assert.IsTrue(result.Get<bool>("success"));
-            int wsid = result.Get<int>("data");
-            Assert.IsTrue(wsid > 0);
+            var wsNew = result.Get<Workspace>("data");
+            Assert.IsNotNull(wsNew);
 
             // Act
-            _wsCtl.UpdateWorkspace(_token, wsid, JObject.Parse("{description:'abc'}"));
-            result = _wsCtl.GetOne(_token, wsid);
+            _wsCtl.UpdateWorkspace(_token, wsNew.id, JObject.Parse("{description:'abc'}"));
+            result = _wsCtl.GetOne(_token, wsNew.id);
 
             // Assert
             Assert.AreEqual("abc", result.Get<string>("data.description"));
 
             // Act
-            _wsCtl.DeleteWorkspace(_token, wsid);
+            _wsCtl.DeleteWorkspace(_token, wsNew.id);
 
             // Assert
-            Assert.IsNull(_wsCtl.GetOne(_token, wsid).Get<WorkspaceDTO>("data"));
+            Assert.IsNull(_wsCtl.GetOne(_token, wsNew.id).Get<WorkspaceDTO>("data"));
         }
 
 

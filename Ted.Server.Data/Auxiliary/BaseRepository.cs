@@ -25,6 +25,8 @@ namespace Ted.Server.Data
         public BaseDataRepository(TedContext context, IConfiguration configuration)
             : this(context, configuration,null)
         {
+            
+            //this.Configuration.LazyLoadingEnabled = false;
         }
 
         public void Dispose()

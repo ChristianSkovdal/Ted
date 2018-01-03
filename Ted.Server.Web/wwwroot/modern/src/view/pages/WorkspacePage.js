@@ -1,10 +1,12 @@
-Ext.define('Admin.view.pages.TedPage', {
+Ext.define('Admin.view.pages.WorkspacePage', {
     extend: 'Ext.Container',
-    xtype: 'tedpage',
+    xtype: 'workspace',
 
     requires: [
         'Ext.layout.VBox'
     ],
+
+    controller: 'workspacepage',
 
     layout: {
         type: 'vbox',
@@ -16,5 +18,9 @@ Ext.define('Admin.view.pages.TedPage', {
         cls: 'blank-page-container',
         html: '<div class=\'fa-outer-class\'><span class=\'x-fa fa-calendar-plus-o\'></span></div>' +
             '<h1>New Page</h1><span class=\'blank-page-text\'><a href="#">Click here to add components</a></span>'
-    }]
+    }],
+
+    listeners: {
+        initialize: 'workspaceInitialize'
+    }
 });

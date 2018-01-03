@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;C:\dev\test\EnumFish\EnumFish2\bin\Debug\EnumFish.exe&quot; &quot;C:\dev\test\Ted\Exceptions\ExceptionCodes.cs&quot; &quot;C:\dev\test\Ted\Ted.Server.Web\wwwroot\Auxiliary\ExceptionCodes.js&quot; Ted.Enum" />
+  </Target>
+
 </Project>

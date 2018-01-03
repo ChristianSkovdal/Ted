@@ -1,370 +1,380 @@
 Ext.define('Admin.view.main.MainController', {
-	extend: 'Ext.app.ViewController',
-	alias: 'controller.main',
+    extend: 'Ext.app.ViewController',
+    alias: 'controller.main',
 
-	requires: [
-		'Ext.MessageBox'
-	],
+    requires: [
+        'Ext.MessageBox'
+    ],
 
-	listen: {
-		controller: {
-			'#': {
-				unmatchedroute: 'setCurrentView'
-			}
-		}
-	},
+    listen: {
+        controller: {
+            '#': {
+                unmatchedroute: 'setCurrentView'
+            }
+        }
+    },
 
-	routes: {
-		':node': 'setCurrentView'
-	},
+    routes: {
+        ':node': 'setCurrentView'
+    },
 
-	config: {
-		showNavigation: true
-	},
+    config: {
+        showNavigation: true
+    },
 
-	collapsedCls: 'main-nav-collapsed',
+    collapsedCls: 'main-nav-collapsed',
 
-	onNavigationItemClick: function () {
-		// The phone profile's controller uses this event to slide out the navigation
-		// tree. We don't need to do anything but must be present since we always have
-		// the listener on the view...
-	},
+    onNavigationItemClick() {
+        // The phone profile's controller uses this event to slide out the navigation
+        // tree. We don't need to do anything but must be present since we always have
+        // the listener on the view...
+    },
 
-	onNavigationTreeSelectionChange: function (tree, node) {
-		var to = node && (node.get('routeId') || node.get('viewType'));
+    onNavigationTreeSelectionChange(tree, node) {
+        debugger;
+        var to = node && (node.get('routeId') || node.get('viewType'));
 
-		if (to) {
-			this.redirectTo(to);
-		}
-	},
+        if (to) {
+            this.redirectTo(to);
+        }
+    },
 
-	//onSwitchToClassic: function () {
-	//	Ext.Msg.confirm('Switch to Classic', 'Are you sure you want to switch toolkits?',
-	//		'onSwitchToClassicConfirmed', this);
-	//},
+    //onSwitchToClassic: function () {
+    //	Ext.Msg.confirm('Switch to Classic', 'Are you sure you want to switch toolkits?',
+    //		'onSwitchToClassicConfirmed', this);
+    //},
 
-	//onSwitchToClassicConfirmed: function (choice) {
-	//	if (choice === 'yes') {
-	//		var obj = Ext.Object.fromQueryString(location.search);
+    //onSwitchToClassicConfirmed: function (choice) {
+    //	if (choice === 'yes') {
+    //		var obj = Ext.Object.fromQueryString(location.search);
 
-	//		delete obj.modern;
+    //		delete obj.modern;
 
-	//		obj.classic = '';
+    //		obj.classic = '';
 
-	//		location.search = '?' + Ext.Object.toQueryString(obj).replace('classic=', 'classic');
-	//	} else {
-	//		var button = this.lookup('toolkitSwitch');
+    //		location.search = '?' + Ext.Object.toQueryString(obj).replace('classic=', 'classic');
+    //	} else {
+    //		var button = this.lookup('toolkitSwitch');
 
-	//		button.setValue(Ext.isModern ? 'modern' : 'classic');
-	//	}
-	//},
-
-	onToggleNavigationSize: function () {
-		this.setShowNavigation(!this.getShowNavigation());
-	},
-
-	setCurrentView: function (hashTag) {
-
-		//var vm = this.getViewModel();
-		//if (hashTag != 'login') {
-		//	if (!vm.get('user')) {
-
-		//		this.redirectTo('login');
-		//		return;
-		//	}
-		//}
-
-		hashTag = (hashTag || '').toLowerCase();
+    //		button.setValue(Ext.isModern ? 'modern' : 'classic');
+    //	}
+    //},
 
 
-		if (hashTag != 'login') {
-			try {
-				let me = this;
-				let vm = this.getViewModel();
-				if (!vm.get('user')) {
+    onToggleNavigationSize() {
+        this.setShowNavigation(!this.getShowNavigation());
+    },
 
-					let loginStr = localStorage.getItem('login_data');
-					if (loginStr) {
-						var login = JSON.parse(loginStr);
-						if (login) {
-							Admin.view.authentication.AuthController.ajaxPost('api/user/login',
-								login,
-								(result) => {
-									vm.set('user', result.data);
-									// The next page to show.....
-								},
-								() => {
-									me.redirectTo('login');
-									return;
-								}
-							);
-						}
-						else {
-							me.redirectTo('login');
-							return;
-						}
-					}
-					else {
-						me.redirectTo('login');
-						return;
-					}
-				}
-				else {
-					//me.loadWorkspaces();
-					//me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
-				}
-			} catch (e) {
-				Ext.Msg.alert('Exception', e.message);
-				me.redirectTo('login');
-				return;
-			}
-		}
+    setCurrentView(hashTag) {
+        debugger;
+        hashTag = (hashTag || '').toLowerCase();
 
-		var view = this.getView(),
-			navigationTree = this.lookup('navigationTree'),
-			store = navigationTree ? navigationTree.getStore() : null,
-			node = store.findNode('routeId', hashTag) ||
-				store.findNode('viewType', hashTag),
-			item = view.child('component[routeId=' + hashTag + ']');
+        if (hashTag !== 'login' && hashTag !== 'register') {
+            try {
+                let me = this;
+                let vm = this.getViewModel();
+                if (!vm.get('user')) {
 
-		if (!item) {
-			item = {
-				xtype: hashTag,// node.get('viewType'),
-				routeId: hashTag
-			};
-		}
+                    let loginStr = localStorage.getItem('login_data');
+                    if (loginStr) {
+                        var login = JSON.parse(loginStr);
+                        if (login) {
+                            // Always return from here as it is checking async
+                            AjaxUtil.post('api/user/login',
+                                login,
+                                (result) => {
+                                    vm.set('user', result.data);
+                                    // The next page to show: either the workspace list or the 
+                                    // specified workspace
 
-		try {
-			view.setActiveItem(item);
-		}
-		catch (e) {
-			//this.setCurrentView('login');
-		}
+                                    // There is specified a workspace in the url
+                                    if (hashTag.startsWith('ws:')) {
+                                        me.redirectTo(hashTag, true);
+                                    }
+                                    else {
+                                        me.redirectTo('workspacelist', true);
+                                    }
 
+                                    return;
+                                },
+                                () => {
+                                    me.redirectTo('login');
+                                    return;
+                                }
+                            );
+                            return;
+                        }
+                        else {
+                            me.redirectTo('login');
+                            return;
+                        }
+                    }
+                    else {
+                        me.redirectTo('login');
+                        return;
+                    }
+                }
+                //else {
+                //    //me.loadWorkspaces();
+                //    //me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
+                //}
+            } catch (e) {
+                Ext.Msg.alert('Exception', e.message);
+                me.redirectTo('login');
+                return;
+            }
+        }
 
-		if (node) {
-			navigationTree.setSelection(node);
-		}
+        var view = this.getView(),
+            navigationTree = this.lookup('navigationTree'),
+            store = navigationTree ? navigationTree.getStore() : null,
+            node = store.findNode('routeId', hashTag) ||
+                store.findNode('viewType', hashTag),
+            item = view.child('component[routeId=' + hashTag + ']');
 
+        if (!item) {
+            
+            if (hashTag.startsWith('ws:')) {
+                //item = {
+                //    xtype: 'workspace',
+                //    routeId: hashTag
+                //};
 
-	},
+                let wsid = hashTag.split(':')[1];
+                let vm = this.getViewModel();
 
-	updateShowNavigation: function (showNavigation, oldValue) {
-		// Ignore the first update since our initial state is managed specially. This
-		// logic depends on view state that must be fully setup before we can toggle
-		// things.
-		//
-		if (oldValue !== undefined) {
-			var me = this,
-				cls = me.collapsedCls,
-				logo = me.lookup('logo'),
-				navigation = me.lookup('navigation'),
-				navigationTree = me.lookup('navigationTree'),
-				rootEl = navigationTree.rootItem.el;
+                AjaxUtil.get('/api/workspace/' + vm.get('user.token') + '/' + wsid, rsp => {
+                    let ws = rsp.data;
+                    vm.set('workspace', ws);
 
-			navigation.toggleCls(cls);
-			logo.toggleCls(cls);
+                    let navData = JSON.parse(ws.componentTree);
+                    let store = navigationTree.getStore();
+                    let root = {
+                        expanded: true,
+                        children: [navData]
+                    };
+                    
+                    store.setRoot(root);
+                    navigationTree.setSelection(root);
 
-			if (showNavigation) {
-				// Restore the text and other decorations before we expand so that they
-				// will be revealed properly. The forced width is still in force from
-				// the collapse so the items won't wrap.
-				navigationTree.setMicro(false);
-			} else {
-				// Ensure the right-side decorations (they get munged by the animation)
-				// get clipped by propping up the width of the tree's root item while we
-				// are collapsed.
-				rootEl.setWidth(rootEl.getWidth());
-			}
+                });
 
-			logo.element.on({
-				single: true,
-				transitionend: function () {
-					if (showNavigation) {
-						// after expanding, we should remove the forced width
-						rootEl.setWidth('');
-					} else {
-						navigationTree.setMicro(true);
-					}
-				}
-			});
-		}
-	},
+            }
+            else {
+                item = {
+                    xtype: hashTag,
+                    routeId: hashTag
+                };
+            }
+        }
 
-	toolbarButtonClick: function (btn) {
-		var href = btn.config.href;
+        if (item) {
+            view.setActiveItem(item);
 
-		this.redirectTo(href);
-	},
+            if (node) {
+                navigationTree.setSelection(node);
+            }
+        }
+    },
 
-	editButtonClick(btn) {
-		let vm = this.getViewModel();
-		vm.set('editMode', !vm.get('editMode'));
-	},
+    updateShowNavigation(showNavigation, oldValue) {
+        // Ignore the first update since our initial state is managed specially. This
+        // logic depends on view state that must be fully setup before we can toggle
+        // things.
+        //
+        if (oldValue !== undefined) {
+            var me = this,
+                cls = me.collapsedCls,
+                logo = me.lookup('logo'),
+                navigation = me.lookup('navigation'),
+                navigationTree = me.lookup('navigationTree'),
+                rootEl = navigationTree.rootItem.el;
 
-	addPageButtonClick() {
+            navigation.toggleCls(cls);
+            logo.toggleCls(cls);
 
-		let navigationTree = this.lookup('navigationTree');
-		let root = navigationTree.getStore().getRoot();
+            if (showNavigation) {
+                // Restore the text and other decorations before we expand so that they
+                // will be revealed properly. The forced width is still in force from
+                // the collapse so the items won't wrap.
+                navigationTree.setMicro(false);
+            } else {
+                // Ensure the right-side decorations (they get munged by the animation)
+                // get clipped by propping up the width of the tree's root item while we
+                // are collapsed.
+                rootEl.setWidth(rootEl.getWidth());
+            }
 
-		root.on('insert', (node, newNode, refNode) => {
-			this.redirectTo('tedpage');
-		});
+            logo.element.on({
+                single: true,
+                transitionend: function () {
+                    if (showNavigation) {
+                        // after expanding, we should remove the forced width
+                        rootEl.setWidth('');
+                    } else {
+                        navigationTree.setMicro(true);
+                    }
+                }
+            });
+        }
+    },
 
-		root.insertChild(0, {
-			text: 'New Page',
-			//href: '#NewPage01',
-			iconCls: 'x-fa fa-calendar-plus-o',
-			rowCls: 'nav-tree-badge nav-tree-badge-hot',
-			viewType: 'tedpage',
-			leaf: true
-		});
-	},
+    toolbarButtonClick: function (btn) {
+        var href = btn.config.href;
 
-	loadWorkspaces() {
+        this.redirectTo(href);
+    },
 
-	},
+    editButtonClick(btn) {
+        let vm = this.getViewModel();
+        vm.set('editMode', !vm.get('editMode'));
+    },
 
-	onWorkspaceViewShow(workspaceView) {
-		debugger;
-		let store = workspaceView.getStore();
-		let vm = this.getViewModel();
-		store.getProxy().setUrl('api/workspace/' + vm.get('user').token);
-		store.load();
+    addPageButtonClick() {
 
-		//try {
-		//	let me = this;
-		//	let vm = this.getViewModel();
-		//	if (!vm.get('user')) {
+        let navigationTree = this.lookup('navigationTree');
+        let root = navigationTree.getStore().getRoot();
 
-		//		let loginStr = localStorage.getItem('login_data');
-		//		if (loginStr) {
-		//			var login = JSON.parse(loginStr);
-		//			if (login) {
-		//				Admin.view.authentication.AuthController.ajaxPost('api/user/login',
-		//					login,
-		//					(result) => {
-		//						vm.set('user', result.data);
-		//						//me.loadWorkspaces();
-		//						//me.getView().fireEvent('authenticated', me.getView(), result.data);
-		//					},
-		//					() => this.redirectTo('login')
-		//				);
-		//			}
-		//			else {
-		//				this.redirectTo('login');
-		//			}
-		//		}
-		//		else {
-		//			this.redirectTo('login');
-		//		}
-		//	}
-		//	else {
-		//		//me.loadWorkspaces();
-		//		//me.getView().fireEvent('authenticated', me.getView(), vm.get('user'));
-		//	}
-		//} catch (e) {
-		//	Ext.Msg.alert('Exception', e.message);
-		//	this.redirectTo('login');
-		//}
-	},
+        root.on('insert', (node, newNode, refNode) => {
+            this.redirectTo('tedpage');
+        });
 
-	onWorkspacesAuthenticated(wsPage, user) {
-		//debugger;
-		//console.log(this.getViewModel().get('user').token);
-		//var view = this.lookupReference('workspaceView');
-	},
+        root.insertChild(0, {
+            text: 'New Page',
+            //href: '#NewPage01',
+            iconCls: 'x-fa fa-calendar-plus-o',
+            rowCls: 'nav-tree-badge nav-tree-badge-hot',
+            viewType: 'tedpage',
+            leaf: true
+        });
+    },
 
-	signoutButtonClick() {
-		Ext.Msg.confirm('Sign Out', 'Are you sure?', (answer) => {
-			if (answer === 'yes') {
-				localStorage.setItem('login_data', null);
-				this.redirectTo('login');
-			}
-		});
-	},
+    onWorkspaceViewPainted(workspaceView) {
+        let store = workspaceView.getStore();
+        let vm = this.getViewModel();
+        store.getProxy().setUrl('api/workspace/' + vm.get('user').token);
+        store.load();
+    },
 
-	addWorkspaceButtonClick() {
+    //onWorkspacesAuthenticated(wsPage, user) {
+    //    //debugger;
+    //    //console.log(this.getViewModel().get('user').token);
+    //    //var view = this.lookupReference('workspaceView');
+    //},
 
-		var dialog = Ext.create({
-			xtype: 'newworkspacedlg',
-		});
+    signoutButtonClick() {
+        Ext.Msg.confirm('Sign Out', 'Are you sure?', (answer) => {
+            if (answer === 'yes') {
+                localStorage.setItem('login_data', '');
+                this.redirectTo('login');
+            }
+        });
+    },
 
-		dialog.show();
+    addWorkspaceButtonClick() {
 
-		dialog.on('ok', (cmp, ws) => {
+        var dialog = Ext.create({
+            xtype: 'newworkspacedlg',
+        });
 
-			var view = this.lookupReference('workspaceView');
-			var store = view.getStore();
-			let vm = this.getViewModel();
+        dialog.show();
 
-			// Does it exist already with this name
-			function compareCaseInsensitiveFn(column, value) {
-				var re = new RegExp('^' + value + '$', 'i');
-				return function (rec) {
-					return re.test(rec.get(column));
-				}
-			}
+        dialog.on('ok', (cmp, ws) => {
 
-			function containsCaseInsensitive(store, column, value) {
-				return store.findBy(compareCaseInsensitiveFn(column, value)) >= 0;
-			}
+            var view = this.lookupReference('workspaceView');
+            var store = view.getStore();
+            let vm = this.getViewModel();
 
-			if (containsCaseInsensitive(store, 'name', ws.name)) {
-				Ext.Msg.alert('Workspace', 'A workspace with that name already exist', f => dialog.down('textfield').focus());
-			}
-			else {
-				store.insert(0, ws);
-				store.sync({
-					callback(batch, opt) {
-						vm.set('selectedWorkspace', store.first());
-						dialog.destroy();
-					}
-				});
-			}
-		});
-	},
+            if (store.findCaseInsensitive('name', ws.name)) {
+                Ext.Msg.alert('Workspace', 'A workspace with that name already exist', f => dialog.down('textfield').focus());
+            }
+            else {
+                store.insert(0, ws);
+                store.sync({
+                    callback(batch, opt) {
+                        vm.set('selectedWorkspace', store.first());
+                        dialog.destroy();
+                    }
+                });
+            }
+        });
+    },
 
 
-	refreshWorkspaceButtonClick() {
-		var view = this.lookupReference('workspaceView');
-		var store = view.getStore();
-		store.load();
-	},
+    refreshWorkspaceButtonClick() {
+        var view = this.lookupReference('workspaceView');
+        var store = view.getStore();
+        store.load();
+    },
 
-	workspaceDblTap(view, location, options) {
-		this.openWorkspace(location.record);
-	},
+    workspaceDblTap(view, location, options) {
+        this.openWorkspace(location.record.id);
+    },
 
-	openWorkspaceButtonClick() {
-		let vm = this.getViewModel();
-		this.openWorkspace(vm.get('selectedWorkspace'));
-	},
+    openWorkspaceButtonClick() {
+        let vm = this.getViewModel();
+        this.openWorkspace(vm.get('selectedWorkspace').id);
+    },
 
-	openWorkspace(ws) {
-		console.log('Opening ' + ws.data.name);
-		let vm = this.getViewModel();
-		vm.set('workspace', ws);
-		this.redirectTo('email');
-	},
+    openWorkspace(wsid) {
+        this.redirectTo('ws:' + wsid);
+    },
 
-	deleteWorkspaceButtonClick() {
-		Ext.Msg.confirm('Delete Workspace', 'Are you sure', answer => {
+    deleteWorkspaceButtonClick() {
+        Ext.Msg.confirm('Delete Workspace', 'Are you sure', answer => {
 
-			if (answer == 'yes') {
-				var view = this.lookupReference('workspaceView');
-				var store = view.getStore();
-				let vm = this.getViewModel();
-				let record = vm.get('selectedWorkspace');
-				store.remove(record);
-				store.sync({
-					callback(batch, opt) {
-						if (store.count() > 0) {
-							vm.set('selectedWorkspace', store.first());
-						}
-					}
-				});
-			}
-		});
-	}
+            if (answer === 'yes') {
+                var view = this.lookupReference('workspaceView');
+                var store = view.getStore();
+                let vm = this.getViewModel();
+                let record = vm.get('selectedWorkspace');
+                store.remove(record);
+                store.sync({
+                    callback(batch, opt) {
+                        if (store.count() > 0) {
+                            vm.set('selectedWorkspace', store.first());
+                        }
+                    }
+                });
+            }
+        });
+    },
+
+    //initViewModel(viewModel) {
+
+    //    viewModel.bind({
+    //        bindTo: '{user}',
+    //        deep: true
+    //    },
+    //        user => {
+    //            if (user) {
+    //                //debugger;
+    //                // user & token has changed. We are logged in and ready to either load all workspaces
+    //                // or one specific one if it is specified. We do that by redirecting to the page.
+
+    //                //let workspaceView = this.lookupReference('workspaceView');
+    //                //let store = workspaceView.getStore();
+    //                //store.getProxy().setUrl('api/workspace/' + user.token);
+    //                //store.load();
+
+    //            }
+    //        });
+    //}
+
+
+    workspaceInitialize(wsView) {
+        //debugger;
+        //assert(wsView.routeId);
+        //assert(wsView.routeId.split(':') == 2);
+
+        let wsid = wsView.routeId.split(':')[1];
+        let vm = this.getViewModel();
+
+        AjaxUtil.get('/api/workspace/'+vm.get('user.token')+'/'+wsid, rsp => {
+            debugger
+            let ws = rsp.data;
+            vm.set('workspace', ws);
+        });
+
+    }
 });

@@ -1,5 +1,5 @@
 $app-name:  dynamic( 'Admin' );
-$image-search-path: 'C:/dev/Ted/Ted.Server.Web/wwwroot/build/development/Admin/modern/resources';
+$image-search-path: 'C:/dev/test/Ted/Ted.Server.Web/wwwroot/build/development/Admin/modern/resources';
 $theme-name:  dynamic( 'theme-triton' );
 $include-admin-application: dynamic(true);;
 $include-admin-data-pie: dynamic(true);;
@@ -112,9 +112,9 @@ $include-admin-view-pages-blankpage: dynamic(true);;
 $include-admin-view-pages-error404: dynamic(true);;
 $include-admin-view-pages-error500: dynamic(true);;
 $include-admin-view-pages-errorbase: dynamic(true);;
-$include-admin-view-pages-tedpage: dynamic(true);;
-$include-admin-view-pages-workspacespage: dynamic(true);;
-$include-admin-view-pages-workspacestoolbar: dynamic(true);;
+$include-admin-view-pages-workspacelistpage: dynamic(true);;
+$include-admin-view-pages-workspacelisttoolbar: dynamic(true);;
+$include-admin-view-pages-workspacepage: dynamic(true);;
 $include-admin-view-phone-email-compose: dynamic(true);;
 $include-admin-view-phone-email-email: dynamic(true);;
 $include-admin-view-phone-email-emailcontroller: dynamic(true);;
@@ -146,6 +146,9 @@ $include-admin-view-widgets-socialstatus: dynamic(true);;
 $include-admin-view-widgets-statustile: dynamic(true);;
 $include-admin-view-widgets-widgets: dynamic(true);;
 $include-admin-view-widgets-widgetscontroller: dynamic(true);;
+$include-ajaxutil: dynamic(true);;
+$include-aux-ajaxutil: dynamic(true);;
+$include-aux-storeextensions: dynamic(true);;
 $include-ext-abstractcomponent: dynamic(true);;
 $include-ext-abstractmanager: dynamic(true);;
 $include-ext-abstractplugin: dynamic(true);;
@@ -1060,6 +1063,7 @@ $include-ext-viewport-viewport: dynamic(true);;
 $include-ext-viewport-wp: dynamic(true);;
 $include-ext-viewport-windowsphone: dynamic(true);;
 $include-ext-window-window: dynamic(true);;
+$include-ted-enum-exceptioncodes: dynamic(true);;
 $output-paths: ("path": "../resources");
 
 /* ======================== ETC ======================== */
@@ -1599,21 +1603,37 @@ $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../app/view/profile/UserProfileBase';
 
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\TedPage.js */
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\BlankPage.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;
 $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/pages/TedPage';
+@import '../../../../../modern/src/view/pages/BlankPage';
 
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspacesPage.js */
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\ErrorBase.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;
 $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/pages/WorkspacesPage';
+@import '../../../../../modern/src/view/pages/ErrorBase';
+
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspaceListPage.js */
+$default-resource-root: '' !default;
+$default-resource-path: 'images' !default;
+$current-package: false;
+$current-resource-root: $default-resource-root;
+$relative-image-path-for-uis: $default-resource-path;
+@import '../../../../../modern/src/view/pages/WorkspaceListPage';
+
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspacePage.js */
+$default-resource-root: '' !default;
+$default-resource-path: 'images' !default;
+$current-package: false;
+$current-resource-root: $default-resource-root;
+$relative-image-path-for-uis: $default-resource-path;
+@import '../../../../../modern/src/view/pages/WorkspacePage';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\main\Main.js */
 $default-resource-root: '' !default;
@@ -1718,22 +1738,6 @@ $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/forms/Wizard';
-
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\BlankPage.js */
-$default-resource-root: '' !default;
-$default-resource-path: 'images' !default;
-$current-package: false;
-$current-resource-root: $default-resource-root;
-$relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/pages/BlankPage';
-
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\ErrorBase.js */
-$default-resource-root: '' !default;
-$default-resource-path: 'images' !default;
-$current-package: false;
-$current-resource-root: $default-resource-root;
-$relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/pages/ErrorBase';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\profile\UserProfile.js */
 $default-resource-root: '' !default;

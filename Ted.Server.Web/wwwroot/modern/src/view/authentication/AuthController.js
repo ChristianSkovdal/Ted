@@ -2,58 +2,6 @@ Ext.define('Admin.view.authentication.AuthController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.auth',
 
-    statics: {
-
-        ajaxPost(url, json, successFn, failureFn) {
-
-            handleFailure = function (f, r) {
-                if (f)
-                    f(r);
-                else
-                    Ext.Msg.alert('Error', r.message);
-            };
-
-            Ext.Ajax.request({
-                url: url,
-                method: 'POST',
-                jsonData: json,
-            }).then(function (response) {
-                var rsp = JSON.parse(response.responseText);
-
-                if (rsp.success) {
-                    if (successFn) {
-                        successFn(rsp);
-                    }
-                }
-                else {
-                    handleFailure(failureFn, rsp)
-                }
-
-            }).always(function () {
-                // clean-up logic, regardless the outcome
-            }).otherwise(function (reason) {
-
-                if (reason.responseText) {
-                    var rsp = JSON.parse(reason.responseText);
-                    if (rsp && !rsp.success) {
-                        handleFailure(failureFn, rsp)
-                    }
-                    else {
-                        Ext.Msg.alert('Error', 'Error: ' + reason.responseText);
-                    }
-                }
-                else {
-                    if (reason.message)
-                        Ext.Msg.alert('Error', reason.message);
-                    else
-                        Ext.Msg.alert('Error', 'Unknow Error');
-                }
-
-            });
-        }
-
-    },
-
     tryLogin() {
 
         let me = this;
@@ -64,13 +12,13 @@ Ext.define('Admin.view.authentication.AuthController', {
             password: vm.get('password'),
         };
 
-        Admin.view.authentication.AuthController.ajaxPost('api/user/login',
+        AjaxUtil.post('api/user/login',
             login,
             (result) => {
                 let vm = this.getViewModel();
 				vm.set('user', result.data);
 				
-                this.redirectTo('workspacespage');
+                this.redirectTo('workspacelist');
                 //me.getView().fireEvent('authenticated', me.getView(), result.data);
                 if (vm.get('rememberMe')) {
                     // Persist passwords
@@ -85,7 +33,7 @@ Ext.define('Admin.view.authentication.AuthController', {
 
         let vm = this.getViewModel();
 		let me = this;
-		Admin.view.authentication.AuthController.ajaxPost('api/user',
+        AjaxUtil.post('api/user',
             {
                 email: vm.get('email'),
                 password: vm.get('password'),

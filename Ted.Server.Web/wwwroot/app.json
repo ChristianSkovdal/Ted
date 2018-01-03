@@ -23,7 +23,8 @@
      */
     "classpath": [
         "app",
-        "${toolkit.name}/src"
+      "${toolkit.name}/src",
+      "Auxiliary"
     ],
 
     /**

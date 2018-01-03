@@ -1,4 +1,4 @@
-Ext.define('Admin.view.pages.WorkspacesToolbar', {
+Ext.define('Admin.view.pages.WorkspaceListToolbar', {
     extend: 'Ext.Toolbar',
     xtype: 'workspacestoolbar',
 

@@ -9,7 +9,8 @@ namespace Ted.Server.Models
     {
         public string xtype { get; set; }
 
-        public string id { get; set; }
+        public string name { get; set; }
+
 
     }
 }

@@ -37,6 +37,11 @@ namespace Ted.Server.Models
 
         public virtual ICollection<ComponentModifier> modifiers { get; } = new List<ComponentModifier>();
 
-		public int UserId { get; set; }
-	}
+        public virtual ICollection<Component> components { get; } = new List<Component>();
+
+        public int UserId { get; set; }
+
+        //public ICollection<TreeNode> nodes { get; set; } = new List<TreeNode>();
+
+    }
 }

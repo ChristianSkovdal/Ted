@@ -1,1 +1,1 @@
-cache_path = 'C:\dev\Ted\Ted.Server.Web\wwwroot/build/.sass-cache'
+cache_path = 'C:\dev\test\Ted\Ted.Server.Web\wwwroot/build/.sass-cache'

@@ -5,8 +5,9 @@ Ext.define('Admin.view.main.Main', {
         'Ext.Button',
         'Ext.list.Tree',
         'Ext.navigation.View',
-        'Admin.view.pages.TedPage',
-        'Admin.view.pages.WorkspacesPage'
+        'Admin.view.pages.*',
+        'Admin.view.pages.WorkspaceListPage'
+        
         //'Admin.view.authentication.Login',
         //'Admin.view.authentication.Register'
     ],

@@ -2,6 +2,9 @@
  * This file is responsible for launching the application. Application logic should be
  * placed in the Admin.Application class.
  */
+Ext.Loader.setPath('Aux', 'Auxiliary');
+Ext.Loader.setPath('Ted.Enum', 'Auxiliary');
+
 Ext.application({
     name: 'Admin',
 
@@ -13,6 +16,9 @@ Ext.application({
     // explicitly.
     //
     requires: [
-        'Admin.*'       
+        'Admin.*',
+        'Aux.*',
+        //'Aux.StoreExtensions',
+        'Ted.Enum.*'
     ]
 });

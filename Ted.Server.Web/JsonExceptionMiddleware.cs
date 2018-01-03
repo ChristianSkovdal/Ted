@@ -24,10 +24,16 @@ namespace Ted.Server.Web
 
             var tedException = ex as TedExeption;
 
+            var msg = ex.Message;
+            if (ex.InnerException!=null && !string.IsNullOrEmpty(ex.InnerException.Message))
+            {
+                msg += $" ({ex.InnerException.Message})";
+            }
+
             var error = new
             {
                 success = false,
-                message = ex.Message,
+                message = msg,
                 error = tedException != null ? tedException.Code : 0
             };
 
