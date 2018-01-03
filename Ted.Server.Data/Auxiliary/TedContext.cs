@@ -17,9 +17,11 @@ namespace Ted.Server.Data
 
         public DbSet<Workspace> Workspaces { get; set; }
 
-        public DbSet<TreeNode> TreeNode { get; set; }
+		public DbSet<Component> Components { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		//public DbSet<TreeNode> TreeNode { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UsersInGroups>()
                 .HasKey(t => new { t.userId, t.groupId });

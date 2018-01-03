@@ -12,5 +12,6 @@ namespace Ted.Server.Exceptions
         Authentication = 100,
         NotSuperUser=101,
         UserExist = 102,
-    }
+		ComponentNotFound = 103,
+	}
 }

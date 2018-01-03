@@ -59,7 +59,7 @@ namespace Ted.Server.Data
             if (user!=null)
             {
                 var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId);
-                if (ws.id==user.id)
+                if (ws.UserId==user.id)
                 {
                     return user;
                 }

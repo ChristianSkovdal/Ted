@@ -7,7 +7,7 @@
         if (f)
             f(r);
         else
-            Ext.Msg.alert('Error', r.message);
+            Ext.Msg.alert('Error', r.message || 'Undefined Error');
     },
 
     handleReason(reason) {

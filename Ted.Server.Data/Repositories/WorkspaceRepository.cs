@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
@@ -43,20 +44,24 @@ namespace Ted.Server.Data
             return workspaces.OrderByDescending(r => r.id).ToList();
         }
 
-        public Workspace CreateWorkspace(Workspace value, User user)
+		public Component GetComponent(int id)
+		{
+			return _db.Components.SingleOrDefault(r => r.id==id && !r.deleted);
+		}
+
+		public Workspace CreateWorkspace(Workspace value, User user)
         {
             value.createdBy = user.id;
             value.modifiedBy = user.id;
             value.createdTime = DateTime.Now;
 
-            var cmp = new Component
-            {
-                createdBy = user.id,
-                modifiedBy = user.id,
-                createdTime = DateTime.Now,
-                xtype = "workspace",
-                name = "welcome"
-            };
+			var cmp = new Component
+			{
+				createdBy = user.id,
+				modifiedBy = user.id,
+				createdTime = DateTime.Now,
+				json = File.ReadAllText("component.json")
+			};
 
             value.components.Add(cmp);
 
@@ -64,12 +69,20 @@ namespace Ted.Server.Data
             _db.Add(value);
             _db.SaveChanges();
 
-            value.componentTree = "{" +
-                "\"text\": \"Welcome\"," +
-                "\"iconCls\": \"x-fa fa-user\"," +
-                "\"routeId\": \"cmp" + cmp.id + "\"," +
-                "\"leaf\": true" +
-            "}";
+            value.componentTree = "[" +
+				//"{" +
+				//	"\"text\": \"Welcome\"," +
+				//	"\"iconCls\": \"x-fa fa-user\"," +
+				//	"\"routeId\": \"page:" + cmp.id + "\"," +
+				//	"\"leaf\": true" +
+				//"}," +
+				"{" +
+					"\"text\": \"Welcome\"," +
+					"\"iconCls\": \"x-fa fa-user\"," +
+					"\"routeId\": \"page:" + cmp.id + "\"," +
+					"\"leaf\": true" +
+				"}" +
+			"]";
 
             _db.SaveChanges();
 
@@ -114,7 +127,7 @@ namespace Ted.Server.Data
 
         public string GetComponentTree(int workspaceId)
         {
-            var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId);
+            var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId && !u.deleted);
             return ws.componentTree;
         }
 

@@ -3,7 +3,8 @@ Ext.define('Admin.view.pages.WorkspacePage', {
     xtype: 'workspace',
 
     requires: [
-        'Ext.layout.VBox'
+		'Ext.layout.VBox',
+		'Admin.view.pages.WorkspacePageController'
     ],
 
     controller: 'workspacepage',

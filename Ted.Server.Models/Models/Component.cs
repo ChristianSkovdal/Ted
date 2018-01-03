@@ -7,10 +7,8 @@ namespace Ted.Server.Models
 {
     public class Component : BaseEntity
     {
-        public string xtype { get; set; }
+        public string json { get; set; }
 
-        public string name { get; set; }
-
-
-    }
+		public int WorkspaceId { get; set; }
+	}
 }

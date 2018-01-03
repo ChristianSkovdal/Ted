@@ -19,7 +19,7 @@ Ext.define('Admin.view.pages.WorkspacePageController', {
     //},
 
     workspaceInitialize(wsView) {
-        debugger;
+        
         //assert(wsView.routeId);
         //assert(wsView.routeId.split(':') == 2);
 

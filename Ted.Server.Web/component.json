@@ -1,0 +1,11 @@
+﻿{
+	"xtype": "panel",
+	"title": "Hej Hej",
+	"items": [
+		{
+			"margin": 10,
+			"xtype": "button",
+			"text": "Test"
+		}
+	]
+}

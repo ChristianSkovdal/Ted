@@ -20,24 +20,36 @@ namespace Ted.Server.Web.Controllers
             _auth = auth;
         }
 
-        [HttpGet("{token}/{workspaceId}")]
-        public string GetTree(string token, int workspaceId)
+        [HttpGet("{token}/{id}")]
+        public JsonResult GetComponent(string token, int id)
         {
-            if (_auth.AuthenticateForWorkspace(token, workspaceId)==null)
+			var component = _repo.GetComponent(id);
+			if (component == null)
+			{
+				throw new TedExeption(ExceptionCodes.ComponentNotFound);
+			}
+
+			int workspaceId = component.WorkspaceId;
+
+			if (_auth.AuthenticateForWorkspace(token, workspaceId)==null)
                 throw new TedExeption(ExceptionCodes.Authentication);
 
-            return _repo.GetComponentTree(workspaceId);
+			return Json(new
+			{
+				success = true,
+				data = component.json
+			});
         }        
 
         [HttpPost("{token}/{workspaceId}/{position}")]
         public void AddComponent(string token, int workspaceId, int position, [FromBody]Component value)
         {
-            var user = _auth.AuthenticateForWorkspace(token, workspaceId);
+            //var user = _auth.AuthenticateForWorkspace(token, workspaceId);
 
-            if (string.IsNullOrEmpty(value.xtype))
-                throw new ArgumentException(nameof(value.xtype));
+            //if (string.IsNullOrEmpty(value.xtype))
+            //    throw new ArgumentException(nameof(value.xtype));
 
-            _repo.InsertComponent(value, workspaceId, position, user);
+            //_repo.InsertComponent(value, workspaceId, position, user);
 
             //return Json(new
             //{
