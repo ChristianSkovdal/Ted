@@ -13,7 +13,9 @@ Ext.define('Admin.view.main.Toolbar', {
         xtype: 'component',
         reference: 'logo',
         userCls: 'main-logo',
-        html: 'TED'
+        bind: {
+            html: 'TED - {workspace.name}'
+        }
     }, {
         ui: 'header',
         iconCls: 'x-fa fa-bars',

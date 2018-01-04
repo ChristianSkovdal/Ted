@@ -546,6 +546,23 @@ a {
     height: 64px;
     width: 64px;
 }
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:1 */
+.temper:after {
+    color: #b20000;
+    font-size: 2em;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:6 */
+.temper.high:after {
+    content: '☠☠☠☠';
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:10 */
+.temper.med:after {
+    content: '☠☠☠';
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:14 */
+.temper.low:after {
+    content: '☠';
+}
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/dashboard/Dashboard.scss:3 */
 .dashboard > .x-body-el {
     padding: 20px 0 0 20px;

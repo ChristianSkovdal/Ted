@@ -66,6 +66,8 @@ namespace Ted.Server.Data
         public Page GetPage(int id)
 		{
 			var page = _db.Pages.SingleOrDefault(r => r.id==id && !r.deleted);
+            if (page == null)
+                throw new Exception($"The page with id {id} does not exist");
             page.workspace = _db.Workspaces.SingleOrDefault(r => r.id == page.WorkspaceId);
 
             return page;

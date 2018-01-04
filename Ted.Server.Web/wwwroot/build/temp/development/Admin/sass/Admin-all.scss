@@ -1690,6 +1690,14 @@ $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/authentication/LockScreen';
 
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\controls\FontAwesomeComboBox.js */
+$default-resource-root: '' !default;
+$default-resource-path: 'images' !default;
+$current-package: false;
+$current-resource-root: $default-resource-root;
+$relative-image-path-for-uis: $default-resource-path;
+@import '../../../../../modern/src/view/controls/FontAwesomeComboBox';
+
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\dashboard\Dashboard.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;

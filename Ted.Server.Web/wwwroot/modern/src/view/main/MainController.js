@@ -249,11 +249,10 @@ Ext.define('Admin.view.main.MainController', {
         dialog.show();
 
         dialog.on('ok', (cmp, data) => {
-
             let navigationTree = this.lookup('navigationTree');
             var store = navigationTree.getStore();
 
-            if (store.findCaseInsensitive('name', data.page.name)) {
+            if (store.findCaseInsensitive('text', data.page.name)) {
                 Ext.Msg.alert('Page', 'A page with that name already exist', f => dialog.down('textfield').focus());
             }
             else {
@@ -323,9 +322,10 @@ Ext.define('Admin.view.main.MainController', {
 
         dialog.on('ok', (cmp, ws) => {
 
-            var view = this.lookupReference('workspaceView');
-            var store = view.getStore();
+            let view = this.lookupReference('workspaceView');
+            let store = view.getStore();
             let vm = this.getViewModel();
+            let me = this;
 
             if (store.findCaseInsensitive('name', ws.name)) {
                 Ext.Msg.alert('Workspace', 'A workspace with that name already exist', f => dialog.down('textfield').focus());
@@ -336,6 +336,7 @@ Ext.define('Admin.view.main.MainController', {
                     callback(batch, opt) {
                         vm.set('selectedWorkspace', store.first());
                         dialog.destroy();
+                        me.redirectTo('page:' + store.first().get('startPageId'));
                     }
                 });
             }

@@ -26,15 +26,15 @@
         showWorkspaceTools: false
 	},
 
-	formulas: {
-		workspaceInfo: function (get) {
-			let ws = get('selectedWorkspace');
-			if (ws)
-				return {
-					description: ws.data.description,
-					created: ws.data.createdTime
-				};
-		},
+    formulas: {
+        workspaceInfo: function (get) {
+            let ws = get('selectedWorkspace');
+            if (ws)
+                return {
+                    description: ws.data.description,
+                    created: ws.data.createdTime
+                };
+        },
 		noSelection(get) {
 			let ws = get('selectedWorkspace');
 			return ws === null;
