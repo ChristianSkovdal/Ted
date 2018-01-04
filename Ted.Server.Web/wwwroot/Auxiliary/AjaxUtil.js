@@ -7,32 +7,37 @@
         if (f)
             f(r);
         else
-            Ext.Msg.alert('Error', r.message || 'Undefined Error');
+            Ext.Msg.alert('Communication Error', r.message || 'Undefined Error');
     },
 
-    handleReason(reason) {
+    handleReason(reason, failureFn) {
 
         if (reason.responseText) {
             var rsp = JSON.parse(reason.responseText);
             if (rsp && !rsp.success) {
-                me.handleFailure(failureFn, rsp)
+                this.handleFailure(failureFn, rsp)
             }
             else {
-                Ext.Msg.alert('Error', 'Error: ' + reason.responseText);
+                Ext.Msg.alert('Communication Error', 'Error: ' + reason.responseText);
             }
         }
         else {
             if (reason.message)
-                Ext.Msg.alert('Error', reason.message);
+                Ext.Msg.alert('Communication Error', reason.message);
             else
-                Ext.Msg.alert('Error', 'Unknow Error');
+                Ext.Msg.alert('Communication Error', 'Unknow Error');
         }
 
     },
 
-    post(url, json, successFn, failureFn) {
+    post(url, json, successFn, failureFn, waitMsg) {
 
         var me = this;
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            message: waitMsg || 'Loading...'
+        });
 
         Ext.Ajax.request({
             url: url,
@@ -51,17 +56,22 @@
             }
 
         }).always(function () {
-            // clean-up logic, regardless the outcome
+            Ext.Viewport.unmask();
         }).otherwise(function (reason) {
-            me.handleReason(reason);        
+            me.handleReason(reason, failureFn);
         });
     },
 
 
 
-    get(url, successFn, failureFn) {
+    get(url, successFn, failureFn, waitMsg) {
 
         var me = this;
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask',
+            message: waitMsg || 'Loading...'
+        });
 
         Ext.Ajax.request({
             url: url,
@@ -79,9 +89,9 @@
             }
 
         }).always(function () {
-            // clean-up logic, regardless the outcome
+            Ext.Viewport.unmask();
         }).otherwise(function (reason) {
-            me.handleReason(reason);
+            me.handleReason(reason, failureFn);
         });
     }
 

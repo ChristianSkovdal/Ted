@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ted.Server.Models
 {
-    public class Component : BaseEntity
+    public class Page : BaseEntity
     {
         public string json { get; set; }
 
 		public int WorkspaceId { get; set; }
-	}
+
+        [NotMapped]
+        public Workspace workspace { get; set; }
+    }
 }

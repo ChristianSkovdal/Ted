@@ -17,7 +17,7 @@ namespace Ted.Server.Data
 
         public DbSet<Workspace> Workspaces { get; set; }
 
-		public DbSet<Component> Components { get; set; }
+		public DbSet<Page> Pages { get; set; }
 
 		//public DbSet<TreeNode> TreeNode { get; set; }
 

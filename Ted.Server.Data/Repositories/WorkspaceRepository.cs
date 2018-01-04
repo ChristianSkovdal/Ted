@@ -23,12 +23,12 @@ namespace Ted.Server.Data
 
         }
 
-        public Workspace GetOneWorkspace(int workspaceId)
-        {
-            return _db.Workspaces.SingleOrDefault(r => r.id == workspaceId && !r.deleted);
-        }
+        //public Workspace GetOneWorkspace(int workspaceId)
+        //{
+        //    return _db.Workspaces.SingleOrDefault(r => r.id == workspaceId && !r.deleted);
+        //}
 
-        public IEnumerable<WorkspaceDTO> GetAllWorkspacesForUser(User user)
+        public IEnumerable<Workspace> GetAllWorkspacesForUser(User user)
         {
             var ids = new List<int>();
             if (!string.IsNullOrEmpty(user.workspaceList))
@@ -37,16 +37,18 @@ namespace Ted.Server.Data
             }
             var workspaces = _db.Workspaces
                 .Where(r => ids.Contains((int)r.id) && !r.deleted)
-                .Concat(_db.Workspaces.Where(r => r.UserId == user.id && !r.deleted))
-                .Select(r => new WorkspaceDTO(r));
+                .Concat(_db.Workspaces.Where(r => r.UserId == user.id && !r.deleted));
+                //.Select(r => new WorkspaceDTO(r));
 
             //_db.Workspaces.Where(r => r.UserId == user.id).ToList();
             return workspaces.OrderByDescending(r => r.id).ToList();
         }
 
-		public Component GetComponent(int id)
+		public Page GetPage(int id)
 		{
-			return _db.Components.SingleOrDefault(r => r.id==id && !r.deleted);
+			var page = _db.Pages.SingleOrDefault(r => r.id==id && !r.deleted);
+            page.workspace = _db.Workspaces.SingleOrDefault(r => r.id == page.WorkspaceId);
+            return page;
 		}
 
 		public Workspace CreateWorkspace(Workspace value, User user)
@@ -55,34 +57,23 @@ namespace Ted.Server.Data
             value.modifiedBy = user.id;
             value.createdTime = DateTime.Now;
 
-			var cmp = new Component
+			var cmp = new Page
 			{
 				createdBy = user.id,
 				modifiedBy = user.id,
 				createdTime = DateTime.Now,
-				json = File.ReadAllText("component.json")
+				json = File.ReadAllText("page_template.json")
 			};
 
-            value.components.Add(cmp);
+            value.pages.Add(cmp);
 
             user.myWorkspaces.Add(value);
             _db.Add(value);
             _db.SaveChanges();
 
-            value.componentTree = "[" +
-				//"{" +
-				//	"\"text\": \"Welcome\"," +
-				//	"\"iconCls\": \"x-fa fa-user\"," +
-				//	"\"routeId\": \"page:" + cmp.id + "\"," +
-				//	"\"leaf\": true" +
-				//"}," +
-				"{" +
-					"\"text\": \"Welcome\"," +
-					"\"iconCls\": \"x-fa fa-user\"," +
-					"\"routeId\": \"page:" + cmp.id + "\"," +
-					"\"leaf\": true" +
-				"}" +
-			"]";
+            var tpl = File.ReadAllText("tree_template.json");
+            value.componentTree = tpl.Replace("{{PAGEID}}", cmp.id.ToString());
+            value.startPageId = cmp.id;
 
             _db.SaveChanges();
 
@@ -98,10 +89,9 @@ namespace Ted.Server.Data
             ws.modifiedTime = DateTime.Now;
             ws.deleted = true;
 
-            foreach (var g in ws.groups)
+            foreach (var page in _db.Pages.Where(p => p.WorkspaceId==ws.id))
             {
-                g.usersInGroups.Clear();
-                g.deleted = true;
+                page.deleted = true;
             }
 
             _db.SaveChanges();
@@ -120,20 +110,20 @@ namespace Ted.Server.Data
         }
 
 
-        public void DeleteComponent(int workspaceId, string componentId)
-        {
-            throw new NotImplementedException();
-        }
+        //public void DeleteComponent(int workspaceId, string componentId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public string GetComponentTree(int workspaceId)
-        {
-            var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId && !u.deleted);
-            return ws.componentTree;
-        }
+        //public string GetComponentTree(int workspaceId)
+        //{
+        //    var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId && !u.deleted);
+        //    return ws.componentTree;
+        //}
 
-        public void InsertComponent(Component value, int workspaceId, int position, User user)
-        {
-            throw new NotImplementedException();
-        }
+        //public void InsertComponent(Component value, int workspaceId, int position, User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

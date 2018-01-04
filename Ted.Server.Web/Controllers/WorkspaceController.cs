@@ -20,18 +20,18 @@ namespace Ted.Server.Web.Controllers
             _auth = auth;
         }
 
-        [HttpGet("{token}/{workspaceId}")]
-        public JsonResult GetOne(string token, int workspaceId)
-        {
-            if (_auth.Authenticate(token)==null)
-                throw new TedExeption(ExceptionCodes.Authentication);
+        //[HttpGet("{token}/{workspaceId}")]
+        //public JsonResult GetOne(string token, int workspaceId)
+        //{
+        //    if (_auth.Authenticate(token)==null)
+        //        throw new TedExeption(ExceptionCodes.Authentication);
 
-            return Json(new
-            {
-                success = true,
-                data = _repo.GetOneWorkspace(workspaceId)
-            });
-        }
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        data = _repo.GetOneWorkspace(workspaceId)
+        //    });
+        //}
 
         [HttpGet("{token}")]
         public JsonResult GetAllForUser(string token)
@@ -48,20 +48,20 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPost("{token}")]
-        public JsonResult AddWorkspace(string token, [FromBody] WorkspaceDTO value)
+        public JsonResult AddWorkspace(string token, [FromBody] Workspace value)
         {
             var user = _auth.Authenticate(token);
 
             if (string.IsNullOrEmpty(value.name))
                 throw new ArgumentException(nameof(value.name));
 
-			var ws = new Workspace(value);
-			_repo.CreateWorkspace(ws, user);
+			//var ws = new Workspace(value);
+			_repo.CreateWorkspace(value, user);
 
             return Json(new
             {
                 success = true,
-                data = ws
+                data = value
 			});
         }
 

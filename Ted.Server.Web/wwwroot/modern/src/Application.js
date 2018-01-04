@@ -22,5 +22,8 @@ Ext.define('Admin.Application', {
 
     stores: [
         'NavigationTree'
-    ]
+    ],
+
+    //launch() {
+    //}
 });

@@ -2,18 +2,28 @@
 	extend: 'Ext.app.ViewModel',
 	alias: 'viewmodel.main',
 
-	data: {
-		editMode: true,
-		ready: false,
+    data: {
+
+        // Show tols for authoring etc.
+        editMode: true,
+
+        // The currently logged in user
 		user: null,
 
+        // Login information.
 		email: '',
 		password: '',
 		fullname: '',
 		rememberMe: false,
 
-		selectedWorkspace: null,
-		workspace: null
+        // The workspace selected in the workspace list
+        selectedWorkspace: null,
+
+        // The currently open workspace
+        workspace: null,
+
+        // Show navigator and toolbars i workspace
+        showWorkspaceTools: false
 	},
 
 	formulas: {
@@ -27,7 +37,7 @@
 		},
 		noSelection(get) {
 			let ws = get('selectedWorkspace');
-			return ws == null;
+			return ws === null;
 		}
 	},
 

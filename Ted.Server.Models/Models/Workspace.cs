@@ -12,16 +12,16 @@ namespace Ted.Server.Models
         {
         }
 
-        public Workspace(WorkspaceDTO workspace)
-        {
-            id = workspace.id;
-            createdBy = workspace.createdBy;
-            createdTime = workspace.createdTime;
-            modifiedBy = workspace.modifiedBy;
-            description = workspace.description;
-            modifiedTime = workspace.modifiedTime;
-            name = workspace.name;
-        }
+        //public Workspace(WorkspaceDTO workspace)
+        //{
+        //    id = workspace.id;
+        //    createdBy = workspace.createdBy;
+        //    createdTime = workspace.createdTime;
+        //    modifiedBy = workspace.modifiedBy;
+        //    description = workspace.description;
+        //    modifiedTime = workspace.modifiedTime;
+        //    name = workspace.name;
+        //}
 
         public string name { get; set; }
 
@@ -29,15 +29,17 @@ namespace Ted.Server.Models
 
         public string componentTree { get; set; }
 
-        public string eventHandlers { get; set; }
+        public int startPageId { get; set; }
 
-        public virtual ICollection<Group> groups { get; } = new List<Group>();
+        //public string eventHandlers { get; set; }
 
-        public virtual ICollection<AccessModifier> access { get; } = new List<AccessModifier>();
+        //public virtual ICollection<Group> groups { get; } = new List<Group>();
 
-        public virtual ICollection<ComponentModifier> modifiers { get; } = new List<ComponentModifier>();
+        //public virtual ICollection<AccessModifier> access { get; } = new List<AccessModifier>();
 
-        public virtual ICollection<Component> components { get; } = new List<Component>();
+        //public virtual ICollection<ComponentModifier> modifiers { get; } = new List<ComponentModifier>();
+
+        public virtual ICollection<Page> pages { get; set; } = new List<Page>();
 
         public int UserId { get; set; }
 

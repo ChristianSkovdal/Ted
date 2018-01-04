@@ -13,7 +13,7 @@ Ext.define('Admin.view.main.Toolbar', {
         xtype: 'component',
         reference: 'logo',
         userCls: 'main-logo',
-        html: 'Sencha'
+        html: 'TED'
     }, {
         ui: 'header',
         iconCls: 'x-fa fa-bars',

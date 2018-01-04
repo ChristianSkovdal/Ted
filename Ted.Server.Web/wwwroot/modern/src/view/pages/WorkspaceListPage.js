@@ -33,8 +33,8 @@ Ext.define('Admin.view.pages.WorkspaceListPage', {
 
 
     listeners: {
-        //show: 'onWorkspacesShow',
-        authenticated: 'onWorkspacesAuthenticated'
+        painted: 'onWorkspacesPainted',
+        //authenticated: 'onWorkspacesAuthenticated'
     },
 
 

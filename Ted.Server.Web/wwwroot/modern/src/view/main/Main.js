@@ -31,7 +31,7 @@ Ext.define('Admin.view.main.Main', {
             userCls: 'main-toolbar',
             shadow: true,
             bind: {
-				hidden: '{!workspace}'
+                hidden: '{!showWorkspaceTools}'
             },
 
         },
@@ -48,7 +48,7 @@ Ext.define('Admin.view.main.Main', {
             reference: 'navigation',
             layout: 'fit',
             bind: {
-				hidden: '{!workspace}'
+                hidden: '{!showWorkspaceTools}'
             },
             items: [
                 {

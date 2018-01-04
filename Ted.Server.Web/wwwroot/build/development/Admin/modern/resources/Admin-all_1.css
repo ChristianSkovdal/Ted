@@ -14143,6 +14143,33 @@ div.x-trigger.x-grouped {
     text-align: center;
     font-size: 1.3rem;
 }
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:1 */
+.blank-page-container {
+    text-align: center;
+    color: #cacaca;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:5 */
+.blank-page-container .fa-outer-class {
+    margin: auto;
+    background-color: #ebebeb;
+    width: 10rem;
+    border-radius: 5rem;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:11 */
+.blank-page-container .fa-outer-class .x-fa:before {
+    line-height: 10rem;
+    font-size: 12rem;
+    color: #cacaca;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:18 */
+.blank-page-container h1 {
+    margin: 0.75rem;
+    font-size: 2.5rem;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:23 */
+.blank-page-container .blank-page-text {
+    font-size: 16px;
+}
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceListPage.scss:1 */
 .dataview-multisort-item {
     padding: 8px;
@@ -14187,33 +14214,6 @@ div.x-trigger.x-grouped {
 .ws-description {
     font-weight: bold;
     font-size: 20px;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacePage.scss:1 */
-.blank-page-container {
-    text-align: center;
-    color: #cacaca;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacePage.scss:5 */
-.blank-page-container .fa-outer-class {
-    margin: auto;
-    background-color: #ebebeb;
-    width: 10rem;
-    border-radius: 5rem;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacePage.scss:11 */
-.blank-page-container .fa-outer-class .x-fa:before {
-    line-height: 10rem;
-    font-size: 12rem;
-    color: #cacaca;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacePage.scss:18 */
-.blank-page-container h1 {
-    margin: 0.75rem;
-    font-size: 2.5rem;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspacePage.scss:23 */
-.blank-page-container .blank-page-text {
-    font-size: 16px;
 }
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1239 */
 .x-button-bright-blue {

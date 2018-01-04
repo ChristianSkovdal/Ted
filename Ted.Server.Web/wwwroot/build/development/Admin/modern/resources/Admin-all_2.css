@@ -525,10 +525,12 @@ a {
 }
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/authentication/AuthBase.scss:1 */
 .auth-locked-body-el {
-    background-image: url('images/lock-screen-background.jpg');
+    /*background-image: url('images/lock-screen-background.jpg');*/
+    /*background-image: url('images/lock-screen-background.jpg');*/
+    background-color: skyblue;
     background-size: cover;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/authentication/AuthBase.scss:5 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/authentication/AuthBase.scss:6 */
 .auth-locked-body-el .x-panel-body-el.auth-locked-body-el {
     background-color: transparent;
 }
