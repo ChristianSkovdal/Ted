@@ -13,7 +13,6 @@ Ext.define('Admin.view.dialogs.NewWorkspaceDlgController', {
 	},
 
 	onOK() {
-		//this.getView().destroy();
 		let vm = this.getViewModel();
 		this.getView().fireEvent('ok', this.getView(), vm.get('ws'));
 	},

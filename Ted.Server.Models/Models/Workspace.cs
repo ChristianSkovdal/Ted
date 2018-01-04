@@ -27,7 +27,7 @@ namespace Ted.Server.Models
 
         public string description { get; set; }
 
-        public string componentTree { get; set; }
+        //public string componentTree { get; set; }
 
         public int startPageId { get; set; }
 

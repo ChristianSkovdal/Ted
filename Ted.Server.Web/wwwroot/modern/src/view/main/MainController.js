@@ -44,9 +44,7 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     setCurrentView(hashTag) {
-        debugger;
         hashTag = (hashTag || '').toLowerCase();
-
         if (hashTag !== 'login' && hashTag !== 'register') {
             try {
                 let me = this;
@@ -123,13 +121,15 @@ Ext.define('Admin.view.main.MainController', {
             //                     }
             //                 });
 
-
             if (hashTag.startsWith('page:')) {
 
                 let pageid = hashTag.split(':')[1];
+                let existingWS = vm.get('workspace');
+                let currentWsId = existingWS ? existingWS.id : -1;
 
-                AjaxUtil.get('/api/page/' + vm.get('user.token') + '/' + pageid,
+                AjaxUtil.get('/api/page/' + vm.get('user.token') + '/' + pageid + '/' + currentWsId,
                     rsp => {
+
                         let page = rsp.data;
                         item = JSON.parse(page.json);
                         item.xtype = item.xtype || 'workspacecanvas';
@@ -137,15 +137,24 @@ Ext.define('Admin.view.main.MainController', {
 
                         view.setActiveItem(item);
 
-                        vm.set('workspace', page.workspace);
-                        vm.set('showWorkspaceTools', true);
+                        if (rsp.tree) {
 
-                        let navData = JSON.parse(page.workspace.componentTree);
-                        let root = navigationTree.getStore().getRoot();
+                            vm.set('workspace', page.workspace);
+                            vm.set('showWorkspaceTools', true);
 
-                        root.removeAll();
-                        for (let child of navData) {
-                            root.appendChild(child);
+                            //let navData = JSON.parse(page.workspace.componentTree);
+                            let root = navigationTree.getStore().getRoot();
+                            
+                            let defaults = {
+                                leaf: true
+                            };
+
+                            root.removeAll();
+                            for (let child of rsp.tree) {
+                                Ext.applyIf(child, defaults);
+                                root.appendChild(child);
+                            }
+                            navigationTree.setSelection(root.findChild('routeId', hashTag));
                         }
 
                     },
@@ -228,20 +237,57 @@ Ext.define('Admin.view.main.MainController', {
 
     addPageButtonClick() {
 
-        let navigationTree = this.lookup('navigationTree');
-        let root = navigationTree.getStore().getRoot();
+        let vm = this.getViewModel();
+        let user = vm.get('user');
+        let workspace = vm.get('workspace');
+        let me = this;
 
-        root.on('insert', (node, newNode, refNode) => {
-            this.redirectTo('tedpage');
+        var dialog = Ext.create({
+            xtype: 'newpagedlg',
         });
 
-        root.insertChild(0, {
-            text: 'New Page',
-            //href: '#NewPage01',
-            iconCls: 'x-fa fa-calendar-plus-o',
-            rowCls: 'nav-tree-badge nav-tree-badge-hot',
-            viewType: 'tedpage',
-            leaf: true
+        dialog.show();
+
+        dialog.on('ok', (cmp, data) => {
+
+            let navigationTree = this.lookup('navigationTree');
+            var store = navigationTree.getStore();
+
+            if (store.findCaseInsensitive('name', data.page.name)) {
+                Ext.Msg.alert('Page', 'A page with that name already exist', f => dialog.down('textfield').focus());
+            }
+            else {
+
+                AjaxUtil.post('/api/page/' + user.token + '/' + workspace.id,
+                    {
+                        text: data.page.name,
+                        iconCls: 'x-fa fa-calendar-plus-o'
+                    },
+                    rsp => {
+
+                        let page = rsp.data;
+                        item = JSON.parse(page.json);
+
+                        let view = me.getView();
+                        view.setActiveItem(item);
+
+                        let defaults = {
+                            leaf: true
+                        };
+
+                        Ext.applyIf(page, defaults);
+                        page.routeId = "page:" + page.id;
+
+                        let root = navigationTree.getStore().getRoot();
+                        let node = root.appendChild(page);
+                        navigationTree.setSelection(node);
+
+                        //me.redirectTo(item.routeId);
+
+                        dialog.destroy();
+                    }
+                );
+            }
         });
     },
 
@@ -375,10 +421,15 @@ Ext.define('Admin.view.main.MainController', {
     //}
 
     onWorkspacesPainted() {
-        debugger;
         let vm = this.getViewModel();
         vm.set('workspace', null);
         //vm.set('showWorkspaceTools', false);
 
+    },
+
+    gotoWorkspacesButtonClick() {
+        this.redirectTo('workspacelist', true);
     }
+
+
 });

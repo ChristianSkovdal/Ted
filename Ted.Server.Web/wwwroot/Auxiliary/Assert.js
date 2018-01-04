@@ -16,7 +16,6 @@ __assert = function(condition, arg, errorId, file, line) {
         }
 
         if (!condition) {
-            //debugger;        
 
             var msg = 'Assertion Failed';
             if (arg) {

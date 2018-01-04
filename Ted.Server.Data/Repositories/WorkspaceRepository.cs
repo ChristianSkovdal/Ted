@@ -44,40 +44,76 @@ namespace Ted.Server.Data
             return workspaces.OrderByDescending(r => r.id).ToList();
         }
 
-		public Page GetPage(int id)
+        public ICollection<Page> GetNavigationTree(int workspaceId)
+        {
+            var pages = _db.Pages.Where(r => r.WorkspaceId==workspaceId && !r.deleted).ToList();
+
+            RecursePageTree(pages);
+
+            return pages;
+        }
+
+        private void RecursePageTree(ICollection<Page> pages)
+        {
+            pages.ToList();
+            foreach (var p in pages)
+            {
+                p.routeId = "page:" + p.id;
+                RecursePageTree(p.pages);
+            }
+        }
+
+        public Page GetPage(int id)
 		{
 			var page = _db.Pages.SingleOrDefault(r => r.id==id && !r.deleted);
             page.workspace = _db.Workspaces.SingleOrDefault(r => r.id == page.WorkspaceId);
+
             return page;
 		}
 
-		public Workspace CreateWorkspace(Workspace value, User user)
+        public Page AddPage(Page page, int workspaceId, User user)
         {
-            value.createdBy = user.id;
-            value.modifiedBy = user.id;
-            value.createdTime = DateTime.Now;
+            var ws = _db.Workspaces.SingleOrDefault(r => r.id==workspaceId && !r.deleted);
+
+            page.createdBy = user.id;
+            page.createdTime = DateTime.Now;
+
+            var json = File.ReadAllText(Path.Combine("templates", "page_template.json"));
+            page.json = json.Replace("{{PAGE_NAME}}", page.text);
+
+            ws.pages.Add(page);
+            _db.SaveChanges();
+            return page;
+        }
+
+        public Workspace CreateWorkspace(Workspace workspace, User user)
+        {
+            workspace.createdBy = user.id;
+            workspace.createdTime = DateTime.Now;
 
 			var cmp = new Page
 			{
 				createdBy = user.id,
-				modifiedBy = user.id,
 				createdTime = DateTime.Now,
-				json = File.ReadAllText("page_template.json")
-			};
+				json = File.ReadAllText(Path.Combine("templates", "welcome_template.json")),
+                text = "Welcome",
+                iconCls = "x-fa fa-home"
+            };
 
-            value.pages.Add(cmp);
+            workspace.pages.Add(cmp);
 
-            user.myWorkspaces.Add(value);
-            _db.Add(value);
+            user.myWorkspaces.Add(workspace);
+            _db.Add(workspace);
             _db.SaveChanges();
 
-            var tpl = File.ReadAllText("tree_template.json");
-            value.componentTree = tpl.Replace("{{PAGEID}}", cmp.id.ToString());
-            value.startPageId = cmp.id;
+            //var tpl = File.ReadAllText(Path.Combine("templates", "tree_template.json"));
+            //value.componentTree = tpl.Replace("{{PAGEID}}", cmp.id.ToString());
+            workspace.startPageId = cmp.id;
+
 
             _db.SaveChanges();
 
-            return value;
+            return workspace;
         }
 
         public void DeleteWorkspace(int id)
@@ -109,21 +145,6 @@ namespace Ted.Server.Data
             _db.SaveChanges();
         }
 
-
-        //public void DeleteComponent(int workspaceId, string componentId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public string GetComponentTree(int workspaceId)
-        //{
-        //    var ws = _db.Workspaces.SingleOrDefault(u => u.id == workspaceId && !u.deleted);
-        //    return ws.componentTree;
-        //}
-
-        //public void InsertComponent(Component value, int workspaceId, int position, User user)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        
     }
 }

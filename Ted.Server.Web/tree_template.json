@@ -1,8 +1,0 @@
-﻿[
-  {
-    "text": "Welcome",
-    "iconCls": "x-fa fa-user",
-    "routeId": "page:{{PAGEID}}",
-    "leaf": true
-  }
-]

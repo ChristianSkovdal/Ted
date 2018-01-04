@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Ted.Server.Data;
@@ -20,8 +21,8 @@ namespace Ted.Server.Web.Controllers
             _auth = auth;
         }
 
-        [HttpGet("{token}/{id}")]
-        public JsonResult GetPage(string token, int id)
+        [HttpGet("{token}/{id}/{currentWorkspace}")]
+        public JsonResult GetPage(string token, int id, int currentWorkspace)
         {
 			var page = _repo.GetPage(id);
 			if (page == null)
@@ -32,31 +33,38 @@ namespace Ted.Server.Web.Controllers
 			if (_auth.AuthenticateForWorkspace(token, page.WorkspaceId)==null)
                 throw new TedExeption(ExceptionCodes.Authentication);
 
+            // Load tree
+            ICollection<Page> tree = null;
+            if (page.WorkspaceId!=currentWorkspace)
+            {
+                tree = _repo.GetNavigationTree(page.WorkspaceId);
+            }
             // Avoid cyclic refs
             page.workspace.pages = null;
-
             return Json(new
 			{
 				success = true,
-				data = page
+				data = page,
+                tree
 			});
-        }        
+        }
 
-        //[HttpPost("{token}/{workspaceId}/{position}")]
-        //public void AddComponent(string token, int workspaceId, int position, [FromBody]Component value)
-        //{
-        //    //var user = _auth.AuthenticateForWorkspace(token, workspaceId);
+        [HttpPost("{token}/{workspaceId}")]
+        public JsonResult AddComponent(string token, int workspaceId, [FromBody]Page value)
+        {
+            var user = _auth.AuthenticateForWorkspace(token, workspaceId);
 
-        //    //if (string.IsNullOrEmpty(value.xtype))
-        //    //    throw new ArgumentException(nameof(value.xtype));
+            if (string.IsNullOrEmpty(value.text))
+                throw new ArgumentException(nameof(value.text));
 
-        //    //_repo.InsertComponent(value, workspaceId, position, user);
+            var page = _repo.AddPage(value, workspaceId, user);
 
-        //    //return Json(new
-        //    //{
-        //    //    success = true
-        //    //});
-        //}
+            return Json(new
+            {
+                success = true,
+                data = page
+            });
+        }
 
         //[HttpDelete("{token}/{workspaceId}/{componentId}")]
         //public void DeleteComponent(string token, int workspaceId, string componentId)

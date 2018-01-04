@@ -1,0 +1,16 @@
+﻿.temper:after {
+    color: #b20000;
+    font-size: 2em;
+}
+
+.temper.high:after {
+    content: '☠☠☠☠';
+}
+
+.temper.med:after {
+    content: '☠☠☠';
+}
+
+.temper.low:after {
+    content: '☠';
+}

@@ -84,11 +84,28 @@ Ext.define('Admin.view.pages.WorkspaceListToolbar', {
 	},
 	//'-',
     {
-        ui: 'header',
-        iconCls: 'x-fa fa-sign-out',
-        margin: '0 7 0 0',
-        handler: 'signoutButtonClick',
-        tooltip: 'Sign out'
+        iconCls: 'x-fa fa-gg',
+        toolTip: 'Main menu',
+
+        menu: {
+            plain: true,
+
+            items: [
+                {
+                    iconCls: 'x-fa fa-user',
+                    margin: '0 7 0 0',
+                    handler: 'signoutButtonClick',
+                    text: 'Profile',
+                },
+                {
+                    iconCls: 'x-fa fa-sign-out',
+                    margin: '0 7 0 0',
+                    handler: 'signoutButtonClick',
+                    text: 'Sign out',
+                }
+            ]
+        }
+
     }
 
         /*
