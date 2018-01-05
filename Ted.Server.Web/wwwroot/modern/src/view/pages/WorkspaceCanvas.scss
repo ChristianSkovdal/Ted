@@ -1,27 +1,60 @@
+.userProfile-container {
+    .userProfilePic {
+        border: 4px solid $base-border-color;
+        @include border-radius($circle-border-radius);
+    }
 
-.blank-page-container {
-    text-align: center;
-    color: #cacaca;
+    .userProfileName {
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 30px;
+        color: $color;
+    }
 
-    .fa-outer-class {
-        margin: auto;
-        background-color: #ebebeb;
-        width: 10rem;
-        border-radius: 5rem;
+    .userProfileDesc {
+        color: $color;
+        line-height: 16px;
+    }
 
-        .x-fa:before {
-            line-height: 10rem;
-            font-size: 12rem;
-            color: #cacaca;
+    .user-profile-desc {
+        .x-layout-box-item {
+            &:before {
+                top: 0px;
+            }
+        }
+
+        .box {
+            display: flex;
         }
     }
 
-    h1 {
-        margin: .75rem;
-        font-size: 2.5rem;
+
+}
+
+/*.dashboard-item2 {
+    margin: 0 20px 20px 0;
+    float: left;
+    /*width: calc(100% - #{300});*/
+
+    &.last-in-row {
+        margin-right: 0;
     }
 
-    .blank-page-text {
-        font-size: 16px;
-    }
+
 }
+
+.x-panel-header {
+    background-color: #ff6a00;
+    margin: 15px 0 10px 0;
+    padding: 0 !important;
+
+    .x-title {
+        line-height: 32px;
+    }
+
+    .x-title-text {
+        color: #00ffff;
+        font-size: 12px;
+        font-weight: 600;
+    }
+}*/

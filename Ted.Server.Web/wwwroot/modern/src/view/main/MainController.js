@@ -44,6 +44,8 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     setCurrentView(hashTag) {
+
+
         hashTag = (hashTag || '').toLowerCase();
         if (hashTag !== 'login' && hashTag !== 'register') {
             try {
@@ -104,6 +106,9 @@ Ext.define('Admin.view.main.MainController', {
                 store.findNode('viewType', hashTag),
             item = view.child('component[routeId=' + hashTag + ']');
 
+        if (item && item.reloadItem) {
+            item = null;
+        }
 
         let me = this;
         let vm = this.getViewModel();
@@ -129,9 +134,10 @@ Ext.define('Admin.view.main.MainController', {
 
                 AjaxUtil.get('/api/page/' + vm.get('user.token') + '/' + pageid + '/' + currentWsId,
                     rsp => {
-
                         let page = rsp.data;
                         item = JSON.parse(page.json);
+                        item.json = page.json;
+                        
                         item.xtype = item.xtype || 'workspacecanvas';
                         item.routeId = hashTag;
 
@@ -144,7 +150,7 @@ Ext.define('Admin.view.main.MainController', {
 
                             //let navData = JSON.parse(page.workspace.componentTree);
                             let root = navigationTree.getStore().getRoot();
-                            
+
                             let defaults = {
                                 leaf: true
                             };
@@ -230,10 +236,10 @@ Ext.define('Admin.view.main.MainController', {
         this.redirectTo(href);
     },
 
-    editButtonClick(btn) {
-        let vm = this.getViewModel();
-        vm.set('editMode', !vm.get('editMode'));
-    },
+    //editButtonClick(btn) {
+    //    let vm = this.getViewModel();
+    //    vm.set('editMode', !vm.get('editMode'));
+    //},
 
     addPageButtonClick() {
 
@@ -263,7 +269,6 @@ Ext.define('Admin.view.main.MainController', {
                         iconCls: 'x-fa fa-calendar-plus-o'
                     },
                     rsp => {
-
                         let page = rsp.data;
                         item = JSON.parse(page.json);
 
@@ -298,7 +303,6 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     //onWorkspacesAuthenticated(wsPage, user) {
-    //    //debugger;
     //    //console.log(this.getViewModel().get('user').token);
     //    //var view = this.lookupReference('workspaceView');
     //},
@@ -320,18 +324,18 @@ Ext.define('Admin.view.main.MainController', {
 
         dialog.show();
 
-        dialog.on('ok', (cmp, ws) => {
+        dialog.on('ok', (cmp, data) => {
 
             let view = this.lookupReference('workspaceView');
             let store = view.getStore();
             let vm = this.getViewModel();
             let me = this;
 
-            if (store.findCaseInsensitive('name', ws.name)) {
+            if (store.findCaseInsensitive('name', data.ws.name)) {
                 Ext.Msg.alert('Workspace', 'A workspace with that name already exist', f => dialog.down('textfield').focus());
             }
             else {
-                store.insert(0, ws);
+                store.insert(0, data.ws);
                 store.sync({
                     callback(batch, opt) {
                         vm.set('selectedWorkspace', store.first());
@@ -391,7 +395,6 @@ Ext.define('Admin.view.main.MainController', {
     //    },
     //        user => {
     //            if (user) {
-    //                //debugger;
     //                // user & token has changed. We are logged in and ready to either load all workspaces
     //                // or one specific one if it is specified. We do that by redirecting to the page.
 
@@ -406,7 +409,6 @@ Ext.define('Admin.view.main.MainController', {
 
 
     //workspaceInitialize(wsView) {
-    //    //debugger;
     //    //assert(wsView.routeId);
     //    //assert(wsView.routeId.split(':') == 2);
 
@@ -430,6 +432,53 @@ Ext.define('Admin.view.main.MainController', {
 
     gotoWorkspacesButtonClick() {
         this.redirectTo('workspacelist', true);
+    },
+
+    addGridButtonClick() {
+        let view = this.getView();
+
+        let currentitem = view.getActiveItem();
+        let routeId = currentitem.routeId;
+
+        let navigationTree = this.lookup('navigationTree');
+        let page = navigationTree.getSelection();
+        let vm = this.getViewModel();
+        let user = vm.get('user');
+
+        let json = currentitem.json;
+        
+        let grid = {
+            xtype: 'panel',
+            title: 'New Grid Panel',
+            minHeight: 100,
+            ui:'light'
+        }
+
+        if (currentitem.xtype === 'placeholder') {
+            currentitem.destroy();
+            json = JSON.stringify({
+                items: [grid]
+            });
+        }
+        else {
+            var obj = JSON.parse(json);
+            obj.items.push(grid);
+            json = JSON.stringify(obj);
+        }
+        AjaxUtil.put('/api/page/' + user.token + '/' + page.id,
+            {
+                json: json
+            },
+            rsp => {
+                currentitem.reloadItem=true;
+                this.redirectTo(routeId, true);                
+            },
+            rsp => {
+                
+                this.redirectTo(routeId, true);
+            }
+        );
+
     }
 
 

@@ -1,12 +1,10 @@
 ﻿{
-  "layout": {
-    "type": "vbox",
-    "pack": "center",
-    "align": "center"
-  },
+  "xtype": "placeholder",
+
 
   "items": [
     {
+      "placeholder": true,
       "cls": "blank-page-container",
       "html": "<div class='fa-outer-class'><span class='x-fa fa-calendar-plus-o'></span></div><h1>{{PAGE_NAME}}</h1><span class='blank-page-text'><a href=\"#\">Click here to add components</a></span>"
     }

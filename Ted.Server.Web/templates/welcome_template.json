@@ -1,12 +1,9 @@
 ﻿{
-  "layout": {
-    "type": "vbox",
-    "pack": "center",
-    "align": "center"
-  },
+  "xtype": "placeholder",
 
   "items": [
     {
+      "placeholder": true,
       "cls": "blank-page-container",
       "html": "<div class='fa-outer-class'><span class='x-fa fa-gg'></span></div><h1>Welcome!</h1><span class='blank-page-text'><a href=\"#\">Click here to learn more about creating workspaces</a></span>"
     }

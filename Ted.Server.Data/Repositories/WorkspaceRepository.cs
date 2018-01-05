@@ -73,6 +73,16 @@ namespace Ted.Server.Data
             return page;
 		}
 
+        public void UpdatePage(int pageId, PageUpdate update)
+        {
+            var page = _db.Pages.SingleOrDefault(r => r.id == pageId && !r.deleted);
+            if (page == null)
+                throw new Exception($"The page with id {pageId} does not exist");
+
+            page.json = update.json;
+            _db.SaveChanges();
+        }
+
         public Page AddPage(Page page, int workspaceId, User user)
         {
             var ws = _db.Workspaces.SingleOrDefault(r => r.id==workspaceId && !r.deleted);

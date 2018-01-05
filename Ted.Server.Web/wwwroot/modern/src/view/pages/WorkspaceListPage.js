@@ -74,7 +74,7 @@ Ext.define('Admin.view.pages.WorkspaceListPage', {
                     listeners: {
                         childdoubletap: 'workspaceDblTap',
                         painted: 'onWorkspaceViewPainted'
-                        
+
                     },
 
                     plugins: {
@@ -103,8 +103,10 @@ Ext.define('Admin.view.pages.WorkspaceListPage', {
                         '<p>{workspaceInfo.description}</p>' +
                         '<p><strong>Created:</strong> {workspaceInfo.created}</p>'
                     },
-                    flex: 1
-
+                    flex: 1,
+                    //bind: {
+                    //    hidden: '{!selectedWorkspace}'
+                    //},
                 }
             ]
         }

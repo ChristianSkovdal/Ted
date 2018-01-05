@@ -30,7 +30,20 @@
 
     },
 
+    put(url, json, successFn, failureFn, waitMsg) {
+        this.query(url, json, successFn, failureFn, waitMsg, 'PUT');
+    },
+
     post(url, json, successFn, failureFn, waitMsg) {
+        this.query(url, json, successFn, failureFn, waitMsg, 'POST');
+    },
+
+    get(url, successFn, failureFn, waitMsg) {
+        this.query(url, null, successFn, failureFn, waitMsg, 'GET');
+    },
+
+
+    query(url, json, successFn, failureFn, waitMsg, method) {
 
         var me = this;
 
@@ -41,7 +54,7 @@
 
         Ext.Ajax.request({
             url: url,
-            method: 'POST',
+            method: method,
             jsonData: json,
         }).then(function (response) {
             var rsp = JSON.parse(response.responseText);
@@ -61,39 +74,37 @@
             me.handleReason(reason, failureFn);
         });
     },
+    
+    //get(url, successFn, failureFn, waitMsg) {
 
+    //    var me = this;
 
+    //    Ext.Viewport.mask({
+    //        xtype: 'loadmask',
+    //        message: waitMsg || 'Loading...'
+    //    });
 
-    get(url, successFn, failureFn, waitMsg) {
+    //    Ext.Ajax.request({
+    //        url: url,
+    //        method: 'GET',
+    //    }).then(function (response) {
+    //        var rsp = JSON.parse(response.responseText);
 
-        var me = this;
+    //        if (rsp.success) {
+    //            if (successFn) {
+    //                successFn(rsp);
+    //            }
+    //        }
+    //        else {
+    //            me.handleFailure(failureFn, rsp)
+    //        }
 
-        Ext.Viewport.mask({
-            xtype: 'loadmask',
-            message: waitMsg || 'Loading...'
-        });
-
-        Ext.Ajax.request({
-            url: url,
-            method: 'GET',
-        }).then(function (response) {
-            var rsp = JSON.parse(response.responseText);
-
-            if (rsp.success) {
-                if (successFn) {
-                    successFn(rsp);
-                }
-            }
-            else {
-                me.handleFailure(failureFn, rsp)
-            }
-
-        }).always(function () {
-            Ext.Viewport.unmask();
-        }).otherwise(function (reason) {
-            me.handleReason(reason, failureFn);
-        });
-    }
+    //    }).always(function () {
+    //        Ext.Viewport.unmask();
+    //    }).otherwise(function (reason) {
+    //        me.handleReason(reason, failureFn);
+    //    });
+    //}
 
 
 });

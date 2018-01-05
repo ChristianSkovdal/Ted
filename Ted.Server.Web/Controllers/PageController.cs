@@ -66,6 +66,22 @@ namespace Ted.Server.Web.Controllers
             });
         }
 
+        [HttpPut("{token}/{pageId}")]
+        public JsonResult UpdatePage(string token, int pageId, [FromBody]PageUpdate value)
+        {
+            var page = _repo.GetPage(pageId);
+
+            _auth.AuthenticateForWorkspace(token, page.WorkspaceId);
+
+            _repo.UpdatePage(pageId, value);
+
+            return Json(new
+            {
+                success = true,
+            //    data = value
+            });
+        }
+
         //[HttpDelete("{token}/{workspaceId}/{componentId}")]
         //public void DeleteComponent(string token, int workspaceId, string componentId)
         //{

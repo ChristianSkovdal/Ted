@@ -10,16 +10,16 @@ Ext.define('Admin.view.profile.UserProfile', {
         userCls: 'big-50 small-100 dashboard-item'
     },
 
-    items: [{
-        xtype: 'profileshare',
-        userCls: 'big-100 small-100 dashboard-item'
-    }, {
-        xtype: 'profilesocial'
-    }, {
-        xtype: 'profiledescription'
-    }, {
-        xtype: 'profilenotifications'
-    }, {
-        xtype: 'profiletimeline'
-    }]
+    //items: [{
+    //    xtype: 'profileshare',
+    //    userCls: 'big-100 small-100 dashboard-item'
+    //}, {
+    //    xtype: 'profilesocial'
+    //}, {
+    //    xtype: 'profiledescription'
+    //}, {
+    //    xtype: 'profilenotifications'
+    //}, {
+    //    xtype: 'profiletimeline'
+    //}]
 });

@@ -8,7 +8,7 @@
     viewModel: 'newpagedlg',
 
     requires: [
-        'Admin.view.controls.FontAwesomeComboBox'
+        
     ],
 
 	items: [
@@ -23,10 +23,10 @@
 				focus: 'onTextFieldFocus'
 			}
         },
-        {
-            xtype: 'fontawesomecombo',
-            label: 'Icon',
-			margin: 10,
-        }
+   //     {
+   //         xtype: 'fontawesomecombo',
+   //         label: 'Icon',
+			//margin: 10,
+   //     }
 	],
 });

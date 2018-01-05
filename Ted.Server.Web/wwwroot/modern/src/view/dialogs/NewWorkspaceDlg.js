@@ -1,5 +1,5 @@
 ﻿Ext.define('Admin.view.dialogs.NewWorkspaceDialog', {
-	extend: 'Ext.Dialog',
+    extend: 'Admin.view.dialogs.BaseDlg',
 	xtype: 'newworkspacedlg',
 
 	title: 'New Workspace',
@@ -19,7 +19,7 @@
 				value: '{ws.name}'
 			},
 			listeners: {
-				focus: 'onFocus'
+                focus: 'onTextFieldFocus'
 			}
 		},
 		{
@@ -32,10 +32,5 @@
 				value: '{ws.description}'
 			}
 		}
-	],
-
-	buttons: {
-		ok: 'onOK',
-		cancel: 'onCancel'
-	}
+	]
 });

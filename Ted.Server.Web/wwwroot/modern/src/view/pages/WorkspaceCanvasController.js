@@ -6,12 +6,12 @@ Ext.define('Admin.view.pages.WorkspaceCanvasController', {
         'Ext.MessageBox'
     ],
 
-    listen: {
-        //controller: {
-        //    '#': {
-        //        unmatchedroute: 'setCurrentView'
-        //    }
-        //}
+    control: {
+        '*': {
+            painted: function (cmp) {
+                //debugger;
+            }
+        }
     },
 
     //config: {

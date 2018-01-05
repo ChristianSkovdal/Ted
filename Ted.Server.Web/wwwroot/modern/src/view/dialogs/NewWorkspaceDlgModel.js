@@ -3,7 +3,7 @@
 	alias: 'viewmodel.newworkspacedlg',
 
 	data: {
-		name: {}
+		ws: {}
 	}
 
 	//formulas: {

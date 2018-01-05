@@ -74,7 +74,7 @@ $include-admin-view-charts-pie: dynamic(true);;
 $include-admin-view-charts-pie3d: dynamic(true);;
 $include-admin-view-charts-polar: dynamic(true);;
 $include-admin-view-charts-stacked: dynamic(true);;
-$include-admin-view-controls-fontawesomecombobox: dynamic(true);;
+$include-admin-view-controls-flexigrid: dynamic(true);;
 $include-admin-view-dashboard-dashboard: dynamic(true);;
 $include-admin-view-dashboard-dashboardcontroller: dynamic(true);;
 $include-admin-view-dashboard-dashboardmodel: dynamic(true);;
@@ -118,7 +118,7 @@ $include-admin-view-pages-blankpage: dynamic(true);;
 $include-admin-view-pages-error404: dynamic(true);;
 $include-admin-view-pages-error500: dynamic(true);;
 $include-admin-view-pages-errorbase: dynamic(true);;
-$include-admin-view-pages-workspacecanvas: dynamic(true);;
+$include-admin-view-pages-placeholderpage: dynamic(true);;
 $include-admin-view-pages-workspacecanvascontroller: dynamic(true);;
 $include-admin-view-pages-workspacelistpage: dynamic(true);;
 $include-admin-view-pages-workspacelisttoolbar: dynamic(true);;
@@ -136,6 +136,7 @@ $include-admin-view-profile-timeline: dynamic(true);;
 $include-admin-view-profile-userprofile: dynamic(true);;
 $include-admin-view-profile-userprofilebase: dynamic(true);;
 $include-admin-view-profile-userprofilemodel: dynamic(true);;
+$include-admin-view-profile-workspacecanvas: dynamic(true);;
 $include-admin-view-search-all: dynamic(true);;
 $include-admin-view-search-results: dynamic(true);;
 $include-admin-view-search-resultsmodel: dynamic(true);;
@@ -1626,13 +1627,13 @@ $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/pages/ErrorBase';
 
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspaceCanvas.js */
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\PlaceholderPage.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;
 $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/pages/WorkspaceCanvas';
+@import '../../../../../modern/src/view/pages/PlaceholderPage';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspaceListPage.js */
 $default-resource-root: '' !default;
@@ -1690,13 +1691,13 @@ $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/authentication/LockScreen';
 
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\controls\FontAwesomeComboBox.js */
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\controls\FlexiGrid.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;
 $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/controls/FontAwesomeComboBox';
+@import '../../../../../modern/src/view/controls/FlexiGrid';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\dashboard\Dashboard.js */
 $default-resource-root: '' !default;
@@ -1753,6 +1754,14 @@ $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/forms/Wizard';
+
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\pages\WorkspaceCanvas.js */
+$default-resource-root: '' !default;
+$default-resource-path: 'images' !default;
+$current-package: false;
+$current-resource-root: $default-resource-root;
+$relative-image-path-for-uis: $default-resource-path;
+@import '../../../../../modern/src/view/pages/WorkspaceCanvas';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\profile\UserProfile.js */
 $default-resource-root: '' !default;

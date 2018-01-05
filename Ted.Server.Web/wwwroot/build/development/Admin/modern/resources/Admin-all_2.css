@@ -546,23 +546,6 @@ a {
     height: 64px;
     width: 64px;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:1 */
-.temper:after {
-    color: #b20000;
-    font-size: 2em;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:6 */
-.temper.high:after {
-    content: '☠☠☠☠';
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:10 */
-.temper.med:after {
-    content: '☠☠☠';
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FontAwesomeComboBox.scss:14 */
-.temper.low:after {
-    content: '☠';
-}
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/dashboard/Dashboard.scss:3 */
 .dashboard > .x-body-el {
     padding: 20px 0 0 20px;
@@ -1042,6 +1025,61 @@ a {
     .wizard .x-tab .x-text-el {
         display: none;
     }
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:2 */
+.userProfile-container .userProfilePic {
+    border: 4px solid #ddd;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:7 */
+.userProfile-container .userProfileName {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 30px;
+    color: #404040;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:14 */
+.userProfile-container .userProfileDesc {
+    color: #404040;
+    line-height: 16px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:21 */
+.userProfile-container .user-profile-desc .x-layout-box-item:before {
+    top: 0px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:26 */
+.userProfile-container .user-profile-desc .box {
+    display: flex;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:34 */
+.dashboard-item2 {
+    margin: 0 20px 20px 0;
+    float: left;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:39 */
+.dashboard-item2.last-in-row {
+    /*width: calc(100% - #{300});*/
+    margin-right: 0;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:46 */
+.x-panel-header {
+    background-color: #ff6a00;
+    margin: 15px 0 10px 0;
+    padding: 0 !important;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:51 */
+.x-panel-header .x-title {
+    line-height: 32px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:55 */
+.x-panel-header .x-title-text {
+    color: cyan;
+    font-size: 12px;
+    font-weight: 600;
 }
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/profile/UserProfile.scss:2 */
 .userProfile-container .userProfilePic {
