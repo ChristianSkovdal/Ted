@@ -546,6 +546,199 @@ a {
     height: 64px;
     width: 64px;
 }
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1239 */
+.x-button-launch {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1253 */
+.x-button-launch .x-inner-el {
+    border-width: 0;
+    border-color: #ebebeb;
+    background-color: #fff;
+    background-image: none;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1267 */
+.x-button-launch.x-has-text .x-inner-el {
+    padding: 14px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1271 */
+.x-big .x-button-launch.x-has-text .x-inner-el {
+    padding: 14px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1277 */
+.x-button-launch .x-icon-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1327 */
+.x-button-launch .x-arrow-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1394 */
+.x-button-launch.x-hovered {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1398 */
+.x-button-launch.x-hovered .x-inner-el {
+    border-color: #dbdbdb;
+    background-color: #f0f0f0;
+    background-image: none;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1403 */
+.x-button-launch.x-hovered .x-icon-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1407 */
+.x-button-launch.x-hovered .x-arrow-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1422 */
+.x-button-launch.x-pressing,
+.x-button-launch.x-pressed {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1425 */
+.x-button-launch.x-pressing .x-inner-el,
+.x-button-launch.x-pressed .x-inner-el {
+    border-color: #ccc;
+    background-color: #e0e0e0;
+    background-image: none;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1430 */
+.x-button-launch.x-pressing .x-icon-el,
+.x-button-launch.x-pressed .x-icon-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1434 */
+.x-button-launch.x-pressing .x-arrow-el,
+.x-button-launch.x-pressed .x-arrow-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1458 */
+.x-keyboard-mode .x-button-launch.x-focused:after {
+    border-color: #35baf6;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:3 */
+.x-text-el {
+    font-size: 14px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:8 */
+.x-button-launch .x-inner-el:after {
+    content: "\f054";
+    font-family: FontAwesome;
+    font-size: 80%;
+    position: absolute;
+    right: 12px;
+    vertical-align: middle;
+    color: silver;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1239 */
+.x-button-presence {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1253 */
+.x-button-presence .x-inner-el {
+    border-width: 0;
+    border-color: #ebebeb;
+    background-color: #fff;
+    background-image: none;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1267 */
+.x-button-presence.x-has-text .x-inner-el {
+    padding: 14px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1271 */
+.x-big .x-button-presence.x-has-text .x-inner-el {
+    padding: 14px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1277 */
+.x-button-presence .x-icon-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1327 */
+.x-button-presence .x-arrow-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1394 */
+.x-button-presence.x-hovered {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1398 */
+.x-button-presence.x-hovered .x-inner-el {
+    border-color: #dbdbdb;
+    background-color: #f0f0f0;
+    background-image: none;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1403 */
+.x-button-presence.x-hovered .x-icon-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1407 */
+.x-button-presence.x-hovered .x-arrow-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1422 */
+.x-button-presence.x-pressing,
+.x-button-presence.x-pressed {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1425 */
+.x-button-presence.x-pressing .x-inner-el,
+.x-button-presence.x-pressed .x-inner-el {
+    border-color: #ccc;
+    background-color: #e0e0e0;
+    background-image: none;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1430 */
+.x-button-presence.x-pressing .x-icon-el,
+.x-button-presence.x-pressed .x-icon-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1434 */
+.x-button-presence.x-pressing .x-arrow-el,
+.x-button-presence.x-pressed .x-arrow-el {
+    color: #606060;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/ext/modern/theme-neptune/sass/var/Button.scss:1458 */
+.x-keyboard-mode .x-button-presence.x-focused:after {
+    border-color: #35baf6;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:20 */
+.x-button-presence:after {
+    content: "\f111";
+    font-family: FontAwesome;
+    font-size: 80%;
+    position: absolute;
+    right: 12px;
+    color: silver;
+    top: 50%;
+    margin-top: -8px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:31 */
+.x-button-presence.online:after {
+    color: green;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:36 */
+.inbox-unread .inbox-from,
+.inbox-unread .inbox-title {
+    font-weight: 600;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:42 */
+.inbox-favorite-icon .x-gridcolumn-title-wrap-el {
+    padding: 8px 4px;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:46 */
+.inbox-favorite-icon .x-text-el {
+    text-overflow: clip;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:51 */
+.email-toolbox {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+}
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:57 */
+.friends-list .x-button {
+    display: block;
+}
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/dashboard/Dashboard.scss:3 */
 .dashboard > .x-body-el {
     padding: 20px 0 0 20px;
@@ -1025,61 +1218,6 @@ a {
     .wizard .x-tab .x-text-el {
         display: none;
     }
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:2 */
-.userProfile-container .userProfilePic {
-    border: 4px solid #ddd;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border-radius: 50%;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:7 */
-.userProfile-container .userProfileName {
-    font-size: 16px;
-    font-weight: bold;
-    line-height: 30px;
-    color: #404040;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:14 */
-.userProfile-container .userProfileDesc {
-    color: #404040;
-    line-height: 16px;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:21 */
-.userProfile-container .user-profile-desc .x-layout-box-item:before {
-    top: 0px;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:26 */
-.userProfile-container .user-profile-desc .box {
-    display: flex;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:34 */
-.dashboard-item2 {
-    margin: 0 20px 20px 0;
-    float: left;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:39 */
-.dashboard-item2.last-in-row {
-    /*width: calc(100% - #{300});*/
-    margin-right: 0;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:46 */
-.x-panel-header {
-    background-color: #ff6a00;
-    margin: 15px 0 10px 0;
-    padding: 0 !important;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:51 */
-.x-panel-header .x-title {
-    line-height: 32px;
-}
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/pages/WorkspaceCanvas.scss:55 */
-.x-panel-header .x-title-text {
-    color: cyan;
-    font-size: 12px;
-    font-weight: 600;
 }
 /* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/profile/UserProfile.scss:2 */
 .userProfile-container .userProfilePic {

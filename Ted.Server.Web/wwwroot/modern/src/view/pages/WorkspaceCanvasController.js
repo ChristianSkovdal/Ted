@@ -13,21 +13,4 @@ Ext.define('Admin.view.pages.WorkspaceCanvasController', {
             }
         }
     },
-
-    //config: {
-    //    showNavigation: true
-    //},
-
-    //activate(wsView) {
-    //    debugger;
-    //    let vm = this.getViewModel();
-    //    
-
-    //},
-
-    //deactivate(wsView) {
-    //    debugger;
-    //    let vm = this.getViewModel();
-    //    vm.set('showWorkspaceTools', false);
-    //},
 });

@@ -137,7 +137,7 @@ Ext.define('Admin.view.main.MainController', {
                         let page = rsp.data;
                         item = JSON.parse(page.json);
                         item.json = page.json;
-                        
+
                         item.xtype = item.xtype || 'workspacecanvas';
                         item.routeId = hashTag;
 
@@ -446,12 +446,10 @@ Ext.define('Admin.view.main.MainController', {
         let user = vm.get('user');
 
         let json = currentitem.json;
-        
+
         let grid = {
-            xtype: 'panel',
+            xtype: 'flexigrid',
             title: 'New Grid Panel',
-            minHeight: 100,
-            ui:'light'
         }
 
         if (currentitem.xtype === 'placeholder') {
@@ -470,11 +468,11 @@ Ext.define('Admin.view.main.MainController', {
                 json: json
             },
             rsp => {
-                currentitem.reloadItem=true;
-                this.redirectTo(routeId, true);                
+                currentitem.reloadItem = true;
+                this.redirectTo(routeId, true);
             },
             rsp => {
-                
+
                 this.redirectTo(routeId, true);
             }
         );

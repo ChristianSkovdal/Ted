@@ -1,6 +1,8 @@
 Ext.define('Admin.view.main.Main', {
     extend: 'Ext.navigation.View',
 
+    xtype: 'main',
+
     requires: [
         'Ext.Button',
         'Ext.list.Tree',
