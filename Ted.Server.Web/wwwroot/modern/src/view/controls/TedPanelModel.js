@@ -1,6 +1,6 @@
-﻿Ext.define('Admin.view.controls.FlexiGridModel', {
+﻿Ext.define('Admin.view.controls.TedPanelModel', {
 	extend: 'Ext.app.ViewModel',
-	alias: 'viewmodel.flexigrid',
+	alias: 'viewmodel.tedpanel',
 
     data: {
 

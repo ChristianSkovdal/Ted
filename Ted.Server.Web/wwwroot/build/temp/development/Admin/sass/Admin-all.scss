@@ -74,9 +74,11 @@ $include-admin-view-charts-pie: dynamic(true);;
 $include-admin-view-charts-pie3d: dynamic(true);;
 $include-admin-view-charts-polar: dynamic(true);;
 $include-admin-view-charts-stacked: dynamic(true);;
-$include-admin-view-controls-flexigrid: dynamic(true);;
-$include-admin-view-controls-flexigridcontroller: dynamic(true);;
-$include-admin-view-controls-flexigridmodel: dynamic(true);;
+$include-admin-view-controls-tedcolumn: dynamic(true);;
+$include-admin-view-controls-tedgrid: dynamic(true);;
+$include-admin-view-controls-tedpanel: dynamic(true);;
+$include-admin-view-controls-tedpanelcontroller: dynamic(true);;
+$include-admin-view-controls-tedpanelmodel: dynamic(true);;
 $include-admin-view-dashboard-dashboard: dynamic(true);;
 $include-admin-view-dashboard-dashboardcontroller: dynamic(true);;
 $include-admin-view-dashboard-dashboardmodel: dynamic(true);;
@@ -159,6 +161,7 @@ $include-admin-view-widgets-widgetscontroller: dynamic(true);;
 $include-ajaxutil: dynamic(true);;
 $include-aux-ajaxutil: dynamic(true);;
 $include-aux-storeextensions: dynamic(true);;
+$include-aux-util: dynamic(true);;
 $include-ext-abstractcomponent: dynamic(true);;
 $include-ext-abstractmanager: dynamic(true);;
 $include-ext-abstractplugin: dynamic(true);;
@@ -1074,6 +1077,7 @@ $include-ext-viewport-wp: dynamic(true);;
 $include-ext-viewport-windowsphone: dynamic(true);;
 $include-ext-window-window: dynamic(true);;
 $include-ted-enum-exceptioncodes: dynamic(true);;
+$include-util: dynamic(true);;
 $output-paths: ("path": "../resources");
 
 /* ======================== ETC ======================== */
@@ -1693,13 +1697,13 @@ $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
 @import '../../../../../modern/src/view/authentication/LockScreen';
 
-/* including scss file adjacent to ..\..\..\..\..\modern\src\view\controls\FlexiGrid.js */
+/* including scss file adjacent to ..\..\..\..\..\modern\src\view\controls\TedPanel.js */
 $default-resource-root: '' !default;
 $default-resource-path: 'images' !default;
 $current-package: false;
 $current-resource-root: $default-resource-root;
 $relative-image-path-for-uis: $default-resource-path;
-@import '../../../../../modern/src/view/controls/FlexiGrid';
+@import '../../../../../modern/src/view/controls/TedPanel';
 
 /* including scss file adjacent to ..\..\..\..\..\modern\src\view\dashboard\Dashboard.js */
 $default-resource-root: '' !default;

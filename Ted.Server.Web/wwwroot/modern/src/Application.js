@@ -24,6 +24,7 @@ Ext.define('Admin.Application', {
         'NavigationTree'
     ],
 
-    //launch() {
-    //}
+    launch() {
+        //Ext.require('Aux.Util');
+    }
 });

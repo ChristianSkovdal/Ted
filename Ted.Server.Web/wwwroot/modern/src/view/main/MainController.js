@@ -3,7 +3,8 @@ Ext.define('Admin.view.main.MainController', {
     alias: 'controller.main',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'Aux.Util'
     ],
 
     listen: {
@@ -140,7 +141,7 @@ Ext.define('Admin.view.main.MainController', {
 
                         item.xtype = item.xtype || 'workspacecanvas';
                         item.routeId = hashTag;
-
+                        
                         view.setActiveItem(item);
 
                         if (rsp.tree) {
@@ -448,8 +449,22 @@ Ext.define('Admin.view.main.MainController', {
         let json = currentitem.json;
 
         let grid = {
-            xtype: 'flexigrid',
+            xtype: 'tedpanel',
             title: 'New Grid Panel',
+            itemId: Util.createGuid(),
+            items: [
+                {
+                    xtype: 'tedgrid',
+                    columns: [
+                        {
+                            text: 'First Column',
+                            flex: 1,
+                            xtype: 'tedcolumn',
+                            itemId: Util.createGuid()
+                        }
+                    ]
+                }
+            ]
         }
 
         if (currentitem.xtype === 'placeholder') {

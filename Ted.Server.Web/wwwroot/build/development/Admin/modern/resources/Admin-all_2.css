@@ -617,11 +617,11 @@ a {
 .x-keyboard-mode .x-button-launch.x-focused:after {
     border-color: #35baf6;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:3 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:3 */
 .x-text-el {
     font-size: 14px;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:8 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:8 */
 .x-button-launch .x-inner-el:after {
     content: "\f054";
     font-family: FontAwesome;
@@ -702,7 +702,7 @@ a {
 .x-keyboard-mode .x-button-presence.x-focused:after {
     border-color: #35baf6;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:20 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:20 */
 .x-button-presence:after {
     content: "\f111";
     font-family: FontAwesome;
@@ -713,29 +713,29 @@ a {
     top: 50%;
     margin-top: -8px;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:31 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:31 */
 .x-button-presence.online:after {
     color: green;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:36 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:36 */
 .inbox-unread .inbox-from,
 .inbox-unread .inbox-title {
     font-weight: 600;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:42 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:42 */
 .inbox-favorite-icon .x-gridcolumn-title-wrap-el {
     padding: 8px 4px;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:46 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:46 */
 .inbox-favorite-icon .x-text-el {
     text-overflow: clip;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:51 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:51 */
 .email-toolbox {
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
 }
-/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/FlexiGrid.scss:57 */
+/* C:/dev/test/Ted/Ted.Server.Web/wwwroot/modern/src/view/controls/TedPanel.scss:57 */
 .friends-list .x-button {
     display: block;
 }

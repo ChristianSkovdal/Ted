@@ -14,7 +14,7 @@ Ext.define('Admin.view.main.Toolbar', {
         reference: 'logo',
         userCls: 'main-logo',
         bind: {
-            html: 'TED - {workspace.name}'
+            html: ''//'TED - {workspace.name}'
         }
     }, {
         ui: 'header',

@@ -4,8 +4,7 @@
  */
 Ext.Loader.setPath('Aux', 'Auxiliary');
 Ext.Loader.setPath('Ted.Enum', 'Auxiliary');
-
-
+//Ext.Loader.setPath('Util', 'Auxiliary');
 
 Ext.application({
     name: 'Admin',
@@ -20,7 +19,6 @@ Ext.application({
     requires: [
         'Admin.*',
         'Aux.*',
-        //'Aux.StoreExtensions',
         'Ted.Enum.*'
     ]
 });
