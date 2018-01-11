@@ -56,4 +56,8 @@
     <ProjectReference Include="..\Ted.Server.Data\Ted.Server.Data.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="del $(ProjectDir)\wwwroot\sencha-error*.log" />
+  </Target>
+
 </Project>
