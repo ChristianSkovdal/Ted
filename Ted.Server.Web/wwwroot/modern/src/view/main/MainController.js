@@ -455,6 +455,7 @@ Ext.define('Admin.view.main.MainController', {
             items: [
                 {
                     xtype: 'tedgrid',
+                    itemId: Util.createGuid(),
                     columns: [
                         {
                             text: 'First Column',
@@ -478,6 +479,7 @@ Ext.define('Admin.view.main.MainController', {
             obj.items.push(grid);
             json = JSON.stringify(obj);
         }
+
         AjaxUtil.put('/api/page/' + user.token + '/' + page.id,
             {
                 json: json
@@ -486,9 +488,8 @@ Ext.define('Admin.view.main.MainController', {
                 currentitem.reloadItem = true;
                 this.redirectTo(routeId, true);
             },
-            rsp => {
-
-                this.redirectTo(routeId, true);
+            err => {
+                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');                
             }
         );
 

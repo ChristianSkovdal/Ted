@@ -14,11 +14,12 @@ Ext.define('Admin.view.controls.TedPanel', {
     ],
 
     getSerializableProperties() {
-
-        return ['title'];
-
+        return ['title','itemId'];
     },
 
+    getChildren() {
+        return this.items.items;
+    },
 
     controller: 'tedpanel',
     viewModel: 'tedpanel',

@@ -4,7 +4,10 @@ Ext.define('Admin.view.controls.TedGrid', {
 
  
     getSerializableProperties() {
-        return [];
+        return ['itemId'];
     },
 
+    getChildren() {
+        return this.getColumns();
+    }
 });

@@ -17,6 +17,16 @@
         'Aux.Util'
     ],
 
+    
+    insertAfter(obj, id, tree) {
+
+        let findItem = function(id,tree) {
+
+
+        }
+        
+    },
+
     columnAdd(itm, event) {
 
         let vm = this.getViewModel();
@@ -30,38 +40,44 @@
         let grid = column.up('tedgrid');
         let hdr = grid.getHeaderContainer();
 
-        let page = itm.up('container[routeId=page:' + tab.id + ']');
-        let objTree = page.getComponentTree();
+        let xtype = 'tedtextcolumn';
+        switch (itm.type) {
+            case ColumnMenuItemType.Number: 
+        }
 
         let obj = {
             xtype: 'tedcolumn',
-            text: 'Column ' + hdr.getItems().length + 1,
+            text: 'Column ' + (hdr.getItems().length + 1),
             flex: 1,
             itemId: Util.createGuid()
         };
-
         
+        let index = hdr.getItems().indexOf(column);
+        index++;
+        hdr.insert(index, obj);
+
+        let page = itm.up('container[routeId=page:' + tab.id + ']');
+        let objTree = page.getComponentTree();
+
+        var arg = {
+            json: JSON.stringify({
+                items: objTree
+            })
+        };
 
         AjaxUtil.put('/api/page/' + user.token + '/' + tab.id,
-            {
-                json: JSON.stringify(objTree)
-            },
+            arg,
             rsp => {
-
-                let index = hdr.getItems().indexOf(column);
-                index++;
-                hdr.insert(index, obj);
-
             },
-            //rsp => {
-            //    //this.redirectTo(routeId, true);
-            //}
+            err => {
+                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');                
+            }
         );
 
     },
 
     gridInitialize(cmp, opts) {
-
+        
     }
     
 });

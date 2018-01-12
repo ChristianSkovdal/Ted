@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "title": "New Grid Panel",
+      "itemId": "72eeb4c9f2cf5a416beb61e160a14826",
+      "xtype": "tedpanel",
+      "items": [
+        {
+          "itemId": "3184a67a6ec7173b9bbfc08d82e2432f",
+          "xtype": "tedgrid",
+          "columns": [
+            {
+              "text": "First Column",
+              "flex": 1,
+              "itemId": "e6cbd403d723ad68aa150e79bcb38bdc",
+              "xtype": "tedcolumn"
+            },
+            {
+              "text": "Column 11",
+              "flex": 1,
+              "itemId": "5c2e5628f3b097e59ac115fee9203f76",
+              "xtype": "tedcolumn"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

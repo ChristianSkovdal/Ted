@@ -18,14 +18,24 @@
                 this.handleFailure(failureFn, rsp)
             }
             else {
-                Ext.Msg.alert('Communication Error', 'Error: ' + reason.responseText);
+                if (failureFn) {
+                    failureFn(reason);
+                }
+                else {
+                    Ext.Msg.alert('Communication Error', 'Error: ' + reason.responseText);
+                }
             }
         }
         else {
-            if (reason.message)
-                Ext.Msg.alert('Communication Error', reason.message);
-            else
-                Ext.Msg.alert('Communication Error', 'Unknow Error');
+            if (failureFn) {
+                failureFn(reason);
+            }
+            else {
+                if (reason.message)
+                    Ext.Msg.alert('Communication Error', reason.message);
+                else
+                    Ext.Msg.alert('Communication Error', 'Unknow Error');
+            }
         }
 
     },

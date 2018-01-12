@@ -12,40 +12,44 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
 
     getComponentTree() {
 
-        recursivelyWalkHierachy = function (cmp, obj) {
+        recursivelyWalkHierachy = function (cmp, array) {
 
             if (cmp.getSerializableProperties) {
-                debugger;
                 let propNames = cmp.getSerializableProperties();
+                let obj = {};
                 for (let pname of propNames) {
-                    obj[pname] = cmp['_' + pname];
+                    let propname = '_' + pname;
+                    if (cmp[propname]) {
+                        obj[pname] = cmp[propname];
+                    }                    
                 }
-
                 obj.xtype = cmp.xtype;
+                array.push(obj);
+                
+                if (cmp.getChildren) {
 
-                let isGrid = cmp.getColumns();
-                let children = cmp.getColumns() || cmp.getItems();
-                let collection;
-                if (isGrid) {
-                    collection = obj.columns = [];
-                }
-                else {
-                    collection = obj.items = [];
-                }
+                    if (cmp.getColumns) {
+                        obj.columns = [];
+                    }
+                    else {
+                        obj.items = [];
+                    }
 
-                for (let child of children) {
-                    recursivelyWalkHierachy(child, collection);
+                    for (let child of cmp.getChildren()) {
+                        recursivelyWalkHierachy(child, obj.items || obj.columns);
+                    }
+
                 }
             }
         }
 
         let root = [];
-        for (let child of this.getItems()) {
-            let item = {};
-            root.push(item);
-            recursivelyWalkHierachy(child, item);
+
+        for (let child of this.items.items) {
+            recursivelyWalkHierachy(child, root);
         }
-        
+
+        return root;
     }
 
     //items: [{

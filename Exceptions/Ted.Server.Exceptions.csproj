@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;C:\temp\EnumFish.exe&quot;  &quot;$(ProjectDir)ExceptionCodes.cs&quot; &quot;$(SolutionDir)Ted.Server.Web\wwwroot\Auxiliary\ExceptionCodes.js&quot; Ted.Enum" />
+    <Exec Command="&quot;C:\temp\EnumFish.exe&quot;  &quot;$(ProjectDir)ExceptionCodes.cs&quot; &quot;$(SolutionDir)Ted.Server.Web\wwwroot\modern\src\enums\ExceptionCodes.js&quot; Ted.Enum" />
   </Target>
 
 </Project>
