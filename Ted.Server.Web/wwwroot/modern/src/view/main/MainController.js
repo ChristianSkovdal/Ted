@@ -460,7 +460,7 @@ Ext.define('Admin.view.main.MainController', {
                         {
                             text: 'First Column',
                             flex: 1,
-                            xtype: 'tedcolumn',
+                            xtype: 'tedstringcolumn',
                             itemId: Util.createGuid()
                         }
                     ]

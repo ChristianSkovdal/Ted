@@ -3,7 +3,7 @@
  * placed in the Admin.Application class.
  */
 Ext.Loader.setPath('Aux', 'Auxiliary');
-Ext.Loader.setPath('Ted.Enum', 'Auxiliary');
+//Ext.Loader.setPath('Ted.Enum', 'Auxiliary');
 //Ext.Loader.setPath('Util', 'Auxiliary');
 
 Ext.application({

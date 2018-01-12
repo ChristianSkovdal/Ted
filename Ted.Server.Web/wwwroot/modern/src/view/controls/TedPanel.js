@@ -8,13 +8,13 @@ Ext.define('Admin.view.controls.TedPanel', {
     requires: [
         'Admin.view.controls.TedPanelController',
         'Admin.view.controls.TedPanelModel',
-        'Admin.view.controls.TedColumn',
+        //'Admin.view.columns.TedColumn',
         'Aux.Util'
 
     ],
 
     getSerializableProperties() {
-        return ['title','itemId'];
+        return ['title', 'itemId'];
     },
 
     getChildren() {
@@ -23,6 +23,12 @@ Ext.define('Admin.view.controls.TedPanel', {
 
     controller: 'tedpanel',
     viewModel: 'tedpanel',
+
+    tbar: [
+        {
+            text: 'Some button'
+        }
+    ],
 
     tools: [
         {
@@ -55,6 +61,6 @@ Ext.define('Admin.view.controls.TedPanel', {
         //}
     ],
 
-   
+
 
 });
