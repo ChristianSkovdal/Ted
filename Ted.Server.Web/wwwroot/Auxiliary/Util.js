@@ -10,5 +10,9 @@
             return s ? separator + p.substr(0, 4) + separator + p.substr(4, 4) : p;
         }
         return _p8() + _p8(true) + _p8(true) + _p8();
+    },
+
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 });

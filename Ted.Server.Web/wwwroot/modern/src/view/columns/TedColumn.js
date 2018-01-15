@@ -1,4 +1,4 @@
-﻿Ext.define('Admin.view.columns.TedTextColumn', {
+﻿Ext.define('Admin.view.columns.TedStringColumn', {
     extend: 'Ext.grid.column.Text',
     xtype: 'tedstringcolumn'
 });
@@ -23,20 +23,33 @@ Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
     var props = {
 
         getSerializableProperties() {
-            return ['text', 'flex', 'itemId'];
+            return ['text', 'flex', 'itemId', 'dataType', 'dataIndex'];
         },
 
         getMenu() {
             let menu = this.callParent(arguments);
-            if (!menu.specialItemsAdded) {
-                menu.specialItemsAdded = true;
 
-                menu.add({
-                    xtype: 'menuseparator'
+            menu.on('beforeshow', menu => {
+
+                menu.items.items.forEach(m => {
+                    if (!m.addedMenuItem)
+                        m.hide();
                 });
-                menu.add({
+                
+                addIfNeeded = function (m, i) {
+                    if (!m.down('#' + i.itemId)) {
+                        i.addedMenuItem = true;
+                        m.add(i);
+                    }
+                };
+                
+                //menu.add({
+                //    xtype: 'menuseparator'
+                //});
+                addIfNeeded(menu, {
                     text: 'Add Column',
                     iconCls: 'x-fa fa-plus',
+                    itemId: 'column-add',
 
                     menu: [
                         {
@@ -62,18 +75,24 @@ Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
                     ]
                 });
 
-                menu.add({
+                addIfNeeded(menu, {
                     text: 'Settings',
                     handler: 'columnSettings',
-                    iconCls: 'x-fa fa-cog'
+                    iconCls: 'x-fa fa-cog',
+                    itemId: 'column-settings'
                 });
-            }
+
+
+                return true;
+            });
+
+
 
             return menu;
         }
     };
-    
-    Ext.override(Admin.view.columns.TedTextColumn, props);
+
+    Ext.override(Admin.view.columns.TedStringColumn, props);
     Ext.override(Admin.view.columns.TedNumberColumn, props);
     Ext.override(Admin.view.columns.TedDateColumn, props);
     Ext.override(Admin.view.columns.TedBooleanColumn, props);

@@ -4,7 +4,6 @@ Ext.define('Admin.view.authentication.AuthController', {
 
     tryLogin() {
 
-        let me = this;
         let vm = this.getViewModel();
 
         let login = {

@@ -1,13 +1,19 @@
 Ext.define('Admin.view.profile.WorkspaceCanvas', {
-    extend: 'Admin.view.profile.UserProfileBase',
+    //extend: 'Admin.view.profile.UserProfileBase',
+    extend: 'Ext.Container',
     xtype: 'workspacecanvas',
 
     cls: 'userProfile-container dashboard',
     scrollable: 'y',
+    layout: 'vbox',
+    //style: 'background:lightyellow;',
+    
 
     defaults: {
         shadow: true,
-        userCls: 'big-100 dashboard-item'
+        margin: 5,
+        flex: 1
+        //userCls: 'big-100 dashboard-item'
     },
 
     getComponentTree() {

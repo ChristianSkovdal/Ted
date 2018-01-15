@@ -24,6 +24,7 @@ namespace Ted.Server.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddTransient<DataRepository, DataRepository>();
             services.AddTransient<ConfigRepository, ConfigRepository>();
             services.AddTransient<UserRepository, UserRepository>();
             services.AddTransient<WorkspaceRepository, WorkspaceRepository>();

@@ -1,25 +1,42 @@
 {
   "items": [
     {
-      "title": "New Grid Panel",
-      "itemId": "72eeb4c9f2cf5a416beb61e160a14826",
       "xtype": "tedpanel",
+      "title": "New Grid Panel",
+      "itemId": "8855cd1c6fb9ec552577df74809d8bc3",
       "items": [
         {
-          "itemId": "3184a67a6ec7173b9bbfc08d82e2432f",
           "xtype": "tedgrid",
+          "itemId": "3a6e7a4263b8f9d76e58f5850f0b8bda",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "e6cbd403d723ad68aa150e79bcb38bdc",
-              "xtype": "tedcolumn"
-            },
+              "xtype": "tedstringcolumn",
+              "itemId": "0f95c13751b9a5a259aa7bd57583b0d4",
+              "dataIndex": "name",
+              "_dataType": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "xtype": "tedpanel",
+      "title": "New Grid Panel",
+      "itemId": "c3b49678e58d7c8652af8aa18c0b2041",
+      "items": [
+        {
+          "xtype": "tedgrid",
+          "itemId": "eac60263c611e0f60d13057019d73dd1",
+          "columns": [
             {
-              "text": "Column 11",
+              "text": "First Column",
               "flex": 1,
-              "itemId": "5c2e5628f3b097e59ac115fee9203f76",
-              "xtype": "tedcolumn"
+              "xtype": "tedstringcolumn",
+              "itemId": "dca115e4b1d8be15f6abf6e2f2a74694",
+              "dataIndex": "name",
+              "_dataType": "string"
             }
           ]
         }

@@ -9,41 +9,67 @@
     },
 
     requires: [
-        'Aux.Util'
+        'Aux.Util',
+        'Admin.model.FlexRow'
     ],
 
     addRow() {
-
-        let grid = this.getView();
-
-
-
+        let me = this;
+        let vm = this.getViewModel();
+        let grid = this.getView().down('grid');
         let store = grid.getStore();
-        if (!store) {
 
-            let store = Ext.create('Ext.data.Store', {
+        //let record = Ext.create('Admin.model.FlexRow', {
+        //    fields: fields
+        //});
 
-            });
+        let getDefaultValue = (type) => {
+            switch (type) {
+                case 'date':
+                    return new Date();
+                case 'int':
+                    return 123;
+                case 'boolean':
+                    return true;
+            }
+            return 'My data';
+        };
 
-            this.setStore(store);            
-        }
-
-        let fields = [];
-        for (let col in grid.getColumns()) {
-            fields.push({
-                type: col.columnXType,
-                name: col.dataIndex
-            });
-        }
-
-        let record = Ext.create('Ext.data.Model', {
-            fields: fields
+        let record = {};
+        grid.getColumns().forEach(col => {
+            record[col.getDataIndex()] = getDefaultValue(col._dataType);
         });
-        
-        store.add(record);
 
+        let columns = grid.getColumns().map(r => {
+            return {
+                type: r.dataType,
+                name: r.getDataIndex()
+            }
+        });
+        debugger;
+
+        let proxy = store.getProxy();
+        let oldHandler = proxy.errorHandler;
+        proxy.errorHandler = function (err) {
+            if (err.code == ExceptionCodes.TableNotFound) {
+
+                // Create the table and retry
+                AjaxUtil.post('api/data/table/' + vm.get('user').token + '/' + grid.getItemId(), {
+                    row: record,
+                    columns: columns
+                });
+            }
+            else {
+                oldHandler(err);
+            }
+        }
+
+        store.add(record);
+        store.sync();
     },
- 
+
+
+
     columnAdd(itm, event) {
 
         let vm = this.getViewModel();
@@ -60,11 +86,12 @@
         let obj = {
             dataIndex: 'col' + (hdr.getItems().length + 1),
             xtype: 'ted' + itm.columnXType + 'column',
-            text: 'Column ' + (hdr.getItems().length + 1),
+            text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
             flex: 1,
-            itemId: Util.createGuid()
+            itemId: Util.createGuid(),
+            _dataType: itm.columnXType
         };
-        
+
         let index = hdr.getItems().indexOf(column);
         index++;
         hdr.insert(index, obj);
@@ -83,14 +110,45 @@
             rsp => {
             },
             err => {
-                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');                
+                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');
             }
         );
 
     },
 
     gridInitialize(cmp, opts) {
-        
+
+        let vm = this.getViewModel();
+        let view = this.getView();
+        //debugger;
+        let store = Ext.create('Ext.data.Store',
+            {
+                autoLoad: false,
+                model: 'Admin.model.FlexRow',
+
+                proxy: {
+                    url: 'api/data/' + vm.get('user').token + '/' + view.getItemId(),
+                    type: 'tedproxy',
+                }
+            });
+        //var store = Ext.create('Ext.data.Store', {
+        //    fields: ['name', 'email', 'phone'],
+        //    data: [
+        //        { 'name': 'Lisa', "email": "lisa@simpsons.com", "phone": "555-111-1224" },
+        //        { 'name': 'Bart', "email": "bart@simpsons.com", "phone": "555-222-1234" },
+        //        { 'name': 'Homer', "email": "home@simpsons.com", "phone": "555-222-1244" },
+        //        { 'name': 'Marge', "email": "marge@simpsons.com", "phone": "555-222-1254" }
+        //    ]
+        //});
+
+        view.setStore(store);
+        store.load({
+            callback(records, operation, success) {
+
+            }
+        });
+
     }
-    
+
+
 });

@@ -2,7 +2,9 @@ Ext.define('Admin.view.controls.TedPanel', {
     extend: 'Ext.Panel',
     xtype: 'tedpanel',
 
-    minHeight: 200,
+    layout: 'fit',
+    bodyStyle:'background:green;',
+    //minHeight: 200,
     ui: 'light',
 
     requires: [
@@ -25,9 +27,9 @@ Ext.define('Admin.view.controls.TedPanel', {
     viewModel: 'tedpanel',
 
     tbar: [
-        {
-            text: 'Some button'
-        }
+        //{
+        //    text: 'Some button'
+        //}
     ],
 
     tools: [

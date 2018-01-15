@@ -6,10 +6,10 @@ Ext.define('Admin.view.controls.TedGrid', {
         'Admin.view.controls.TedGridController'
     ],
 
-    hostedItem:true,
+    hostedItem: true,
 
     controller: 'tedgrid',
- 
+
     getSerializableProperties() {
         return ['itemId'];
     },
@@ -18,7 +18,6 @@ Ext.define('Admin.view.controls.TedGrid', {
         return this.getColumns();
     },
 
-    
     config: {
         buttons: [
             {
@@ -38,7 +37,41 @@ Ext.define('Admin.view.controls.TedGrid', {
                 text: 'Refresh',
                 iconCls: 'x-fa fa-refresh'
             },
-        ],
-    }
- 
+        ]
+    },
+
+    //getStore() {
+
+    //    //let fields = [];
+    //    //grid.getColumns().forEach(col => {
+
+    //    //    fields.push({
+    //    //        type: col._dataType || col.dataType,
+    //    //        name: col._dataIndex || col.dataIndex
+    //    //    });
+    //    //});
+    //    debugger;
+
+    //    if (!this.callParent(arguments)) {
+
+    //        let vm = this.getViewModel();
+    //        let store = Ext.create('Ext.data.Store', {
+
+    //            //fields: fields,
+    //            autoLoad: false,
+    //            model: 'Admin.model.FlexRow',
+
+    //            proxy: {
+    //                url: 'api/data/' + vm.get('user').token + '/' + this._itemId,
+    //                type: 'tedproxy'
+    //            }
+    //        });
+
+    //        this.setStore(store);
+    //    }
+    //    return this.callParent(arguments);
+
+    //}
+
+
 });

@@ -13,5 +13,7 @@ namespace Ted.Server.Exceptions
         NotSuperUser=101,
         UserExist = 102,
 		PageNotFound = 103,
-	}
+        TableNotFound = 104,
+        ColumnExist = 105
+    }
 }
