@@ -15,6 +15,8 @@ namespace Ted.Server.Models
 
 		public int WorkspaceId { get; set; }
 
+
+        public bool isPublic { get; set; }
         //public int PageId { get; set; }
 
         public virtual ICollection<Page> pages { get; set; } = new List<Page>();

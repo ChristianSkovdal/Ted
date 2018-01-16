@@ -30,12 +30,15 @@ namespace Ted.Server.Web.Controllers
 				throw new TedExeption(ExceptionCodes.PageNotFound);
 			}
 
-			if (_auth.AuthenticateForWorkspace(token, page.WorkspaceId)==null)
-                throw new TedExeption(ExceptionCodes.Authentication);
+            if (!page.isPublic)
+            {
+                if (_auth.AuthenticateForWorkspace(token, page.WorkspaceId) == null)
+                    throw new TedExeption(ExceptionCodes.Authentication);
+            }
 
             // Load tree
             ICollection<Page> tree = null;
-            if (page.WorkspaceId!=currentWorkspace)
+            if (page.WorkspaceId!=currentWorkspace && !page.isPublic)
             {
                 tree = _repo.GetNavigationTree(page.WorkspaceId);
             }
@@ -50,7 +53,7 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPost("{token}/{workspaceId}")]
-        public JsonResult AddComponent(string token, int workspaceId, [FromBody]Page value)
+        public JsonResult AddPage(string token, int workspaceId, [FromBody]Page value)
         {
             var user = _auth.AuthenticateForWorkspace(token, workspaceId);
 

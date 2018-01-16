@@ -37,12 +37,14 @@ Ext.define('Admin.view.main.Main', {
             },
 
         },
-        //{
-        //    xtype: 'login',
-        //    bind: {
-        //        hidden: '{authenticated}'
-        //    },
-        //},
+        {
+            xtype: 'container',
+            docked: 'bottom',
+            html: 'Everything goes...',
+            height: 60,
+            padding: 10,
+            style:'background-color:#32404e;color:white;'
+        },
         {
             xtype: 'container',
             docked: 'left',

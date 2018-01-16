@@ -26,7 +26,17 @@ namespace Ted.Server.Data
 
         public object GetAllRows(string table)
         {
-            throw new NotImplementedException();
+            return new[] {
+                    new {
+                        col1= "Hans"
+                    },
+                    new {
+                        col1= "Jens"
+                    },
+                    new {
+                        col1= "Peter"
+                    },
+                };
         }
 
         public object AddRow(string tableName, dynamic value)
@@ -44,14 +54,28 @@ namespace Ted.Server.Data
 
         public void CreateTable(User user, string tableName, dynamic columns)
         {
+            // Add meta data
+            var table = new Table
+            {
+                name = tableName,
+                createdTime = DateTime.Now,
+                createdBy = user.id
+            };
+
+            _db.Tables.Add(table);
+            _db.SaveChanges();
+
             using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), tableName))
             {
                 tbl.CreateTable();
 
                 tbl.CreateColumns(columns);
-
             }
+        }
 
+        public Table GetTable(string name)
+        {
+            return _db.Tables.SingleOrDefault(t => t.name==name);
         }
     }
 }

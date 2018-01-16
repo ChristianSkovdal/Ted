@@ -11,30 +11,30 @@ namespace Ted.Server.Web.Controllers
     [Route("api/[controller]")]
     public class ComponentController : Controller
     {
-        WorkspaceRepository _repo;
+        //WorkspaceRepository _repo;
 
-        AuthenticationHandler _auth;
+        //AuthenticationHandler _auth;
 
-        public ComponentController(WorkspaceRepository repo, AuthenticationHandler auth)
-        {
-            _repo = repo;
-            _auth = auth;
-        }
+        //public ComponentController(WorkspaceRepository repo, AuthenticationHandler auth)
+        //{
+        //    _repo = repo;
+        //    _auth = auth;
+        //}
 
-        [HttpPut("{token}/{pageId}")]
-        public JsonResult UpdateComponent(string token, int pageId, [FromBody]ComponentUpdate value)
-        {
-            var page = _repo.GetPage(pageId);
+        //[HttpPut("{token}/{pageId}")]
+        //public JsonResult UpdateComponent(string token, int pageId, [FromBody]ComponentUpdate value)
+        //{
+        //    var page = _repo.GetPage(pageId);
 
-            _auth.AuthenticateForWorkspace(token, page.WorkspaceId);
+        //    _auth.AuthenticateForWorkspace(token, page.WorkspaceId);
 
-            //_repo.UpdatePage(pageId, value);
+        //    //_repo.UpdatePage(pageId, value);
 
-            return Json(new
-            {
-                success = true,
-            });
-        }
+        //    return Json(new
+        //    {
+        //        success = true,
+        //    });
+        //}
 
     }
 }

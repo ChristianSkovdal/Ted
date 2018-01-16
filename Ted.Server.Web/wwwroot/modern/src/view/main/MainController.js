@@ -46,6 +46,7 @@ Ext.define('Admin.view.main.MainController', {
 
     setCurrentView(hashTag) {
 
+        //debugger;
 
         hashTag = (hashTag || '').toLowerCase();
         if (hashTag !== 'login' && hashTag !== 'register') {
@@ -89,10 +90,21 @@ Ext.define('Admin.view.main.MainController', {
                         }
                     }
                     else {
-                        me.redirectTo('login');
-                        return;
+                        let publicUser = {
+                            token: 'anonymous',
+                            anonymous: true
+                        };
+
+                        if (publicUser) {
+                            vm.set('user', publicUser);
+                        }
+                        else {
+                            me.redirectTo('login');
+                            return;
+                        }
                     }
                 }
+
             } catch (e) {
                 Ext.Msg.alert('Exception', e.message);
                 me.redirectTo('login');
@@ -114,7 +126,7 @@ Ext.define('Admin.view.main.MainController', {
         let me = this;
         let vm = this.getViewModel();
 
-        vm.set('showWorkspaceTools', hashTag.startsWith('page:'));
+        vm.set('showWorkspaceTools', hashTag.startsWith('page:') && !vm.get('user.anonymous'));
 
 
         if (!item) {
@@ -133,7 +145,9 @@ Ext.define('Admin.view.main.MainController', {
                 let existingWS = vm.get('workspace');
                 let currentWsId = existingWS ? existingWS.id : -1;
 
-                AjaxUtil.get('/api/page/' + vm.get('user.token') + '/' + pageid + '/' + currentWsId,
+                let token = vm.get('user.token');
+
+                AjaxUtil.get('/api/page/' + token + '/' + pageid + '/' + currentWsId,
                     rsp => {
                         let page = rsp.data;
                         item = JSON.parse(page.json);
@@ -141,7 +155,7 @@ Ext.define('Admin.view.main.MainController', {
 
                         item.xtype = item.xtype || 'workspacecanvas';
                         item.routeId = hashTag;
-                        
+
                         view.setActiveItem(item);
 
                         if (rsp.tree) {
@@ -491,7 +505,7 @@ Ext.define('Admin.view.main.MainController', {
                 this.redirectTo(routeId, true);
             },
             err => {
-                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');                
+                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');
             }
         );
 

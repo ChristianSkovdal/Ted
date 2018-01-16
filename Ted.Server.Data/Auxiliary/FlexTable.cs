@@ -147,8 +147,7 @@ namespace Ted.Server.Data
         public void CreateTable()
         {
             ExecuteSql($"CREATE TABLE [{ _tableId}](id int IDENTITY(1,1) " +
-                $"CONSTRAINT pk_{_tableId} PRIMARY KEY (id));" +
-                $"CREATE FULLTEXT CATALOG ftCatalog AS DEFAULT;  ");
+                $"CONSTRAINT pk_{_tableId} PRIMARY KEY (id))");
         }
 
 

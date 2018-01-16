@@ -40,30 +40,6 @@
             record[col.getDataIndex()] = getDefaultValue(col._dataType);
         });
 
-        let columns = grid.getColumns().map(r => {
-            return {
-                type: r.dataType,
-                name: r.getDataIndex()
-            }
-        });
-        debugger;
-
-        let proxy = store.getProxy();
-        let oldHandler = proxy.errorHandler;
-        proxy.errorHandler = function (err) {
-            if (err.code == ExceptionCodes.TableNotFound) {
-
-                // Create the table and retry
-                AjaxUtil.post('api/data/table/' + vm.get('user').token + '/' + grid.getItemId(), {
-                    row: record,
-                    columns: columns
-                });
-            }
-            else {
-                oldHandler(err);
-            }
-        }
-
         store.add(record);
         store.sync();
     },
@@ -121,6 +97,15 @@
         let vm = this.getViewModel();
         let view = this.getView();
         //debugger;
+        
+        let user = vm.get('user');
+        //let url = 'api/data/table/' + user.token + '/' + cmp.getItemId();
+        //if (user.anonymous) {
+
+        //    debugger;
+        //    url += "/";
+        //}
+
         let store = Ext.create('Ext.data.Store',
             {
                 autoLoad: false,
@@ -131,6 +116,31 @@
                     type: 'tedproxy',
                 }
             });
+
+        let proxy = store.getProxy();
+        let oldHandler = proxy.errorHandler;
+        proxy.errorHandler = function (err) {
+            debugger;
+            if (err.code == ExceptionCodes.TableNotFound) {
+
+                // Create the table and retry
+                let columns = cmp.getColumns().map(r => {
+                    return {
+                        type: r.dataType || r._dataType,
+                        name: r.getDataIndex()
+                    }
+                });
+
+                let url = 'api/data/table/' + user.token + '/' + cmp.getItemId();
+                AjaxUtil.post(url, {
+                    row: null,
+                    columns: columns
+                });
+            }
+            else {
+                oldHandler(err);
+            }
+        };
         //var store = Ext.create('Ext.data.Store', {
         //    fields: ['name', 'email', 'phone'],
         //    data: [

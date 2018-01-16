@@ -86,6 +86,7 @@ namespace Ted.Server.Data
         public Page AddPage(Page page, int workspaceId, User user)
         {
             var ws = _db.Workspaces.SingleOrDefault(r => r.id==workspaceId && !r.deleted);
+            
 
             page.createdBy = user.id;
             page.createdTime = DateTime.Now;

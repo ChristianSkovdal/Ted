@@ -24,26 +24,33 @@ namespace Ted.Server.Web.Controllers
         [HttpGet("{token}/{table}")]
         public JsonResult GetAllRows(string token, string table)
         {
-            var user = _auth.Authenticate(token);
-            if (user == null)
-                throw new TedExeption(ExceptionCodes.Authentication);
+            var tbl = _repo.GetTable(table);
 
+            if (tbl==null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    code = ExceptionCodes.TableNotFound
+                });
+            }
 
+            if (!tbl.isPublic)
+            {
+                var user = _auth.Authenticate(token);
+                if (user == null)
+                    throw new TedExeption(ExceptionCodes.Authentication);
+
+                if (user.id != tbl.createdBy)
+                {
+                    throw new TedExeption(ExceptionCodes.Authentication);
+                }
+            }
 
             return Json(new
             {
                 success = true,
-                data = new[] {
-                    new {
-                        col1= "Hans"
-                    },
-                    new {
-                        col1= "Jens"
-                    },
-                    new {
-                        col1= "Peter"
-                    },
-                } //_repo.GetAllRows(table)
+                data = _repo.GetAllRows(table)
             });
         }
 
@@ -54,16 +61,27 @@ namespace Ted.Server.Web.Controllers
 
             _repo.CreateTable(user, table, value["columns"]);
 
-            var result = _repo.AddRow(table, value);
-
-            return Json(new
+            if (value["row"] == null)
             {
-                success = true,
-                data = new
+                var result = _repo.AddRow(table, value);
+                return Json(new
                 {
-                    result.id
-                }
-            });
+                    success = true,
+                    data = new
+                    {
+                        result.id
+                    }
+                });
+            }
+            else
+            {
+                var result = _repo.GetAllRows(table);
+                return Json(new
+                {
+                    success = true,
+                    data = result
+                });
+            }
         }
 
         [HttpPost("{token}/{table}")]
