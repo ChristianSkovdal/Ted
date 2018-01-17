@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Ted.Server.Data;
@@ -26,7 +27,7 @@ namespace Ted.Server.Web.Controllers
         {
             var tbl = _repo.GetTable(table);
 
-            if (tbl==null)
+            if (tbl == null)
             {
                 return Json(new
                 {
@@ -52,64 +53,86 @@ namespace Ted.Server.Web.Controllers
                 success = true,
                 data = _repo.GetAllRows(table)
             });
+            //return "{ \"success\":true,\"data\":[{\"id\":1,\"col1\":\"My data\",\"col2\":\"2018-01-17\"}]}";
+
         }
 
         [HttpPost("table/{token}/{table}")]
-        public JsonResult CreateTable(string token, string table, [FromBody] dynamic value)
+        public void CreateTable(string token, string table, [FromBody] dynamic value)
         {
             var user = _auth.Authenticate(token);
 
             _repo.CreateTable(user, table, value["columns"]);
 
-            if (value["row"] == null)
-            {
-                var result = _repo.AddRow(table, value);
-                return Json(new
-                {
-                    success = true,
-                    data = new
-                    {
-                        result.id
-                    }
-                });
-            }
-            else
-            {
-                var result = _repo.GetAllRows(table);
-                return Json(new
-                {
-                    success = true,
-                    data = result
-                });
-            }
+
+            //var row = value["row"].Value;
+            //if (row != null)
+            //{
+            //    var result = _repo.AddRow(table, row);
+            //    return Json(new
+            //    {
+            //        success = true,
+            //        data = new
+            //        {
+            //            result.id
+            //        }
+            //    });
+            //}
+            //else
+            //{
+            //    var result = _repo.GetAllRows(table);
+            //    return Json(new
+            //    {
+            //        success = true,
+            //        data = result
+            //    });
+            //}
+            //return null;
         }
+
+        //[HttpPost("row/{token}/{table}")]
+        //public void CreateRow(string token, string table, [FromBody] dynamic value)
+        //{
+        //    var user = _auth.Authenticate(token);
+
+        //    //_repo.CreateTable(user, table, value["columns"]);
+
+        //    //return Json(new
+        //    //{
+        //    //    success = true
+        //    //});
+        //}
 
         [HttpPost("{token}/{table}")]
         public JsonResult AddRow(string token, string table, [FromBody] dynamic value)
         {
             var user = _auth.Authenticate(token);
 
-            var result = _repo.AddRow(table, value);
+            var list = new List<dynamic>()
+            {
+                value
+            };
+            int? inserted = _repo.AddRows(table, list);
 
-            if (result == null)
+            //if (inserted == null)
+            //{
+            //    return Json(new
+            //    {
+            //        success = false,
+            //        code = ExceptionCodes.TableNotFound
+            //    });
+            //}
+            //else
+            //{
+            return Json(new
             {
-                return Json(new
+                success = true,
+                data = new
                 {
-                    success = false,
-                    code = ExceptionCodes.TableNotFound
-                });
-            }
-            else
-            {
-                return Json(new
-                {
-                    success = true,
-                    data = new
-                    {
-                        result.id
-                    }
-                });
-            }
+                    id = inserted
+                }
+            });
+            //}
 
         }
 

@@ -73,7 +73,6 @@ namespace Ted.Server.Web.Controllers
         public JsonResult UpdatePage(string token, int pageId, [FromBody]PageUpdate value)
         {
             var page = _repo.GetPage(pageId);
-
             _auth.AuthenticateForWorkspace(token, page.WorkspaceId);
 
             _repo.UpdatePage(pageId, value);

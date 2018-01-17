@@ -74,7 +74,7 @@ Ext.define('Admin.view.main.Toolbar', {
         margin: '0 7 0 0',
         handler: '',
         text: 'Grid',
-        handler: 'addGridButtonClick',
+        handler: 'addDataPanelButtonClick',
     },
 
 
@@ -98,7 +98,7 @@ Ext.define('Admin.view.main.Toolbar', {
                     margin: '0 7 0 0',
                     handler: '',
                     text: 'Grid',
-                    handler: 'addGridButtonClick',
+                    handler: 'addDataPanelButtonClick',
                 },
                 {
                     iconCls: 'fa-sticky-note-o',

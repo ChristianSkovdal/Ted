@@ -80,13 +80,24 @@ namespace Ted.Server.Data
                 throw new Exception($"The page with id {pageId} does not exist");
 
             page.json = update.json;
+
+            // Create the column if needed
+            if (update.column!=null)
+            {
+                if (update.dataSourceId==null)
+                    throw new Exception("DatasourceId is missing from the update");
+                using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), update.dataSourceId))
+                {
+                    tbl.CreateColumn(update.column.name, update.column.type);
+                }
+            }
+
             _db.SaveChanges();
         }
 
         public Page AddPage(Page page, int workspaceId, User user)
         {
-            var ws = _db.Workspaces.SingleOrDefault(r => r.id==workspaceId && !r.deleted);
-            
+            var ws = _db.Workspaces.SingleOrDefault(r => r.id==workspaceId && !r.deleted);            
 
             page.createdBy = user.id;
             page.createdTime = DateTime.Now;

@@ -1,42 +1,28 @@
 {
   "items": [
     {
-      "xtype": "tedpanel",
-      "title": "New Grid Panel",
-      "itemId": "8855cd1c6fb9ec552577df74809d8bc3",
+      "title": "New Data Panel",
+      "itemId": "pbGtMUgowWyQwxZE",
+      "xtype": "teddatapanel",
       "items": [
         {
+          "itemId": "JBxapbXprHDopgOD",
           "xtype": "tedgrid",
-          "itemId": "3a6e7a4263b8f9d76e58f5850f0b8bda",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "xtype": "tedstringcolumn",
-              "itemId": "0f95c13751b9a5a259aa7bd57583b0d4",
-              "dataIndex": "name",
-              "_dataType": "string"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "xtype": "tedpanel",
-      "title": "New Grid Panel",
-      "itemId": "c3b49678e58d7c8652af8aa18c0b2041",
-      "items": [
-        {
-          "xtype": "tedgrid",
-          "itemId": "eac60263c611e0f60d13057019d73dd1",
-          "columns": [
+              "itemId": "bMoaLPiqxwiBTTac",
+              "dataIndex": "col1",
+              "xtype": "tedstringcolumn"
+            },
             {
-              "text": "First Column",
+              "text": "Birthday",
               "flex": 1,
-              "xtype": "tedstringcolumn",
-              "itemId": "dca115e4b1d8be15f6abf6e2f2a74694",
-              "dataIndex": "name",
-              "_dataType": "string"
+              "itemId": "PCKHwungsaHjUGWR",
+              "dataIndex": "col2",
+              "xtype": "datecolumn",
+              "format": "Y-m-d"
             }
           ]
         }

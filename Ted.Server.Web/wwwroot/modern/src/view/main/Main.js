@@ -37,14 +37,14 @@ Ext.define('Admin.view.main.Main', {
             },
 
         },
-        {
-            xtype: 'container',
-            docked: 'bottom',
-            html: 'Everything goes...',
-            height: 60,
-            padding: 10,
-            style:'background-color:#32404e;color:white;'
-        },
+        //{
+        //    xtype: 'container',
+        //    docked: 'bottom',
+        //    html: 'Everything goes...',
+        //    height: 60,
+        //    padding: 10,
+        //    style:'background-color:#32404e;color:white;'
+        //},
         {
             xtype: 'container',
             docked: 'left',

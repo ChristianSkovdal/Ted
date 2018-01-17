@@ -1,30 +1,38 @@
-Ext.define('Admin.view.controls.TedPanel', {
+Ext.define('Admin.view.controls.TedDataPanel', {
     extend: 'Ext.Panel',
-    xtype: 'tedpanel',
+    xtype: 'teddatapanel',
 
-    layout: 'fit',
+    layout: 'card',
     bodyStyle:'background:green;',
     //minHeight: 200,
     ui: 'light',
 
     requires: [
-        'Admin.view.controls.TedPanelController',
-        'Admin.view.controls.TedPanelModel',
+        'Admin.view.controls.TedDataPanelController',
+        'Admin.view.controls.TedDataPanelModel',
         //'Admin.view.columns.TedColumn',
         'Aux.Util'
 
     ],
 
+    listeners: {
+        initialize: 'initialize'
+    },
+
     getSerializableProperties() {
-        return ['title', 'itemId'];
+        return ['title', 'itemId', 'dataSourceId'];
     },
 
     getChildren() {
         return this.items.items;
     },
 
-    controller: 'tedpanel',
-    viewModel: 'tedpanel',
+    getFields() {
+        this.down('grid').getColumnDefinitions();
+    },
+
+    controller: 'teddatapanel',
+    viewModel: 'teddatapanel',
 
     tbar: [
         //{

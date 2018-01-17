@@ -8,6 +8,10 @@ using Swashbuckle.AspNetCore.Swagger;
 using Ted.Server.Data;
 using Ted.Server.Interfaces;
 using Ted.Auxiliary.Logging;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace Ted.Server.Web
 {
@@ -31,7 +35,13 @@ namespace Ted.Server.Web
             services.AddTransient<AuthenticationHandler, AuthenticationHandler>();
             services.AddSingleton<IConfiguration>(this.Configuration);
 
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddJsonOptions(options => 
+                {
+                    //options.SerializerSettings.DateFormatString = "mm/dd/yy, dddd";
+                    //options.SerializerSettings.Formatting = Formatting.Indented;
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -57,6 +67,15 @@ namespace Ted.Server.Web
             {
                 ExceptionHandler = new JsonExceptionMiddleware().Invoke
             });
+
+            //RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+            //{
+            //    SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") },
+            //    SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US") },
+            //    DefaultRequestCulture = new RequestCulture("en-US")
+            //};
+            //app.UseRequestLocalization(localizationOptions);
+
 
             // Static files
             app.UseDefaultFiles();

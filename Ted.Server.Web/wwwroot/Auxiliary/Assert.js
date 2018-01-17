@@ -1,6 +1,8 @@
 
 var __ignoreErrors = [];
 
+
+
 __assert = function(condition, arg, errorId, file, line) {
 
     try {

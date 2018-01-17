@@ -7,6 +7,9 @@ namespace Ted.Server.Models
 
         public string json { get; set; }
 
+        public ColumnDefinition column { get; set; }
+
+        public string dataSourceId { get; set; }
 
     }
 }

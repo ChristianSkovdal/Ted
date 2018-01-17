@@ -27,26 +27,26 @@ namespace Ted.Auxiliary.Logging
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (formatter == null)
-            {
-                throw new ArgumentNullException(nameof(formatter));
-            }
-            var message = formatter(state, exception);
-            Debug.WriteLine(message);
+            //if (formatter == null)
+            //{
+            //    throw new ArgumentNullException(nameof(formatter));
+            //}
+            //var message = formatter(state, exception);
+            //Debug.WriteLine(message);
 
-            if (_db == null)
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<LoggingDbContext>();
-                optionsBuilder.UseSqlServer(_connStr);
-                _db = new LoggingDbContext(optionsBuilder.Options);
-            }
-            _db.EventLog.Add(new LogEvent
-            {
-                Message = message,
-                EventId = eventId.Id,
-                LogLevel = (int)logLevel,
-                CreatedTime = DateTime.UtcNow
-            });
+            //if (_db == null)
+            //{
+            //    var optionsBuilder = new DbContextOptionsBuilder<LoggingDbContext>();
+            //    optionsBuilder.UseSqlServer(_connStr);
+            //    _db = new LoggingDbContext(optionsBuilder.Options);
+            //}
+            //_db.EventLog.Add(new LogEvent
+            //{
+            //    Message = message,
+            //    EventId = eventId.Id,
+            //    LogLevel = (int)logLevel,
+            //    CreatedTime = DateTime.UtcNow
+            //});
             //_db.SaveChanges();
         }
     }

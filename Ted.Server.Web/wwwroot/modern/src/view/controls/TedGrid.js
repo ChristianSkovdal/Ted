@@ -9,6 +9,18 @@ Ext.define('Admin.view.controls.TedGrid', {
     hostedItem: true,
 
     controller: 'tedgrid',
+    viewModel: 'teddatapanel',
+
+    listeners: {
+        initialize: function () {
+            debugger;
+        }
+    },
+
+    bind: {
+        selection: '{selectedItem}',
+        store: '{datasrc}'
+    },
 
     getSerializableProperties() {
         return ['itemId'];
@@ -18,8 +30,17 @@ Ext.define('Admin.view.controls.TedGrid', {
         return this.getColumns();
     },
 
+    getColumnDefinitions() {
+        return this.getColumns().map(r => {
+            return {
+                type: r.dataType || r._dataType,
+                name: r.getDataIndex()
+            }
+        });
+    },
+
     config: {
-        buttons: [
+        hostButtons: [
             {
                 text: 'Add',
                 iconCls: 'x-fa fa-plus',
@@ -31,47 +52,16 @@ Ext.define('Admin.view.controls.TedGrid', {
             },
             {
                 text: 'Delete',
-                iconCls: 'x-fa fa-minus'
+                iconCls: 'x-fa fa-minus',
+                handler: 'deleteRow'
             },
             {
                 text: 'Refresh',
-                iconCls: 'x-fa fa-refresh'
+                iconCls: 'x-fa fa-refresh',
+                handler: 'reload'
             },
         ]
     },
-
-    //getStore() {
-
-    //    //let fields = [];
-    //    //grid.getColumns().forEach(col => {
-
-    //    //    fields.push({
-    //    //        type: col._dataType || col.dataType,
-    //    //        name: col._dataIndex || col.dataIndex
-    //    //    });
-    //    //});
-    //    debugger;
-
-    //    if (!this.callParent(arguments)) {
-
-    //        let vm = this.getViewModel();
-    //        let store = Ext.create('Ext.data.Store', {
-
-    //            //fields: fields,
-    //            autoLoad: false,
-    //            model: 'Admin.model.FlexRow',
-
-    //            proxy: {
-    //                url: 'api/data/' + vm.get('user').token + '/' + this._itemId,
-    //                type: 'tedproxy'
-    //            }
-    //        });
-
-    //        this.setStore(store);
-    //    }
-    //    return this.callParent(arguments);
-
-    //}
 
 
 });

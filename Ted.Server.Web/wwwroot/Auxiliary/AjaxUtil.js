@@ -67,15 +67,18 @@
             method: method,
             jsonData: json,
         }).then(function (response) {
-            var rsp = JSON.parse(response.responseText);
 
-            if (rsp.success) {
-                if (successFn) {
-                    successFn(rsp);
+            if (response.responseText) {
+                var rsp = JSON.parse(response.responseText);
+
+                if (rsp.success) {
+                    if (successFn) {
+                        successFn(rsp);
+                    }
                 }
-            }
-            else {
-                me.handleFailure(failureFn, rsp)
+                else {
+                    me.handleFailure(failureFn, rsp)
+                }
             }
 
         }).always(function () {

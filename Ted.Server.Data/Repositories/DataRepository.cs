@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using Ted.Server.Data.Auxiliary;
 using Ted.Server.Exceptions;
 using Ted.Server.Models;
 
@@ -24,22 +27,26 @@ namespace Ted.Server.Data
 
         }
 
-        public object GetAllRows(string table)
+        public IEnumerable<dynamic> GetAllRows(string tableName)
         {
-            return new[] {
-                    new {
-                        col1= "Hans"
-                    },
-                    new {
-                        col1= "Jens"
-                    },
-                    new {
-                        col1= "Peter"
-                    },
-                };
+            using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), tableName))
+            {
+                var dt = tbl.Select($"SELECT * FROM [{tableName}]");
+                return dt.AsDynamicEnumerable();
+            }
         }
 
-        public object AddRow(string tableName, dynamic value)
+        private List<string> GetDynamicPropertyName(dynamic value)
+        {
+            var list = new List<string>();
+            foreach (var prop in value)
+            {
+                list.Add(prop.Path);
+            }
+            return list;
+        }
+
+        public int? AddRows(string tableName, dynamic value)
         {
             using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), tableName))
             {
@@ -48,8 +55,21 @@ namespace Ted.Server.Data
                     return null;
                 }
 
+                // Is there any columns on value which is not in the table?
+                //var existing = tbl.GetColumnNames();
+                //var incoming = GetDynamicPropertyName(value);
+
+                //foreach (var coldef in incoming)
+                //{
+                //    if (!existing.Contains(coldef))
+                //    {
+                //        //tbl.CreateColumn(columnDef["name"], columnDef["type"]);
+                //    }
+                //}
+                
+                tbl.Fill(value);
+                return tbl.GetInt($"SELECT TOP (1) [id] FROM [{tableName}] ORDER BY [id] DESC");
             }
-            return null;
         }
 
         public void CreateTable(User user, string tableName, dynamic columns)
@@ -61,6 +81,9 @@ namespace Ted.Server.Data
                 createdTime = DateTime.Now,
                 createdBy = user.id
             };
+
+            if (_db.Tables.Any(t => t.name == tableName))
+                throw new TedExeption(ExceptionCodes.Generic, $"Table {table} already exist");
 
             _db.Tables.Add(table);
             _db.SaveChanges();

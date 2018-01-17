@@ -3,15 +3,23 @@
     alias: 'controller.tedgrid',
 
     control: {
-        'grid': {
-            initialize: 'gridInitialize'
-        }
+        //'grid': {
+        //    initialize: 'gridInitialize'
+        //}
     },
 
     requires: [
         'Aux.Util',
         'Admin.model.FlexRow'
     ],
+
+    reload() {
+        debugger;
+        let vm = this.getViewModel();
+        let grid = this.getView().down('grid');
+        let store = grid.getStore();
+        store.reload();
+    },
 
     addRow() {
         let me = this;
@@ -37,14 +45,27 @@
 
         let record = {};
         grid.getColumns().forEach(col => {
-            record[col.getDataIndex()] = getDefaultValue(col._dataType);
+            record[col.getDataIndex()] = getDefaultValue(col.dataType);
         });
 
         store.add(record);
         store.sync();
     },
 
+    deleteRow() {
+        let me = this;
+        let vm = this.getViewModel();
+        let grid = this.getView().down('grid');
+        let store = grid.getStore();
 
+        //let record = {};
+        //grid.getColumns().forEach(col => {
+        //    record[col.getDataIndex()] = getDefaultValue(col._dataType);
+        //});
+
+        //store.add(record);
+        //store.sync();
+    },
 
     columnAdd(itm, event) {
 
@@ -56,107 +77,95 @@
         let tab = navigationTree.getSelection();
 
         let column = itm.up('column');
-        let grid = column.up('tedgrid');
+        let grid = this.getView();
         let hdr = grid.getHeaderContainer();
 
+        // UI Column definition
         let obj = {
             dataIndex: 'col' + (hdr.getItems().length + 1),
             xtype: 'ted' + itm.columnXType + 'column',
             text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
             flex: 1,
-            itemId: Util.createGuid(),
-            _dataType: itm.columnXType
+            itemId: Util.createCmpGuid(),
+            dataType: itm.columnXType
         };
 
+        // Insert UI column
         let index = hdr.getItems().indexOf(column);
         index++;
         hdr.insert(index, obj);
 
+        // Find the page from the tab so the UI hierachy are serialized
         let page = itm.up('container[routeId=page:' + tab.id + ']');
+        debugger;
         let objTree = page.getComponentTree();
-
+        // The AJAX argument
         var arg = {
             json: JSON.stringify({
                 items: objTree
-            })
+            }),
+            column: {
+                name: obj.dataIndex,
+                type: itm.columnXType
+            },
+            dataSourceId: vm.get('dataSourceId')
         };
 
+        // Send a request to update the page json as well as creating the column in the table
         AjaxUtil.put('/api/page/' + user.token + '/' + tab.id,
             arg,
             rsp => {
-            },
-            err => {
-                Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');
             }
+            //err => {
+            //    Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');
+            //}
         );
 
     },
 
     gridInitialize(cmp, opts) {
+        debugger;
+        //let vm = this.getViewModel();
+        //let view = this.getView();
+        //let user = vm.get('user');
 
-        let vm = this.getViewModel();
-        let view = this.getView();
+        //let store = Ext.create('Ext.data.Store',
+        //    {
+        //        autoLoad: false,
+        //        model: 'Admin.model.FlexRow',
+
+        //        proxy: {
+        //            url: 'api/data/' + vm.get('user').token + '/' + view.dataSourceId,
+        //            type: 'tedproxy',
+        //        }
+        //        //data: [
+        //        //    { col1: "msft", col2: '2011/04/03', change: 2.43, volume: 61606325, topday: '04/01/2010' },
+        //        //    { col1: "goog", col2: '2011/04/03', change: 0.81, volume: 3053782, topday: '04/11/2010' },
+        //        //    { col1: "apple", col2: '2011/04/03', change: 1.35, volume: 24484858, topday: '04/28/2010' },
+        //        //    { col1: "sencha", col2: '2011/04/03', change: 8.85, volume: 5556351, topday: '04/22/2010' }
+        //        //]
+
+        //    });
+
+        //let proxy = store.getProxy();
+        //let oldHandler = proxy.errorHandler;
+        //proxy.errorHandler = function (err) {
+
+        //    if (err.code === ExceptionCodes.TableNotFound) {
+
+        //        let url = 'api/data/table/' + user.token + '/' + cmp.dataSourceId;
+        //        AjaxUtil.post(url, {
+        //            columns: cmp.getColumnsDefinitions()
+        //        });
+        //    }
+        //    else {
+        //        oldHandler(err);
+        //    }
+        //};
+
+        //view.setStore(store);
         //debugger;
-        
-        let user = vm.get('user');
-        //let url = 'api/data/table/' + user.token + '/' + cmp.getItemId();
-        //if (user.anonymous) {
-
-        //    debugger;
-        //    url += "/";
-        //}
-
-        let store = Ext.create('Ext.data.Store',
-            {
-                autoLoad: false,
-                model: 'Admin.model.FlexRow',
-
-                proxy: {
-                    url: 'api/data/' + vm.get('user').token + '/' + view.getItemId(),
-                    type: 'tedproxy',
-                }
-            });
-
-        let proxy = store.getProxy();
-        let oldHandler = proxy.errorHandler;
-        proxy.errorHandler = function (err) {
-            debugger;
-            if (err.code == ExceptionCodes.TableNotFound) {
-
-                // Create the table and retry
-                let columns = cmp.getColumns().map(r => {
-                    return {
-                        type: r.dataType || r._dataType,
-                        name: r.getDataIndex()
-                    }
-                });
-
-                let url = 'api/data/table/' + user.token + '/' + cmp.getItemId();
-                AjaxUtil.post(url, {
-                    row: null,
-                    columns: columns
-                });
-            }
-            else {
-                oldHandler(err);
-            }
-        };
-        //var store = Ext.create('Ext.data.Store', {
-        //    fields: ['name', 'email', 'phone'],
-        //    data: [
-        //        { 'name': 'Lisa', "email": "lisa@simpsons.com", "phone": "555-111-1224" },
-        //        { 'name': 'Bart', "email": "bart@simpsons.com", "phone": "555-222-1234" },
-        //        { 'name': 'Homer', "email": "home@simpsons.com", "phone": "555-222-1244" },
-        //        { 'name': 'Marge', "email": "marge@simpsons.com", "phone": "555-222-1254" }
-        //    ]
-        //});
-
-        view.setStore(store);
-        store.load({
-            callback(records, operation, success) {
-
-            }
-        });
+        //cmp.getStore().load();
 
     }
 

@@ -449,7 +449,7 @@ Ext.define('Admin.view.main.MainController', {
         this.redirectTo('workspacelist', true);
     },
 
-    addGridButtonClick() {
+    addDataPanelButtonClick() {
         let view = this.getView();
 
         let currentitem = view.getActiveItem();
@@ -462,37 +462,45 @@ Ext.define('Admin.view.main.MainController', {
 
         let json = currentitem.json;
 
-        let grid = {
-            xtype: 'tedpanel',
-            title: 'New Grid Panel',
-            itemId: Util.createGuid(),
+        let datapanel = {
+            xtype: 'teddatapanel',
+            title: 'New Data Panel',
+            itemId: Util.createCmpGuid(),
+            dataSourceId: '_' + user.id + '_' + Util.createCmpGuid(),
             items: [
                 {
                     xtype: 'tedgrid',
-                    itemId: Util.createGuid(),
+                    itemId: Util.createCmpGuid(),
                     columns: [
                         {
                             text: 'First Column',
                             flex: 1,
                             xtype: 'tedstringcolumn',
-                            itemId: Util.createGuid(),
+                            itemId: Util.createCmpGuid(),
                             dataIndex: 'col1',
-                            _dataType: 'string'
+                            dataType: 'string'
                         }
                     ]
+                },
+                {
+                    title: 'Testing',
+                    xtype: 'panel',
+                    itemId: Util.createCmpGuid()
                 }
             ]
-        }
+        };
+
+        //datapanel.getViewModel().set('dataSourceId', '_' + user.id + '_' + Util.createCmpGuid());
 
         if (currentitem.xtype === 'placeholder') {
             currentitem.destroy();
             json = JSON.stringify({
-                items: [grid]
+                items: [datapanel]
             });
         }
         else {
             var obj = JSON.parse(json);
-            obj.items.push(grid);
+            obj.items.push(datapanel);
             json = JSON.stringify(obj);
         }
 
@@ -501,6 +509,7 @@ Ext.define('Admin.view.main.MainController', {
                 json: json
             },
             rsp => {
+
                 currentitem.reloadItem = true;
                 this.redirectTo(routeId, true);
             },

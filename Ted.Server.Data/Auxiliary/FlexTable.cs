@@ -22,7 +22,7 @@ namespace Ted.Server.Data
             _conn.Open();
         }
 
-        protected T GetScalar<T>(string sql)
+        public T GetScalar<T>(string sql)
         {
             using (SqlCommand command = new SqlCommand(sql, _conn))
             {
@@ -35,21 +35,22 @@ namespace Ted.Server.Data
             return default(T);
         }
 
-        protected bool GetBoolean(string sql)
+        public bool GetBoolean(string sql)
         {
             return GetScalar<bool>(sql);
         }
-        protected int GetInt(string sql)
+        public int GetInt(string sql)
         {
             return GetScalar<int>(sql);
         }
 
-        protected string GetString(string sql)
+        public string GetString(string sql)
         {
             return GetScalar<string>(sql);
         }
-        protected IEnumerable<T> GetValues<T>(string sql)
+        public List<T> GetValues<T>(string sql)
         {
+            var list = new List<T>();
             using (SqlCommand command = _conn.CreateCommand())
             {
                 command.CommandText = sql;
@@ -57,13 +58,14 @@ namespace Ted.Server.Data
                 {
                     while (reader.Read())
                     {
-                        yield return (T)reader.GetValue(0);
+                        list.Add((T)reader.GetValue(0));
                     }
                 }
             }
+            return list;
         }
 
-        protected int ExecuteSql(string sql, params SqlParameter[] values)
+        public int ExecuteSql(string sql, params SqlParameter[] values)
         {
             using (SqlCommand command = new SqlCommand(sql, _conn))
             {
@@ -196,8 +198,15 @@ namespace Ted.Server.Data
 
         //}
 
+        public void CreateColumn(string name, string type)
+        {
+            var textSearchColumns = new List<string>();
+            CreateColumn(textSearchColumns, type, name);
+            BuildTextSearchIndex(textSearchColumns);
+        }
+
         public void CreateColumns(dynamic columns)
-        {            
+        {
             var textSearchColumns = new List<string>();
 
             foreach (var column in columns)
@@ -210,30 +219,42 @@ namespace Ted.Server.Data
                     throw new TedExeption(ExceptionCodes.ColumnExist, name);
                 }
 
-                string sqltype = "VARCHAR(MAX)";
-                switch (type)
-                {
-                    case "int":
-                        sqltype = "INT";
-                        break;
-                    case "bool":
-                        sqltype = "BIT";
-                        break;
-                    case "float":
-                        sqltype = "REAL";
-                        break;
-                    case "date":
-                        sqltype = "DATETIME";
-                        break;
-                    default:
-                        textSearchColumns.Add(name);
-                        break;
-                }
-                
-                var createSql = $"ALTER TABLE [{_tableId}] ADD [{name}] {sqltype} NULL";
-                ExecuteSql(createSql);
+                CreateColumn(textSearchColumns, type, name);
             }
 
+            BuildTextSearchIndex(textSearchColumns);
+        }
+
+        private void CreateColumn(List<string> textSearchColumns, dynamic type, dynamic name)
+        {
+
+
+            string sqltype = "VARCHAR(MAX)";
+            switch (type)
+            {
+                case "int":
+                    sqltype = "INT";
+                    break;
+                case "boolean":
+                    sqltype = "BIT";
+                    break;
+                case "float":
+                    sqltype = "REAL";
+                    break;
+                case "date":
+                    sqltype = "DATETIME";
+                    break;
+                default:
+                    textSearchColumns.Add(name);
+                    break;
+            }
+
+            var createSql = $"ALTER TABLE [{_tableId}] ADD [{name}] {sqltype} NULL";
+            ExecuteSql(createSql);
+        }
+
+        private void BuildTextSearchIndex(List<string> textSearchColumns)
+        {
             if (textSearchColumns.Count() > 0)
             {
                 var ftixquery = $"SELECT COUNT(*) FROM ( " +
@@ -249,8 +270,8 @@ namespace Ted.Server.Data
                 var ftcol = "";
                 if (res == 0)
                 {
-                    ftcol = $"CREATE FULLTEXT INDEX ON ftCatalog ({textSearchColumns.Bracketize()} LANGUAGE 1033) " +
-                        $"KEY INDEX pk_{_tableId} ON FTSearch";
+                    ftcol = $"CREATE FULLTEXT INDEX ON {_tableId}({textSearchColumns.Bracketize()} LANGUAGE 1033) " +
+                        $"KEY INDEX pk_{_tableId} ON ftCatalog";
                 }
                 else
                 {
@@ -259,7 +280,6 @@ namespace Ted.Server.Data
                 ExecuteSql(ftcol);
             }
         }
-
 
         public void DropTable()
         {
@@ -291,12 +311,8 @@ namespace Ted.Server.Data
             ExecuteSql(sql);
         }
 
-        public void Fill(string jsonStr)
+        public DataRowCollection Fill(dynamic records)
         {
-            JObject value = JObject.Parse(jsonStr);
-
-            var empl = (JArray)value["employees"];
-
             SqlBulkCopy sbCopy = new SqlBulkCopy(_conn)
             {
                 DestinationTableName = _tableId
@@ -322,17 +338,19 @@ namespace Ted.Server.Data
                 }
             }
 
-            foreach (var item in empl.Children())
+            foreach (var record in records)
             {
                 var row = tbl.NewRow();
-                foreach (JProperty property in item.Children())
+                foreach (var prop in record)
                 {
-                    row[property.Name] = property.Value.ToString();
+                    row[prop.Path] = prop.Value.Value;
                 }
                 tbl.Rows.Add(row);
             }
 
             sbCopy.WriteToServer(tbl);
+
+            return tbl.Rows;
         }
 
         private Type TranslateType(string tn)
@@ -439,6 +457,11 @@ namespace Ted.Server.Data
         public bool ColumnHasData(string cn)
         {
             return false;
+        }
+
+        public List<string> GetColumnNames()
+        {
+            return GetValues<string>($"SELECT [name] FROM sys.columns WHERE Object_ID = Object_ID(N'{_tableId}')");
         }
 
         public void Dispose()

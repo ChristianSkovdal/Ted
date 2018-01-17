@@ -10,7 +10,7 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
     
 
     defaults: {
-        //shadow: true,
+        shadow: true,
         margin: '0 10 10 -10',
         flex: 1
         //userCls: 'big-100 dashboard-item'
