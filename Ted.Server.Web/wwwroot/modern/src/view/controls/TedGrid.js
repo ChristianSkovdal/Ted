@@ -12,9 +12,9 @@ Ext.define('Admin.view.controls.TedGrid', {
     viewModel: 'teddatapanel',
 
     listeners: {
-        initialize: function () {
-            debugger;
-        }
+        //initialize: function () {
+        //    debugger;
+        //}
     },
 
     bind: {
