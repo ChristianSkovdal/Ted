@@ -11,6 +11,33 @@ namespace Ted.Server.Web.Controllers
     [Route("api/[controller]")]
     public class ComponentController : Controller
     {
+
+        WorkspaceRepository _repo;
+        AuthenticationHandler _auth;
+
+        public ComponentController(WorkspaceRepository repo, AuthenticationHandler auth)
+        {
+            _repo = repo;
+            _auth = auth;
+        }
+
+        //[HttpPost("{token}/{pageId}")]
+        //public void RemoveComponent(string token, int pageId, [FromBody]Page value)
+        //{
+        //    var page = _repo.GetPage(pageId);
+        //    if (page == null)
+        //    {
+        //        throw new TedExeption(ExceptionCodes.PageNotFound);
+        //    }
+
+        //    if (_auth.AuthenticateForWorkspace(token, page.WorkspaceId) == null)
+        //    {
+        //        throw new TedExeption(ExceptionCodes.Authentication);
+        //    }
+
+           
+
+        //}
         //WorkspaceRepository _repo;
 
         //AuthenticationHandler _auth;

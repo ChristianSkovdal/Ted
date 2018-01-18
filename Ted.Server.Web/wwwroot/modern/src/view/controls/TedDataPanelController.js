@@ -3,8 +3,10 @@
     alias: 'controller.teddatapanel',
 
     control: {
-        //'teddatapanel': {
-            
+        //'#': {
+        //    initialize: function () {
+        //        
+        //    }
         //},
         'component[getHostButtons]': {
 
@@ -15,8 +17,7 @@
 
     },
 
-    initialize(cmp) {
-        debugger;
+    initializePanel (cmp) {
         let vm = this.getViewModel();
         let proxy = vm.data.datasrc.proxy;
         let user = vm.get('user');
@@ -54,7 +55,22 @@
         tb.add(buttons);
     },
 
-    requires: []
+    onRemove(panel) {
+
+        let page = panel.up('container[pageId!=null]');
+        let vm = this.getViewModel();
+        let token = vm.get('user.token');
+        
+        panel.getParent().remove(panel);
+        let objTree = page.getComponentTree();
+
+        
+        AjaxUtil.put('/api/page/' + token + '/' + page.pageId, {
+            json: JSON.stringify({
+                items: objTree
+            })
+        });
+    }
 
 
 });

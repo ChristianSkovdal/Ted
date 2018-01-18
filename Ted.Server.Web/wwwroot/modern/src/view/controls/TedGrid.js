@@ -13,7 +13,7 @@ Ext.define('Admin.view.controls.TedGrid', {
 
     listeners: {
         //initialize: function () {
-        //    debugger;
+        //    
         //}
     },
 

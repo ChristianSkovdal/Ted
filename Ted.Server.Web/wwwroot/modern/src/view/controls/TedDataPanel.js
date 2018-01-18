@@ -6,6 +6,10 @@ Ext.define('Admin.view.controls.TedDataPanel', {
     bodyStyle:'background:green;',
     //minHeight: 200,
     ui: 'light',
+    //defaultListenerScope: true,
+
+    viewModel: 'teddatapanel',
+    controller: 'teddatapanel',
 
     requires: [
         'Admin.view.controls.TedDataPanelController',
@@ -14,10 +18,6 @@ Ext.define('Admin.view.controls.TedDataPanel', {
         'Aux.Util'
 
     ],
-
-    listeners: {
-        initialize: 'initialize'
-    },
 
     getSerializableProperties() {
         return ['title', 'itemId', 'dataSourceId'];
@@ -28,11 +28,8 @@ Ext.define('Admin.view.controls.TedDataPanel', {
     },
 
     getFields() {
-        this.down('grid').getColumnDefinitions();
+        return this.down('grid').getColumnDefinitions();
     },
-
-    controller: 'teddatapanel',
-    viewModel: 'teddatapanel',
 
     tbar: [
         //{
@@ -44,6 +41,10 @@ Ext.define('Admin.view.controls.TedDataPanel', {
         {
             type: 'gear',
             handler: 'onSettings'
+        },
+        {
+            type: 'minus',
+            handler: 'onRemove'
         },
         //{
         //    type: 'down',

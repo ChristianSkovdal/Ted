@@ -7,10 +7,10 @@ Ext.define('Admin.view.pages.WorkspaceCanvasController', {
     ],
 
     control: {
-        '*': {
-            painted: function (cmp) {
-                //debugger;
-            }
-        }
+        //'*': {
+        //    painted: function (cmp) {
+        //        //
+        //    }
+        //}
     },
 });

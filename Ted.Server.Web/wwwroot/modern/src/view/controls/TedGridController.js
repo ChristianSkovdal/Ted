@@ -14,7 +14,6 @@
     ],
 
     reload() {
-        debugger;
         let vm = this.getViewModel();
         let grid = this.getView().down('grid');
         let store = grid.getStore();
@@ -75,7 +74,7 @@
         let mainView = itm.up('main');
         let navigationTree = mainView.getController().lookup('navigationTree');
         let tab = navigationTree.getSelection();
-
+         // TODO: use the workspacecanvas pageId - let page = panel.up('container[pageId!=null]');
         let column = itm.up('column');
         let grid = this.getView();
         let hdr = grid.getHeaderContainer();
@@ -97,7 +96,7 @@
 
         // Find the page from the tab so the UI hierachy are serialized
         let page = itm.up('container[routeId=page:' + tab.id + ']');
-        debugger;
+
         let objTree = page.getComponentTree();
         // The AJAX argument
         var arg = {
@@ -124,7 +123,7 @@
     },
 
     gridInitialize(cmp, opts) {
-        debugger;
+        
         //let vm = this.getViewModel();
         //let view = this.getView();
         //let user = vm.get('user');
@@ -164,7 +163,7 @@
         //};
 
         //view.setStore(store);
-        //debugger;
+        //
         //cmp.getStore().load();
 
     }

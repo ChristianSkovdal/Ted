@@ -6,7 +6,7 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
     cls: 'userProfile-container dashboard',
     scrollable: 'y',
     layout: 'vbox',
-    style: 'background:white;',
+   // style: 'background:white;',
     
 
     defaults: {

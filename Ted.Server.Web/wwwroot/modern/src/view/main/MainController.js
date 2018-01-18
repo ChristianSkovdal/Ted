@@ -10,7 +10,7 @@ Ext.define('Admin.view.main.MainController', {
     listen: {
         controller: {
             '#': {
-                unmatchedroute: 'setCurrentView'
+                unmatchedroute: 'setCurrentView',
             }
         }
     },
@@ -24,6 +24,8 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     collapsedCls: 'main-nav-collapsed',
+
+
 
     onNavigationItemClick() {
         // The phone profile's controller uses this event to slide out the navigation
@@ -46,7 +48,7 @@ Ext.define('Admin.view.main.MainController', {
 
     setCurrentView(hashTag) {
 
-        //debugger;
+        //
 
         hashTag = (hashTag || '').toLowerCase();
         if (hashTag !== 'login' && hashTag !== 'register') {
@@ -151,7 +153,7 @@ Ext.define('Admin.view.main.MainController', {
                     rsp => {
                         let page = rsp.data;
                         item = JSON.parse(page.json);
-                        item.json = page.json;
+                        item.pageId = rsp.data.id;
 
                         item.xtype = item.xtype || 'workspacecanvas';
                         item.routeId = hashTag;
@@ -449,6 +451,17 @@ Ext.define('Admin.view.main.MainController', {
         this.redirectTo('workspacelist', true);
     },
 
+    //initializePanel() {
+    //    
+    //},
+
+
+    // Forwards initialize calls to the panel sown controller 
+    initializePanel(cmp) {
+        let controller = cmp.getController();
+        controller.initializePanel(cmp);
+    },
+
     addDataPanelButtonClick() {
         let view = this.getView();
 
@@ -460,13 +473,14 @@ Ext.define('Admin.view.main.MainController', {
         let vm = this.getViewModel();
         let user = vm.get('user');
 
-        let json = currentitem.json;
-
         let datapanel = {
             xtype: 'teddatapanel',
             title: 'New Data Panel',
             itemId: Util.createCmpGuid(),
             dataSourceId: '_' + user.id + '_' + Util.createCmpGuid(),
+            listeners: {
+                initialize: 'initializePanel', // Called through MainController as we cannot call it directly for some reason
+            },
             items: [
                 {
                     xtype: 'tedgrid',
@@ -481,17 +495,10 @@ Ext.define('Admin.view.main.MainController', {
                             dataType: 'string'
                         }
                     ]
-                },
-                {
-                    title: 'Testing',
-                    xtype: 'panel',
-                    itemId: Util.createCmpGuid()
                 }
             ]
         };
-
-        //datapanel.getViewModel().set('dataSourceId', '_' + user.id + '_' + Util.createCmpGuid());
-
+        
         if (currentitem.xtype === 'placeholder') {
             currentitem.destroy();
             json = JSON.stringify({
@@ -499,10 +506,15 @@ Ext.define('Admin.view.main.MainController', {
             });
         }
         else {
-            var obj = JSON.parse(json);
-            obj.items.push(datapanel);
-            json = JSON.stringify(obj);
+            let childComponents = currentitem.getComponentTree();
+            childComponents.push(datapanel);
+
+            json = JSON.stringify({
+                items: childComponents
+            });
+
         }
+        
 
         AjaxUtil.put('/api/page/' + user.token + '/' + page.id,
             {
