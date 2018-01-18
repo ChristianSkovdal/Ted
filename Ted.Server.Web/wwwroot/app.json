@@ -546,10 +546,10 @@
             }
         },*/
 
-        "classic": {
-            "toolkit": "classic",
-            "theme": "theme-triton"
-        },
+        //"classic": {
+        //    "toolkit": "classic",
+        //    "theme": "theme-triton"
+        //},
 
         "modern": {
             "toolkit": "modern",

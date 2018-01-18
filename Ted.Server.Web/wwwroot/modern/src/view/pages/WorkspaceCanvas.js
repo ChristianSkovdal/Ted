@@ -24,6 +24,11 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
                 let propNames = cmp.getSerializableProperties();
                 let obj = {};
                 for (let pname of propNames) {
+
+                    if (cmp[pname]) {
+                        obj[pname] = cmp[pname];
+                    }                    
+
                     let propname = '_' + pname;
                     if (cmp[propname]) {
                         obj[pname] = cmp[propname];

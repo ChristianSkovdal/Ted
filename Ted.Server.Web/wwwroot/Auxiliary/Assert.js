@@ -1,4 +1,13 @@
+var assert;
 
+Ext.define('Aux.Assert', {}, () => {
+    assert = function(condition, msg) {
+        if (!condition)
+            Ext.raise(msg || 'Assertion!!!!');
+    }
+});
+
+/*
 var __ignoreErrors = [];
 
 
@@ -54,3 +63,4 @@ __assert = function(condition, arg, errorId, file, line) {
         throw e;
     }
 }
+*/

@@ -11,37 +11,54 @@
         'component[getHostButtons]': {
 
             initialize: function (cmp) {
+                cmp.setStore(this.getStore());
                 this.stealButtons(cmp);
             }
         },
 
     },
 
-    initializePanel (cmp) {
-        let vm = this.getViewModel();
-        let proxy = vm.data.datasrc.proxy;
-        let user = vm.get('user');
+    getStore() {
+        var panel = this.getView();
 
-        Util.assert(cmp.dataSourceId, 'cmp.dataSourceId is missing');
-        proxy.url += user.token + '/' + cmp.dataSourceId;
+        if (!panel.store) {
+            panel.store = Ext.create('Ext.data.Store', {
+                autoLoad: false,
+                model: 'Admin.model.FlexRow',
 
-        vm.set('dataSourceId', cmp.dataSourceId);
+                proxy: {
+                    url: 'api/data/',
+                    type: 'tedproxy',
+                }
+            });
 
-        let oldHandler = proxy.errorHandler;
-        proxy.errorHandler = function (err) {
+            let vm = this.getViewModel();
+            let proxy = panel.store.proxy;
+            let user = vm.get('user');
 
-            if (err.code === ExceptionCodes.TableNotFound) {
-                let url = 'api/data/table/' + user.token + '/' + cmp.dataSourceId;
-                AjaxUtil.post(url, {
-                    columns: cmp.getFields()
-                });
-            }
-            else {
-                oldHandler(err);
-            }
-        };
+            assert(panel.dataSourceId, 'cmp.dataSourceId is missing');
+            proxy.url += user.token + '/' + panel.dataSourceId;
 
-        vm.data.datasrc.load();
+            let oldHandler = proxy.errorHandler;
+            proxy.errorHandler = function (err) {
+
+                if (err.code === ExceptionCodes.TableNotFound) {
+                    let url = 'api/data/table/' + user.token + '/' + panel.dataSourceId;
+                    AjaxUtil.post(url, {
+                        columns: panel.getFields()
+                    });
+                }
+                else {
+                    oldHandler(err);
+                }
+            };
+
+            panel.store.load();
+        }
+        return panel.store;
+    },
+
+    initializePanel(cmp) {
     },
 
     stealButtons(cmp) {
@@ -60,11 +77,11 @@
         let page = panel.up('container[pageId!=null]');
         let vm = this.getViewModel();
         let token = vm.get('user.token');
-        
+
         panel.getParent().remove(panel);
         let objTree = page.getComponentTree();
 
-        
+
         AjaxUtil.put('/api/page/' + token + '/' + page.pageId, {
             json: JSON.stringify({
                 items: objTree

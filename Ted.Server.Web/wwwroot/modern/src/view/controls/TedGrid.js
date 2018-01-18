@@ -3,13 +3,16 @@ Ext.define('Admin.view.controls.TedGrid', {
     xtype: 'tedgrid',
 
     requires: [
-        'Admin.view.controls.TedGridController'
+        'Admin.view.controls.TedGridController',
     ],
 
     hostedItem: true,
 
     controller: 'tedgrid',
-    viewModel: 'teddatapanel',
+
+    plugins: [{
+        type: 'cellediting'
+    }],
 
     listeners: {
         //initialize: function () {
@@ -18,8 +21,7 @@ Ext.define('Admin.view.controls.TedGrid', {
     },
 
     bind: {
-        selection: '{selectedItem}',
-        store: '{datasrc}'
+        selection: '{selected}',
     },
 
     getSerializableProperties() {
@@ -48,12 +50,18 @@ Ext.define('Admin.view.controls.TedGrid', {
             },
             {
                 text: 'Edit',
-                iconCls: 'x-fa fa-pencil'
+                iconCls: 'x-fa fa-pencil',
+                bind: {
+                    disabled: '{!selected}'
+                }
             },
             {
                 text: 'Delete',
                 iconCls: 'x-fa fa-minus',
-                handler: 'deleteRow'
+                handler: 'deleteRow',
+                bind: {
+                    disabled: '{!selected}'
+                }
             },
             {
                 text: 'Refresh',

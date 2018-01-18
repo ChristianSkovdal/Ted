@@ -36,6 +36,23 @@ namespace Ted.Server.Data
 			//}
         }
 
+        public bool AuthenticateForTable(string token, string table)
+        {
+            var tbl = _db.Tables.SingleOrDefault(t => t.name==table);
+            if (!tbl.isPublic)
+            {
+                var user = Authenticate(token);
+                if (user == null)
+                    return false;
+
+                if (user.id != tbl.createdBy)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool IsSuperUser(string token)
         {
             return Authenticate(token, -1)!=null;

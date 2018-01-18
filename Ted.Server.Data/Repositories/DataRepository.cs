@@ -100,5 +100,13 @@ namespace Ted.Server.Data
         {
             return _db.Tables.SingleOrDefault(t => t.name==name);
         }
+
+        public void DeleteRow(int id, string table)
+        {
+            using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), table))
+            {
+                tbl.DeleteRow(id);
+            }
+        }
     }
 }

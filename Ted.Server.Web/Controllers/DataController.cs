@@ -36,25 +36,14 @@ namespace Ted.Server.Web.Controllers
                 });
             }
 
-            if (!tbl.isPublic)
-            {
-                var user = _auth.Authenticate(token);
-                if (user == null)
-                    throw new TedExeption(ExceptionCodes.Authentication);
-
-                if (user.id != tbl.createdBy)
-                {
-                    throw new TedExeption(ExceptionCodes.Authentication);
-                }
-            }
+            if (!_auth.AuthenticateForTable(token, table))
+                throw new TedExeption(ExceptionCodes.Authentication);
 
             return Json(new
             {
                 success = true,
                 data = _repo.GetAllRows(table)
             });
-            //return "{ \"success\":true,\"data\":[{\"id\":1,\"col1\":\"My data\",\"col2\":\"2018-01-17\"}]}";
-
         }
 
         [HttpPost("table/{token}/{table}")]
@@ -62,51 +51,14 @@ namespace Ted.Server.Web.Controllers
         {
             var user = _auth.Authenticate(token);
 
-            _repo.CreateTable(user, table, value["columns"]);
-
-
-            //var row = value["row"].Value;
-            //if (row != null)
-            //{
-            //    var result = _repo.AddRow(table, row);
-            //    return Json(new
-            //    {
-            //        success = true,
-            //        data = new
-            //        {
-            //            result.id
-            //        }
-            //    });
-            //}
-            //else
-            //{
-            //    var result = _repo.GetAllRows(table);
-            //    return Json(new
-            //    {
-            //        success = true,
-            //        data = result
-            //    });
-            //}
-            //return null;
+            _repo.CreateTable(user, table, value["columns"]);            
         }
-
-        //[HttpPost("row/{token}/{table}")]
-        //public void CreateRow(string token, string table, [FromBody] dynamic value)
-        //{
-        //    var user = _auth.Authenticate(token);
-
-        //    //_repo.CreateTable(user, table, value["columns"]);
-
-        //    //return Json(new
-        //    //{
-        //    //    success = true
-        //    //});
-        //}
 
         [HttpPost("{token}/{table}")]
         public JsonResult AddRow(string token, string table, [FromBody] dynamic value)
         {
-            var user = _auth.Authenticate(token);
+            if (!_auth.AuthenticateForTable(token, table))
+                throw new TedExeption(ExceptionCodes.Authentication);
 
             var list = new List<dynamic>()
             {
@@ -114,16 +66,6 @@ namespace Ted.Server.Web.Controllers
             };
             int? inserted = _repo.AddRows(table, list);
 
-            //if (inserted == null)
-            //{
-            //    return Json(new
-            //    {
-            //        success = false,
-            //        code = ExceptionCodes.TableNotFound
-            //    });
-            //}
-            //else
-            //{
             return Json(new
             {
                 success = true,
@@ -132,13 +74,12 @@ namespace Ted.Server.Web.Controllers
                     id = inserted
                 }
             });
-            //}
 
         }
 
 
         //     [HttpPut("{token}/{id}")]
-        //     public void UpdateWorkspace(string token, int id, [FromBody]JObject value)
+        //     public void dsad(string token, int id, [FromBody]JObject value)
         //     {
         //         var user = _auth.Authenticate(token);
         //         if (user == null)
@@ -148,14 +89,14 @@ namespace Ted.Server.Web.Controllers
         //     }
 
 
-        //     [HttpDelete("{token}/{id}")]
-        //     public void DeleteWorkspace(string token, int id)
-        //     {
-        //         if (_auth.Authenticate(token) == null)
-        //             throw new TedExeption(ExceptionCodes.Authentication);
+        [HttpDelete("{token}/{table}/{id}")]
+        public void DeleteRow(string token, string table, int id)
+        {
+            if (!_auth.AuthenticateForTable(token, table))
+                throw new TedExeption(ExceptionCodes.Authentication);
 
-        //         _repo.DeleteWorkspace(id);
-        //     }
+            _repo.DeleteRow(id, table);
+        }
 
 
     }

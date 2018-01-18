@@ -2,27 +2,26 @@
   "items": [
     {
       "title": "New Data Panel",
-      "itemId": "pbGtMUgowWyQwxZE",
+      "itemId": "fkpmtbObNVpjKvms",
       "xtype": "teddatapanel",
       "items": [
         {
-          "itemId": "JBxapbXprHDopgOD",
+          "itemId": "CCvaAuoniWyMyOOU",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "bMoaLPiqxwiBTTac",
+              "itemId": "HdetMvmxvgybmSVA",
               "dataIndex": "col1",
               "xtype": "tedstringcolumn"
             },
             {
-              "text": "Birthday",
+              "text": "String Column 2",
               "flex": 1,
-              "itemId": "PCKHwungsaHjUGWR",
+              "itemId": "aBHoTtRaLicbuifN",
               "dataIndex": "col2",
-              "xtype": "datecolumn",
-              "format": "Y-m-d"
+              "xtype": "tedstringcolumn"
             }
           ]
         }

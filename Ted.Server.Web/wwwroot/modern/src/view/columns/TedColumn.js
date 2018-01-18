@@ -22,6 +22,8 @@ Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
 
     var props = {
 
+        editable:true,
+
         getSerializableProperties() {
             return ['text', 'flex', 'itemId', 'dataType', 'dataIndex'];
         },

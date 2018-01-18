@@ -35,11 +35,11 @@
                 case 'date':
                     return new Date();
                 case 'int':
-                    return 123;
+                    return (store.count()+1)*100;
                 case 'boolean':
                     return true;
             }
-            return 'My data';
+            return 'My data: ' + (store.count()+1);
         };
 
         let record = {};
@@ -47,36 +47,42 @@
             record[col.getDataIndex()] = getDefaultValue(col.dataType);
         });
 
-        store.add(record);
+        store.insert(0, record);
         store.sync();
     },
 
     deleteRow() {
-        let me = this;
+
         let vm = this.getViewModel();
         let grid = this.getView().down('grid');
         let store = grid.getStore();
-
-        //let record = {};
-        //grid.getColumns().forEach(col => {
-        //    record[col.getDataIndex()] = getDefaultValue(col._dataType);
-        //});
-
-        //store.add(record);
-        //store.sync();
+        let selected = vm.get('selected');
+        let idx = store.indexOf(selected);
+        
+        store.remove(selected);
+        store.sync({
+            vm: vm,
+            store: store,
+            deletedIndex: idx,
+            success(batch, opts) {
+                if (idx > 0) {
+                    let prev = opts.store.getAt(idx - 1);
+                    opts.vm.set('selected', prev);
+                }
+                else {
+                    opts.vm.set('selected', opts.store.getAt(0)); // If the store is empty selectedd=null (ok)
+                }               
+            }
+        });
     },
 
     columnAdd(itm, event) {
 
         let vm = this.getViewModel();
+        let grid = this.getView();
         let user = vm.get('user');
 
-        let mainView = itm.up('main');
-        let navigationTree = mainView.getController().lookup('navigationTree');
-        let tab = navigationTree.getSelection();
-         // TODO: use the workspacecanvas pageId - let page = panel.up('container[pageId!=null]');
         let column = itm.up('column');
-        let grid = this.getView();
         let hdr = grid.getHeaderContainer();
 
         // UI Column definition
@@ -95,9 +101,11 @@
         hdr.insert(index, obj);
 
         // Find the page from the tab so the UI hierachy are serialized
-        let page = itm.up('container[routeId=page:' + tab.id + ']');
+        let canvas = grid.upsafe('workspacecanvas');
+        let panel = grid.upsafe('container[dataSourceId!=null]');
 
-        let objTree = page.getComponentTree();
+        let objTree = canvas.getComponentTree();
+
         // The AJAX argument
         var arg = {
             json: JSON.stringify({
@@ -107,64 +115,15 @@
                 name: obj.dataIndex,
                 type: itm.columnXType
             },
-            dataSourceId: vm.get('dataSourceId')
+            dataSourceId: panel.dataSourceId
         };
 
         // Send a request to update the page json as well as creating the column in the table
-        AjaxUtil.put('/api/page/' + user.token + '/' + tab.id,
-            arg,
-            rsp => {
-            }
-            //err => {
-            //    Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');
-            //}
-        );
+        AjaxUtil.put('/api/page/' + user.token + '/' + canvas.pageId, arg);
 
     },
 
     gridInitialize(cmp, opts) {
-        
-        //let vm = this.getViewModel();
-        //let view = this.getView();
-        //let user = vm.get('user');
-
-        //let store = Ext.create('Ext.data.Store',
-        //    {
-        //        autoLoad: false,
-        //        model: 'Admin.model.FlexRow',
-
-        //        proxy: {
-        //            url: 'api/data/' + vm.get('user').token + '/' + view.dataSourceId,
-        //            type: 'tedproxy',
-        //        }
-        //        //data: [
-        //        //    { col1: "msft", col2: '2011/04/03', change: 2.43, volume: 61606325, topday: '04/01/2010' },
-        //        //    { col1: "goog", col2: '2011/04/03', change: 0.81, volume: 3053782, topday: '04/11/2010' },
-        //        //    { col1: "apple", col2: '2011/04/03', change: 1.35, volume: 24484858, topday: '04/28/2010' },
-        //        //    { col1: "sencha", col2: '2011/04/03', change: 8.85, volume: 5556351, topday: '04/22/2010' }
-        //        //]
-
-        //    });
-
-        //let proxy = store.getProxy();
-        //let oldHandler = proxy.errorHandler;
-        //proxy.errorHandler = function (err) {
-
-        //    if (err.code === ExceptionCodes.TableNotFound) {
-
-        //        let url = 'api/data/table/' + user.token + '/' + cmp.dataSourceId;
-        //        AjaxUtil.post(url, {
-        //            columns: cmp.getColumnsDefinitions()
-        //        });
-        //    }
-        //    else {
-        //        oldHandler(err);
-        //    }
-        //};
-
-        //view.setStore(store);
-        //
-        //cmp.getStore().load();
 
     }
 

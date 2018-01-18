@@ -33,8 +33,8 @@
         return string.charAt(0).toUpperCase() + string.slice(1);
     },
 
-    assert(condition, msg) {
-        if (!condition)
-            Ext.raise(msg || 'Assertion!!!!');
-    }
+    //assert(condition, msg) {
+    //    if (!condition)
+    //        Ext.raise(msg || 'Assertion!!!!');
+    //}
 });
