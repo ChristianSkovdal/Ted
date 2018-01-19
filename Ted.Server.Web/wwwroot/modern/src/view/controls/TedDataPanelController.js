@@ -20,7 +20,7 @@
 
     defineDataModel() {
         debugger;
-        let modelName = 'Ted.data.DynamicModel.' + this.getView().itemId;
+        let modelName = 'Ted.data.DynamicModel.' + Util.createCmpGuid();
 
         let modelFields = [];
         let fields = this.getView().getFields();
