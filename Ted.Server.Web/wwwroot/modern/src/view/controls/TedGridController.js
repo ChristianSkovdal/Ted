@@ -76,6 +76,14 @@
         });
     },
 
+    //onDateCellRender(value, record) {
+    //    debugger;
+    //    let ms = Date.parse('20 Aug 1973 14:58:14 GMT');
+    //    let date = new Date(ms);
+    //    let res = Ext.Date.format(value, 'm-d-Y g:i A');;
+    //    return date.toString();
+    //},
+
     columnAdd(itm, event) {
 
         let vm = this.getViewModel();
@@ -92,7 +100,7 @@
             text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
             flex: 1,
             itemId: Util.createCmpGuid(),
-            dataType: itm.columnXType
+            dataType: itm.columnXType            
         };
 
         // Insert UI column

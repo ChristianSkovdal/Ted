@@ -2,26 +2,29 @@
   "items": [
     {
       "title": "New Data Panel",
-      "itemId": "fkpmtbObNVpjKvms",
+      "itemId": "dslPpxoQuTwyDLeq",
+      "dataSourceId": "_1_GqhicciwZlOxrwPa",
       "xtype": "teddatapanel",
       "items": [
         {
-          "itemId": "CCvaAuoniWyMyOOU",
+          "itemId": "iAjBqYqnEsikHdOB",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "HdetMvmxvgybmSVA",
+              "itemId": "jkehJUavfTWxxsPW",
+              "dataType": "string",
               "dataIndex": "col1",
               "xtype": "tedstringcolumn"
             },
             {
-              "text": "String Column 2",
+              "text": "Date Column 2",
               "flex": 1,
-              "itemId": "aBHoTtRaLicbuifN",
+              "itemId": "JMTDocPFIDQtyqaE",
+              "dataType": "date",
               "dataIndex": "col2",
-              "xtype": "tedstringcolumn"
+              "xtype": "teddatecolumn"
             }
           ]
         }

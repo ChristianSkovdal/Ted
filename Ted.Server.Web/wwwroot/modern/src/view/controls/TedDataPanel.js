@@ -31,6 +31,8 @@ Ext.define('Admin.view.controls.TedDataPanel', {
         return this.down('grid').getColumnDefinitions();
     },
 
+
+
     tbar: [
         //{
         //    text: 'Some button'

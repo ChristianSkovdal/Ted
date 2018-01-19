@@ -1,6 +1,8 @@
 ﻿Ext.define('Admin.view.columns.TedStringColumn', {
     extend: 'Ext.grid.column.Text',
-    xtype: 'tedstringcolumn'
+    xtype: 'tedstringcolumn',
+
+
 });
 
 Ext.define('Admin.view.columns.TedNumberColumn', {
@@ -15,12 +17,17 @@ Ext.define('Admin.view.columns.TedBooleanColumn', {
 
 Ext.define('Admin.view.columns.TedDateColumn', {
     extend: 'Ext.grid.column.Date',
-    xtype: 'teddatecolumn'
+    xtype: 'teddatecolumn',
+
+    //format: 'd-m-Y'
+    //renderer: 'onDateCellRender'
 });
 
 Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
 
     var props = {
+
+
 
         editable:true,
 

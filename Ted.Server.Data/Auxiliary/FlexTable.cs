@@ -311,6 +311,14 @@ namespace Ted.Server.Data
             ExecuteSql(sql);
         }
 
+        private static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+        }
+
         public DataRowCollection Fill(dynamic records)
         {
             SqlBulkCopy sbCopy = new SqlBulkCopy(_conn)
@@ -340,10 +348,21 @@ namespace Ted.Server.Data
 
             foreach (var record in records)
             {
+                int index = 1;
                 var row = tbl.NewRow();
                 foreach (var prop in record)
                 {
-                    row[prop.Path] = prop.Value.Value;
+                    var column = tbl.Columns[index];
+                    index++;
+                    if (column.DataType == typeof(DateTime))
+                    {                        
+                        row[prop.Path] = UnixTimeStampToDateTime(int.Parse(prop.Value.Value));
+                    }
+                    else
+                    {
+                        row[prop.Path] = prop.Value.Value;
+                    }
+                    
                 }
                 tbl.Rows.Add(row);
             }

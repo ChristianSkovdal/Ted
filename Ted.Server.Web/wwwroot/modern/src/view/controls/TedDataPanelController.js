@@ -18,13 +18,43 @@
 
     },
 
+    defineDataModel() {
+        debugger;
+        let modelName = 'Ted.data.DynamicModel.' + this.getView().itemId;
+
+        let modelFields = [];
+        let fields = this.getView().getFields();
+        let index=1
+        for (let f of fields) {
+            modelFields.push({
+                name: 'col'+ index++,
+                type: f.type
+            });
+        }
+
+        Ext.define(modelName, {
+            extend: 'Ext.data.Model',
+
+            fields: [
+                { name: 'col1', type: 'string' },
+                { name: 'col2', type: 'date' },
+            ]
+        });
+
+        return modelName;
+    },
+
+
     getStore() {
         var panel = this.getView();
 
         if (!panel.store) {
+
+            let modelName=this.defineDataModel();
+
             panel.store = Ext.create('Ext.data.Store', {
                 autoLoad: false,
-                model: 'Admin.model.FlexRow',
+                model: modelName,
 
                 proxy: {
                     url: 'api/data/',
@@ -53,7 +83,12 @@
                 }
             };
 
-            panel.store.load();
+            panel.store.load({
+                //callback: function () {
+                //    debugger;
+
+                //}
+            });
         }
         return panel.store;
     },
