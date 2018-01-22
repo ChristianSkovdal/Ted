@@ -3,8 +3,10 @@
     alias: 'controller.tedgrid',
 
     control: {
-        //'grid': {
-        //    initialize: 'gridInitialize'
+        //'*': {
+        //    specialkey: function (field, event, options) {
+        //        debugger;
+        //    }
         //}
     },
 
@@ -48,7 +50,7 @@
         });
 
         store.insert(0, record);
-        store.sync();
+        //store.sync();
     },
 
     deleteRow() {
@@ -84,6 +86,10 @@
     //    return date.toString();
     //},
 
+    columnSettings(itm, event) {
+
+    },
+
     columnAdd(itm, event) {
 
         let vm = this.getViewModel();
@@ -108,6 +114,9 @@
         index++;
         hdr.insert(index, obj);
 
+        // Notify that th emodel has changed
+        grid.getParent().fireEvent('modelChange');
+
         // Find the page from the tab so the UI hierachy are serialized
         let canvas = grid.upsafe('workspacecanvas');
         let panel = grid.upsafe('container[dataSourceId!=null]');
@@ -129,6 +138,7 @@
         // Send a request to update the page json as well as creating the column in the table
         AjaxUtil.put('/api/page/' + user.token + '/' + canvas.pageId, arg);
 
+        
     },
 
     gridInitialize(cmp, opts) {

@@ -198,10 +198,10 @@ namespace Ted.Server.Data
 
         //}
 
-        public void CreateColumn(string name, string type)
+        public void CreateColumn(string name, string type, bool nullable)
         {
             var textSearchColumns = new List<string>();
-            CreateColumn(textSearchColumns, type, name);
+            CreateColumn(textSearchColumns, type, name, nullable);
             BuildTextSearchIndex(textSearchColumns);
         }
 
@@ -219,13 +219,13 @@ namespace Ted.Server.Data
                     throw new TedExeption(ExceptionCodes.ColumnExist, name);
                 }
 
-                CreateColumn(textSearchColumns, type, name);
+                CreateColumn(textSearchColumns, type, name, true);
             }
 
             BuildTextSearchIndex(textSearchColumns);
         }
 
-        private void CreateColumn(List<string> textSearchColumns, dynamic type, dynamic name)
+        private void CreateColumn(List<string> textSearchColumns, dynamic type, dynamic name, bool nullable)
         {
 
 
@@ -245,11 +245,20 @@ namespace Ted.Server.Data
                     sqltype = "DATETIME";
                     break;
                 default:
-                    textSearchColumns.Add(name);
+                    if (textSearchColumns!=null)
+                        textSearchColumns.Add(name);
                     break;
             }
 
-            var createSql = $"ALTER TABLE [{_tableId}] ADD [{name}] {sqltype} NULL";
+            var createSql = $"ALTER TABLE [{_tableId}] ADD [{name}] {sqltype}";
+            if (nullable)
+            {
+                createSql += " NULL";
+            }
+            else
+            {
+                createSql += " NOT NULL";
+            }
             ExecuteSql(createSql);
         }
 
@@ -319,6 +328,23 @@ namespace Ted.Server.Data
             return dtDateTime;
         }
 
+        IEnumerable<KeyValuePair<string, Type>> GetColumnMetaData()
+        {
+            var sqlColumns = $"SELECT COLUMN_NAME AS [Key], DATA_TYPE AS Value " +
+                   $"FROM INFORMATION_SCHEMA.COLUMNS " +
+                   $"WHERE TABLE_NAME = '{_tableId}'";
+            SqlCommand command = _conn.CreateCommand();
+            command.CommandText = sqlColumns;
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    yield return new KeyValuePair<string, Type>(reader.GetString(0), TranslateType(reader.GetString(1)));
+                }
+            }
+
+        }
+
         public DataRowCollection Fill(dynamic records)
         {
             SqlBulkCopy sbCopy = new SqlBulkCopy(_conn)
@@ -328,24 +354,30 @@ namespace Ted.Server.Data
 
             var tbl = new DataTable(_tableId);
 
-            var sqlColumns = $"SELECT COLUMN_NAME AS [Key], DATA_TYPE AS Value " +
-               $"FROM INFORMATION_SCHEMA.COLUMNS " +
-               $"WHERE TABLE_NAME = '{_tableId}'";
-            SqlCommand command = _conn.CreateCommand();
-            command.CommandText = sqlColumns;
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    DataColumn idColumn = new DataColumn
-                    {
-                        DataType = TranslateType(reader.GetString(1)),
-                        ColumnName = reader.GetString(0)
-                    };
-                    tbl.Columns.Add(idColumn);
-                }
-            }
+            //var sqlColumns = $"SELECT COLUMN_NAME AS [Key], DATA_TYPE AS Value " +
+            //   $"FROM INFORMATION_SCHEMA.COLUMNS " +
+            //   $"WHERE TABLE_NAME = '{_tableId}'";
+            //SqlCommand command = _conn.CreateCommand();
+            //command.CommandText = sqlColumns;
+            //using (SqlDataReader reader = command.ExecuteReader())
+            //{
+            //    while (reader.Read())
+            //    {
+            //        DataColumn idColumn = new DataColumn
+            //        {
+            //            DataType = TranslateType(reader.GetString(1)),
+            //            ColumnName = reader.GetString(0)
+            //        };
+            //        tbl.Columns.Add(idColumn);
+            //    }
+            //}
 
+            GetColumnMetaData().ToList().ForEach(r => tbl.Columns.Add(new DataColumn
+            {
+                DataType = r.Value,
+                ColumnName = r.Key
+            }));
+            
             foreach (var record in records)
             {
                 int index = 1;
@@ -355,14 +387,14 @@ namespace Ted.Server.Data
                     var column = tbl.Columns[index];
                     index++;
                     if (column.DataType == typeof(DateTime))
-                    {                        
+                    {
                         row[prop.Path] = UnixTimeStampToDateTime(int.Parse(prop.Value.Value));
                     }
                     else
                     {
                         row[prop.Path] = prop.Value.Value;
                     }
-                    
+
                 }
                 tbl.Rows.Add(row);
             }
@@ -394,34 +426,39 @@ namespace Ted.Server.Data
             ExecuteSql(sql, new SqlParameter("id", id));
         }
 
-        public void UpdateRow(string jsonStr, string where)
+        public void UpdateRow(dynamic record, string where)
         {
-            JObject obj = JObject.Parse(jsonStr);
-
-            string setClause = "";
+            string setClause = string.Empty;
             int index = 0;
-            int count = obj.Properties().Count();
-            var parameters = new SqlParameter[count];
-            foreach (JProperty prop in obj.Properties())
+            var parameters = new List<SqlParameter>();
+
+            var columnInfo = new Dictionary<string, Type>();
+            GetColumnMetaData().ToList().ForEach(r => columnInfo.Add(r.Key,r.Value));
+
+            foreach (JProperty prop in record.Properties())
             {
                 var propVal = prop.Value;
-                //if (propVal.Type == JTokenType.String ||
-                //    propVal.Type == JTokenType.Date)
-                //{
-                //    propVal = $"'{propVal}'";
-                //}
+                var propType = prop.Type;
 
-                parameters[index] = new SqlParameter("@p" + index, propVal.ToString());
+
+                var csVal = propVal.ToObject<object>();
+
+                if (columnInfo[prop.Name]==typeof(DateTime))
+                {
+                    csVal = UnixTimeStampToDateTime(int.Parse(csVal.ToString()));
+                }
+
+                parameters.Add(new SqlParameter("@p" + index, csVal));
                 setClause += $"[{prop.Name}]=@p{index++}";
-                if (index < count - 1)
+                if (prop.Next!=null)
                 {
                     setClause += ",";
                 }
-
             }
 
             string sql = $"UPDATE [{_tableId}] SET {setClause} " + where;
-            ExecuteSql(sql, parameters);
+            ExecuteSql(sql, parameters.ToArray());
+
 
         }
 

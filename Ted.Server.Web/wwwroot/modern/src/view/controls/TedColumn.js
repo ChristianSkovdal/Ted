@@ -1,33 +1,58 @@
-﻿Ext.define('Admin.view.columns.TedStringColumn', {
+﻿Ext.define('Admin.view.controls.TedStringColumn', {
     extend: 'Ext.grid.column.Text',
     xtype: 'tedstringcolumn',
 
 
 });
 
-Ext.define('Admin.view.columns.TedNumberColumn', {
+Ext.define('Admin.view.controls.TedNumberColumn', {
     extend: 'Ext.grid.column.Number',
-    xtype: 'tedintcolumn'
+    xtype: 'tedintcolumn',
+
+    editor: {
+        xtype: 'numberfield',
+        //minValue: 10,
+        //maxValue: 15,
+    }
 });
 
-Ext.define('Admin.view.columns.TedBooleanColumn', {
+Ext.define('Admin.view.controls.TedBooleanColumn', {
     extend: 'Ext.grid.column.Boolean',
     xtype: 'tedbooleancolumn'
 });
 
-Ext.define('Admin.view.columns.TedDateColumn', {
+Ext.define('Admin.view.controls.TedDateColumn', {
     extend: 'Ext.grid.column.Date',
     xtype: 'teddatecolumn',
 
-    //format: 'd-m-Y'
+    
+
+    //format: 'd-Y-m'
     //renderer: 'onDateCellRender'
 });
 
-Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
+Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
 
     var props = {
 
+        //requires: [
+        //    'Ext.grid.plugin.CellEditing',
+        //    'Ext.grid.plugin.Editable'
+        //],
 
+        //platformConfig: {
+        //    desktop: {
+        //        plugins: {
+        //            gridcellediting: true
+        //        }
+        //    },
+
+        //    '!desktop': {
+        //        plugins: {
+        //            grideditable: true
+        //        }
+        //    }
+        //},
 
         editable:true,
 
@@ -46,7 +71,7 @@ Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
                 });
                 
                 addIfNeeded = function (m, i) {
-                    if (!m.down('#' + i.itemId)) {
+                    if (!m.down('#' + i.itemid)) {
                         i.addedMenuItem = true;
                         m.add(i);
                     }
@@ -101,9 +126,9 @@ Ext.define('Admin.view.columns.TedColumnInitializer', {}, () => {
         }
     };
 
-    Ext.override(Admin.view.columns.TedStringColumn, props);
-    Ext.override(Admin.view.columns.TedNumberColumn, props);
-    Ext.override(Admin.view.columns.TedDateColumn, props);
-    Ext.override(Admin.view.columns.TedBooleanColumn, props);
+    Ext.override(Admin.view.controls.TedStringColumn, props);
+    Ext.override(Admin.view.controls.TedNumberColumn, props);
+    Ext.override(Admin.view.controls.TedDateColumn, props);
+    Ext.override(Admin.view.controls.TedBooleanColumn, props);
 
 });

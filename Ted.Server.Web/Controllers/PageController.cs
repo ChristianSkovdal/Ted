@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Ted.Server.Data;
+using Ted.Server.DTO;
 using Ted.Server.Exceptions;
 using Ted.Server.Models;
 

@@ -5,13 +5,13 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
 
     cls: 'userProfile-container dashboard',
     scrollable: 'y',
-    layout: 'vbox',
+    layout: 'hbox',
    // style: 'background:white;',
     
 
     defaults: {
         shadow: true,
-        margin: '0 10 10 -10',
+        margin: '0 10 10 5',
         flex: 1
         //userCls: 'big-100 dashboard-item'
     },

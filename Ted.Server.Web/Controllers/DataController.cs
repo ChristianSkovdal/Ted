@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -42,16 +42,16 @@ namespace Ted.Server.Web.Controllers
             return Json(new
             {
                 success = true,
-                data = _repo.GetAllRows(table)
+                data = _repo.GetAllRows(table).OrderByDescending(r => r.id)
             });
         }
 
-        [HttpPost("table/{token}/{table}")]
+        [HttpPost("table/create/{token}/{table}")]
         public void CreateTable(string token, string table, [FromBody] dynamic value)
         {
             var user = _auth.Authenticate(token);
 
-            _repo.CreateTable(user, table, value["columns"]);            
+            _repo.CreateTable(user, table, value["columns"], value["masterTableId"]?.Value); 
         }
 
         [HttpPost("{token}/{table}")]
@@ -78,15 +78,14 @@ namespace Ted.Server.Web.Controllers
         }
 
 
-        //     [HttpPut("{token}/{id}")]
-        //     public void dsad(string token, int id, [FromBody]JObject value)
-        //     {
-        //         var user = _auth.Authenticate(token);
-        //         if (user == null)
-        //             throw new TedExeption(ExceptionCodes.Authentication);
+        [HttpPut("{token}/{table}/{id}")]
+        public void Update(string token, string table, int id, [FromBody]dynamic value)
+        {
+            if (!_auth.AuthenticateForTable(token, table))
+                throw new TedExeption(ExceptionCodes.Authentication);
 
-        //         _repo.UpdateWorkspace(id, value, user);
-        //     }
+            _repo.UpdateField(id, value, table);
+        }
 
 
         [HttpDelete("{token}/{table}/{id}")]

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ted.Server.Models
+namespace Ted.Server.DTO
 {
     public class ComponentUpdate
     {

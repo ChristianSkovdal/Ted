@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using Ted.Server.Data;
+using Ted.Server.DTO;
 using Ted.Server.Interfaces;
 using Ted.Server.Models;
 using Ted.Server.Web.Controllers;

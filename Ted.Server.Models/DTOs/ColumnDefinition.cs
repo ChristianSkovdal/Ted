@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ted.Server.Models
+namespace Ted.Server.DTO
 {
     public class ColumnDefinition
     {

@@ -69,13 +69,25 @@ Ext.define('Admin.view.main.Toolbar', {
     //              pressed: '{editMode}'
     //          }
     //},
-    {
-        iconCls: 'x-fa fa-th',
-        margin: '0 7 0 0',
-        handler: '',
-        text: 'Grid',
-        handler: 'addDataPanelButtonClick',
-    },
+        {
+            iconCls: 'x-fa fa-link',
+            margin: '0 7 0 0',
+            text: 'Linked Table',
+            handler: 'addLinkedFormPanelButtonClick',
+        },
+        {
+            iconCls: 'x-fa fa-th',
+            margin: '0 7 0 0',
+            text: 'Grid',
+            handler: 'addDataPanelButtonClick',
+        },
+        {
+            iconCls: 'x-fa fa-th',
+            margin: '0 7 0 0',
+            text: 'Form',
+            handler: 'addFormPanelButtonClick',
+        },
+
 
 
     {
@@ -89,14 +101,12 @@ Ext.define('Admin.view.main.Toolbar', {
                 {
                     iconCls: 'x-fa fa-calendar-plus-o',
                     margin: '0 7 0 0',
-                    handler: '',
                     text: 'Page',
                     handler: 'addPageButtonClick',
                 },
                 {
                     iconCls: 'x-fa fa-th',
                     margin: '0 7 0 0',
-                    handler: '',
                     text: 'Grid',
                     handler: 'addDataPanelButtonClick',
                 },

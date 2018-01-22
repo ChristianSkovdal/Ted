@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ted.Server.Models
+namespace Ted.Server.DTO
 {
     public class PageUpdate
     {
@@ -10,6 +10,8 @@ namespace Ted.Server.Models
         public ColumnDefinition column { get; set; }
 
         public string dataSourceId { get; set; }
+
+        //public string masterPageId { get; set; }
 
     }
 }

@@ -14,10 +14,12 @@ Ext.define('Admin.view.controls.TedGrid', {
         type: 'cellediting'
     }],
 
+
+
     listeners: {
-        //initialize: function () {
-        //    
-        //}
+        specialkey: function () {
+            debugger;
+        }
     },
 
     bind: {
@@ -32,7 +34,7 @@ Ext.define('Admin.view.controls.TedGrid', {
         return this.getColumns();
     },
 
-    getColumnDefinitions() {
+    getFields() {
         return this.getColumns().map(r => {
             return {
                 type: r.dataType || r._dataType,
@@ -48,13 +50,13 @@ Ext.define('Admin.view.controls.TedGrid', {
                 iconCls: 'x-fa fa-plus',
                 handler: 'addRow'
             },
-            {
-                text: 'Edit',
-                iconCls: 'x-fa fa-pencil',
-                bind: {
-                    disabled: '{!selected}'
-                }
-            },
+            //{
+            //    text: 'Edit',
+            //    iconCls: 'x-fa fa-pencil',
+            //    bind: {
+            //        disabled: '{!selected}'
+            //    }
+            //},
             {
                 text: 'Delete',
                 iconCls: 'x-fa fa-minus',

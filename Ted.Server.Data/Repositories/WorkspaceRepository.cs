@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using Ted.Server.DTO;
 using Ted.Server.Models;
 
 namespace Ted.Server.Data
@@ -79,16 +80,17 @@ namespace Ted.Server.Data
             if (page == null)
                 throw new Exception($"The page with id {pageId} does not exist");
 
+            // Always set the child components JSON
             page.json = update.json;
 
-            // Create the column if needed
+            // This is a column update so create the column
             if (update.column!=null)
             {
                 if (update.dataSourceId==null)
                     throw new Exception("DatasourceId is missing from the update");
                 using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), update.dataSourceId))
                 {
-                    tbl.CreateColumn(update.column.name, update.column.type);
+                    tbl.CreateColumn(update.column.name, update.column.type, true);
                 }
             }
 

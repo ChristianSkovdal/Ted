@@ -24,7 +24,7 @@ Ext.define('Admin.view.dialogs.BaseDlgController', {
 
 
     onSpecialKey: function (field, event, options) {
-        if (event.getKey() == event.ENTER) {
+        if (event.getKey() === event.ENTER) {
             event.stopEvent();
             this.onOK();
         }

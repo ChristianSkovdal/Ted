@@ -72,7 +72,7 @@ namespace Ted.Server.Data
             }
         }
 
-        public void CreateTable(User user, string tableName, dynamic columns)
+        public void CreateTable(User user, string tableName, dynamic columns, string masterTableId)
         {
             // Add meta data
             var table = new Table
@@ -93,6 +93,19 @@ namespace Ted.Server.Data
                 tbl.CreateTable();
 
                 tbl.CreateColumns(columns);
+
+                if (!string.IsNullOrEmpty(masterTableId))
+                {
+                    tbl.CreateColumn(masterTableId + "id", "int", false);
+                }
+            }
+        }
+
+        public void UpdateField(int id, dynamic value, string table)
+        {
+            using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), table))
+            {
+                tbl.UpdateRow(value, $"WHERE [id]={id}");
             }
         }
 

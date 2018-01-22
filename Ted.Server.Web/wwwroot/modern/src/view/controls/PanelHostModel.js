@@ -1,6 +1,6 @@
-﻿Ext.define('Admin.view.controls.TedDataPanelModel', {
+﻿Ext.define('Admin.view.controls.PanelHostModel', {
     extend: 'Ext.app.ViewModel',
-    alias: 'viewmodel.teddatapanel',
+    alias: 'viewmodel.panelhost',
 
     data: {
         selected: null,

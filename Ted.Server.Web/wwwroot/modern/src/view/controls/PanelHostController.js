@@ -1,6 +1,6 @@
-﻿Ext.define('Admin.view.controls.TedDataPanelController', {
+﻿Ext.define('Admin.view.controls.PanelHostController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.teddatapanel',
+    alias: 'controller.panelhost',
 
     control: {
         //'#': {
@@ -10,20 +10,34 @@
         //},
         'component[getHostButtons]': {
 
-            initialize: function (cmp) {
-                cmp.setStore(this.getStore());
+            initialize: function (cmp) {                
                 this.stealButtons(cmp);
             }
         },
+        'panelhost > component[getFields]': {
+            initialize: function (cmp) {
+                //let modelName = this.defineDataModel(cmp);
+                cmp.setStore(this.getStore(cmp));
+            }
+        },
+        '*': {
+            modelChange: function () {
+                this.getView().store.destroy();
+                this.getView().store = null;
+                this.getView().setStore(this.getStore());
+            }
+        }
 
     },
 
-    defineDataModel() {
-        debugger;
-        let modelName = 'Ted.data.DynamicModel.' + Util.createCmpGuid();
+    defineDataModel(cmp) {
+        
+        //assert(this.getView().getItemId());
+        let modelName = 'Ted.data.DynamicModel.' + Util.createCmpGuid();// this.getView().getItemId();
+        //let modelName = 'Ted.data.DynamicModel.' + this.getView().getItemId();
 
         let modelFields = [];
-        let fields = this.getView().getFields();
+        let fields = cmp.getFields();
         let index=1
         for (let f of fields) {
             modelFields.push({
@@ -35,26 +49,26 @@
         Ext.define(modelName, {
             extend: 'Ext.data.Model',
 
-            fields: [
-                { name: 'col1', type: 'string' },
-                { name: 'col2', type: 'date' },
-            ]
+            fields: modelFields
         });
 
         return modelName;
     },
 
 
-    getStore() {
+    getStore(cmp) {
+
         var panel = this.getView();
+        //cmp = cmp || this.getView();
 
         if (!panel.store) {
 
-            let modelName=this.defineDataModel();
+            //assert(modelName, 'modelName missing');
 
             panel.store = Ext.create('Ext.data.Store', {
                 autoLoad: false,
-                model: modelName,
+                autoSync: true,
+                model: this.defineDataModel(cmp || panel),
 
                 proxy: {
                     url: 'api/data/',
@@ -73,9 +87,10 @@
             proxy.errorHandler = function (err) {
 
                 if (err.code === ExceptionCodes.TableNotFound) {
-                    let url = 'api/data/table/' + user.token + '/' + panel.dataSourceId;
+                    let url = 'api/data/table/create/' + user.token + '/' + panel.dataSourceId;
                     AjaxUtil.post(url, {
-                        columns: panel.getFields()
+                        columns: panel.getFields(),
+                        masterTableId: panel.masterTableId
                     });
                 }
                 else {
@@ -93,18 +108,20 @@
         return panel.store;
     },
 
-    initializePanel(cmp) {
-    },
-
     stealButtons(cmp) {
         let tb = this.getView().getTbar();
         let buttons = cmp.getHostButtons();
-        for (let b of buttons) {
-            if (!this[b.handler]) {
-                this[b.handler] = cmp.getController()[b.handler];
-            }
+        if (buttons.length === 0) {
+            tb.hide();
         }
-        tb.add(buttons);
+        else {
+            for (let b of buttons) {
+                if (!this[b.handler]) {
+                    this[b.handler] = cmp.getController()[b.handler];
+                }
+            }
+            tb.add(buttons);
+        }
     },
 
     onRemove(panel) {
@@ -122,6 +139,12 @@
                 items: objTree
             })
         });
+    },
+
+    onAddSomething(panel) {
+        
+        // Add linked table
+
     }
 
 

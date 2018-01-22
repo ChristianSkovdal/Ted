@@ -2,8 +2,11 @@ var assert;
 
 Ext.define('Aux.Assert', {}, () => {
     assert = function(condition, msg) {
-        if (!condition)
-            Ext.raise(msg || 'Assertion!!!!');
+        if (!condition) {
+            var stack = new Error().stack
+            alert(msg || 'Assertion!\nStack trace:\n' +stack);
+        }
+            
     }
 });
 

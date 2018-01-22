@@ -456,69 +456,56 @@ Ext.define('Admin.view.main.MainController', {
     //},
 
 
-    // Forwards initialize calls to the panel sown controller 
-    initializePanel(cmp) {
-        let controller = cmp.getController();
-        controller.initializePanel(cmp);
-    },
+    //// Forwards initialize calls to the panels own controller 
+    //initializePanel(cmp) {
+    //    let controller = cmp.getController();
+    //    controller.initializePanel(cmp);
+    //},
 
-    addDataPanelButtonClick() {
+    addPanel(childCfg, title, omitDataSource, masterTableId) {
         let view = this.getView();
+        let vm = this.getViewModel();
+        let user = vm.get('user');
 
+        let panelCfg = {
+            xtype: 'panelhost',
+            title: title || 'New Data Panel',
+            itemId: Util.createCmpGuid(),
+            masterTableId: masterTableId,
+            items: [childCfg]
+        };
+
+        if (!omitDataSource) {
+            panelCfg.dataSourceId = '_' + user.id + '_' + Util.createCmpGuid();
+        }
+        
         let currentitem = view.getActiveItem();
         let routeId = currentitem.routeId;
 
         let navigationTree = this.lookup('navigationTree');
         let page = navigationTree.getSelection();
-        let vm = this.getViewModel();
-        let user = vm.get('user');
 
-        let datapanel = {
-            xtype: 'teddatapanel',
-            title: 'New Data Panel',
-            itemId: Util.createCmpGuid(),
-            dataSourceId: '_' + user.id + '_' + Util.createCmpGuid(),
-            listeners: {
-                initialize: 'initializePanel', // Called through MainController as we cannot call it directly for some reason
-            },
-            items: [
-                {
-                    xtype: 'tedgrid',
-                    itemId: Util.createCmpGuid(),
-                    columns: [
-                        {
-                            text: 'First Column',
-                            flex: 1,
-                            xtype: 'tedstringcolumn',
-                            itemId: Util.createCmpGuid(),
-                            dataIndex: 'col1',
-                            dataType: 'string'
-                        }
-                    ]
-                }
-            ]
-        };
-        
         if (currentitem.xtype === 'placeholder') {
             currentitem.destroy();
             json = JSON.stringify({
-                items: [datapanel]
+                items: [panelCfg]
             });
         }
         else {
+
             let childComponents = currentitem.getComponentTree();
-            childComponents.push(datapanel);
+
+            childComponents.push(panelCfg);
 
             json = JSON.stringify({
                 items: childComponents
             });
-
         }
-        
 
         AjaxUtil.put('/api/page/' + user.token + '/' + page.id,
             {
-                json: json
+                json: json,
+                //masterTableId: childCfg.masterTableId
             },
             rsp => {
 
@@ -529,8 +516,72 @@ Ext.define('Admin.view.main.MainController', {
                 Ext.Msg.alert('Communication Error', 'An error ocurred while inserting component');
             }
         );
+    },
+
+    addFormPanelButtonClick() {
+
+        this.addPanel(
+            {
+                xtype: 'tedform',
+                itemId: Util.createCmpGuid(),
+                items: [
+                    {
+                        xtype: 'tedtextfield',
+                        itemId: Util.createCmpGuid(),
+                        label: 'Name'
+                    },
+                    {
+                        xtype: 'tednumberfield',
+                        itemId: Util.createCmpGuid(),
+                        label: 'Age'
+                    }
+                ]
+            }, 'New Form Panel', true);
+    },
+
+    addDataPanelButtonClick() {
+
+        this.addPanel({
+            xtype: 'tedgrid',
+            itemId: Util.createCmpGuid(),
+            columns: [
+                {
+                    text: 'First Column',
+                    flex: 1,
+                    xtype: 'tedstringcolumn',
+                    itemId: Util.createCmpGuid(),
+                    dataIndex: 'col1',
+                    dataType: 'string'
+                }
+            ]
+        });
+    },
+
+    addLinkedFormPanelButtonClick() {
+
+        let currentitem = this.getView().getActiveItem();
+        assert(currentitem);
+        var myMaster = currentitem.getItems().items[0];
+        
+        this.addPanel({
+            xtype: 'tedgrid',
+            itemId: Util.createCmpGuid(),
+            columns: [
+                {
+                    text: 'First Column',
+                    flex: 1,
+                    xtype: 'tedstringcolumn',
+                    itemId: Util.createCmpGuid(),
+                    dataIndex: 'col1',
+                    dataType: 'string'
+                }
+            ]
+        },
+            'New Linked Table',
+            false,
+            myMaster.getItemId()
+        );
 
     }
-
 
 });

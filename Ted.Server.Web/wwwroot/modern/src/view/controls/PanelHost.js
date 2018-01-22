@@ -1,26 +1,23 @@
-Ext.define('Admin.view.controls.TedDataPanel', {
+Ext.define('Admin.view.controls.PanelHost', {
     extend: 'Ext.Panel',
-    xtype: 'teddatapanel',
+    xtype: 'panelhost',
 
     layout: 'card',
-    bodyStyle:'background:green;',
-    //minHeight: 200,
+    //bodyStyle:'background:green;',
     ui: 'light',
-    //defaultListenerScope: true,
 
-    viewModel: 'teddatapanel',
-    controller: 'teddatapanel',
+    viewModel: 'panelhost',
+    controller: 'panelhost',
 
     requires: [
-        'Admin.view.controls.TedDataPanelController',
-        'Admin.view.controls.TedDataPanelModel',
-        //'Admin.view.columns.TedColumn',
+        'Admin.view.controls.PanelHostController',
+        'Admin.view.controls.PanelHostModel',
+        'Admin.view.controls.TedForm',
         'Aux.Util'
-
     ],
 
     getSerializableProperties() {
-        return ['title', 'itemId', 'dataSourceId'];
+        return ['title', 'itemId', 'dataSourceId', 'masterTableId'];
     },
 
     getChildren() {
@@ -28,15 +25,15 @@ Ext.define('Admin.view.controls.TedDataPanel', {
     },
 
     getFields() {
-        return this.down('grid').getColumnDefinitions();
+        return this.down('component[getFields]').getFields();
     },
 
-
+    setStore(store) {
+        let child = this.down('component[setStore]');
+        child.setStore(store);
+    },
 
     tbar: [
-        //{
-        //    text: 'Some button'
-        //}
     ],
 
     tools: [
@@ -47,6 +44,10 @@ Ext.define('Admin.view.controls.TedDataPanel', {
         {
             type: 'minus',
             handler: 'onRemove'
+        },
+        {
+            type: 'plus',
+            handler: 'onAddSomething'
         },
         //{
         //    type: 'down',
