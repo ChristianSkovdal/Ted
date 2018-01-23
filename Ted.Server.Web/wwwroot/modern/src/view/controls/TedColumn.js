@@ -25,10 +25,33 @@ Ext.define('Admin.view.controls.TedDateColumn', {
     extend: 'Ext.grid.column.Date',
     xtype: 'teddatecolumn',
 
-    
-
     //format: 'd-Y-m'
     //renderer: 'onDateCellRender'
+});
+
+Ext.define('Admin.view.controls.TedSelectColumn', {
+    extend: 'Ext.grid.column.Text',
+    xtype: 'tedselectcolumn',
+
+    editor: {
+        xtype: 'combobox',
+        queryMode: 'local',
+        displayField: 'name',
+        valueField: 'abbr',
+
+        store: [
+            { abbr: 'AL', name: 'Alabama' },
+            { abbr: 'AK', name: 'Alaska' },
+            { abbr: 'AZ', name: 'Arizona' }
+        ],
+
+        listeners: {
+            pickercreate: function () {
+                debugger;
+
+            },
+        }
+    }
 });
 
 Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
@@ -57,7 +80,7 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
         editable:true,
 
         getSerializableProperties() {
-            return ['text', 'flex', 'itemId', 'dataType', 'dataIndex'];
+            return ['text', 'flex', 'itemId', 'dataType', 'dataIndex', 'columnConfig'];
         },
 
         getMenu() {
@@ -71,7 +94,7 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
                 });
                 
                 addIfNeeded = function (m, i) {
-                    if (!m.down('#' + i.itemid)) {
+                    if (!m.down('#' + i.itemId)) {
                         i.addedMenuItem = true;
                         m.add(i);
                     }
@@ -106,6 +129,12 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
                             handler: 'columnAdd',
                             columnXType: 'boolean'
                         },
+                        {
+                            text: 'Select',
+                            handler: 'columnAdd',
+                            columnXType: 'string',
+                            editor: 'tedselectcolumn'
+                        },
                     ]
                 });
 
@@ -130,5 +159,6 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
     Ext.override(Admin.view.controls.TedNumberColumn, props);
     Ext.override(Admin.view.controls.TedDateColumn, props);
     Ext.override(Admin.view.controls.TedBooleanColumn, props);
+    Ext.override(Admin.view.controls.TedSelectColumn, props);
 
 });

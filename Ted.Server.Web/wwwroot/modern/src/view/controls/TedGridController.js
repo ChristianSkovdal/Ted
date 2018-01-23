@@ -126,6 +126,40 @@
 
     columnSettings(itm, event) {
 
+        let columnConfig = {
+
+            options: [
+                'Shade',
+                'Mostly Shady',
+                'Sun or Shade',
+                'Mostly Sunny',
+                'Sunny'
+            ]
+        }
+
+        let vm = this.getViewModel();
+        let grid = this.getView();
+        let user = vm.get('user');
+
+        let column = itm.up('column');
+        column.columnConfig = columnConfig;
+        let hdr = grid.getHeaderContainer();
+
+        // Find the page from the tab so the UI hierachy are serialized
+        let canvas = grid.upsafe('workspacecanvas');
+
+        let objTree = canvas.getComponentTree();
+
+        // The AJAX argument
+        var arg = {
+            json: JSON.stringify({
+                items: objTree
+            })
+        };
+
+        // Send a request to update the page json as well as creating the column in the table
+        AjaxUtil.put('/api/page/' + user.token + '/' + canvas.pageId, arg);
+
     },
 
     columnAdd(itm, event) {
@@ -140,7 +174,7 @@
         // UI Column definition
         let obj = {
             dataIndex: 'col' + (hdr.getItems().length + 1),
-            xtype: 'ted' + itm.columnXType + 'column',
+            xtype: itm.editor || 'ted' + itm.columnXType + 'column',
             text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
             flex: 1,
             itemId: Util.createCmpGuid(),
@@ -175,8 +209,11 @@
 
         // Send a request to update the page json as well as creating the column in the table
         AjaxUtil.put('/api/page/' + user.token + '/' + canvas.pageId, arg);
+    },
 
 
+    showAll() {
+        this.getView().down('tedgrid').getStore().load();
     }
 
 });

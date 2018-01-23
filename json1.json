@@ -2,37 +2,38 @@
   "items": [
     {
       "title": "New Data Panel",
-      "itemId": "FCskQqQVBLoTfkPs",
-      "dataSourceId": "_1_kTNeEBpgpxFosjdS",
+      "itemId": "QusJAnZdryxDBDtg",
+      "dataSourceId": "_1_OlvLdAnGAeNlfusy",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "YnLvQVqZODidOpls",
+          "itemId": "kuHgafJwNyXuvGas",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "hsvRJuCvQoRUZHjf",
+              "itemId": "ZMQagkOFGrhxGKav",
               "dataType": "string",
               "dataIndex": "col1",
               "xtype": "tedstringcolumn"
             },
             {
-              "text": "Int Column 2",
+              "text": "Date Column 2",
               "flex": 1,
-              "itemId": "JdkulTSwGwwseNSv",
-              "dataType": "int",
+              "itemId": "YnGYRKwEonxMlDkG",
+              "dataType": "date",
               "dataIndex": "col2",
-              "xtype": "tedintcolumn"
+              "xtype": "teddatecolumn"
             },
             {
-              "text": "Date Column 3",
+              "text": "String Column 3",
               "flex": 1,
-              "itemId": "JllSWBoWvIorVXfb",
-              "dataType": "date",
+              "itemId": "tscfGLGJhsDgfxnl",
+              "dataType": "string",
               "dataIndex": "col3",
-              "xtype": "teddatecolumn"
+              "columnConfig": { "options": [ "Shade", "Mostly Shady", "Sun or Shade", "Mostly Sunny", "Sunny" ] },
+              "xtype": "tedselectcolumn"
             }
           ]
         }
@@ -40,19 +41,19 @@
     },
     {
       "title": "New Linked Table",
-      "itemId": "YguWeaWFskayKCKh",
-      "dataSourceId": "_1_hFARdBmmcbXXalIo",
-      "masterTableId": "FCskQqQVBLoTfkPs",
+      "itemId": "MdPApuAKonxLBIPS",
+      "dataSourceId": "_1_mlRqUHRFBHsMXVLS",
+      "masterTableId": "QusJAnZdryxDBDtg",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "uAfxaBHmeoiJkcXI",
+          "itemId": "LKqMDFWLXWMWUCeG",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "xQeVByQYkmuvMIka",
+              "itemId": "jUEwCOKeZBPdPWgL",
               "dataType": "string",
               "dataIndex": "col1",
               "xtype": "tedstringcolumn"

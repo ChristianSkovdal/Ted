@@ -45,8 +45,10 @@ Ext.define('Admin.view.controls.TedGrid', {
         });
     },
 
-    config: {
-        hostButtons: [
+    
+    getHostButtons() {
+
+        let buttons = [
             {
                 text: 'Add',
                 iconCls: 'x-fa fa-plus',
@@ -71,9 +73,20 @@ Ext.define('Admin.view.controls.TedGrid', {
                 text: 'Refresh',
                 iconCls: 'x-fa fa-refresh',
                 handler: 'reload'
-            },
-        ]
-    },
+            }
+        ];
+
+        if (this.getMasterTableId()) {
+            buttons.push({
+                text: 'Show All',
+                iconCls: 'x-fa fa-eye',
+                handler: 'showAll'
+            });
+        }
+
+        return buttons;
+    }
+    
 
 
 });
