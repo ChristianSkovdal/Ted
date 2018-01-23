@@ -37,17 +37,27 @@ Ext.define('Admin.view.controls.TedSelectColumn', {
         xtype: 'combobox',
         queryMode: 'local',
         displayField: 'name',
-        valueField: 'abbr',
+        valueField: 'value',
 
-        store: [
-            { abbr: 'AL', name: 'Alabama' },
-            { abbr: 'AK', name: 'Alaska' },
-            { abbr: 'AZ', name: 'Arizona' }
-        ],
+        //store: [
+        //    { abbr: 'AL', name: 'Alabama' },
+        //    { abbr: 'AK', name: 'Alaska' },
+        //    { abbr: 'AZ', name: 'Arizona' }
+        //],
 
         listeners: {
-            pickercreate: function () {
-                debugger;
+            beforepickercreate: function (sender, value, oldValue, eOpts) {
+               // debugger;
+                let column = sender.up('grid').getColumns().find(c => c._editor);
+                assert(column.columnConfig);
+
+                if (column.columnConfig.type == ColumnSelectType.Simple) {
+
+                    sender.setStore({
+                       // data: column.columnConfig.options.map(r => { name=r, value=r} )
+                    });
+                }
+                
 
             },
         }

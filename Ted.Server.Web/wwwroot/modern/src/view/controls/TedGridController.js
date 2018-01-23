@@ -127,7 +127,7 @@
     columnSettings(itm, event) {
 
         let columnConfig = {
-
+            type: ColumnSelectType.Simple,
             options: [
                 'Shade',
                 'Mostly Shady',

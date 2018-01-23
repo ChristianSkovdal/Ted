@@ -32,7 +32,10 @@
               "itemId": "tscfGLGJhsDgfxnl",
               "dataType": "string",
               "dataIndex": "col3",
-              "columnConfig": { "options": [ "Shade", "Mostly Shady", "Sun or Shade", "Mostly Sunny", "Sunny" ] },
+              "columnConfig": {
+                "type": 1,
+                "options": [ "Shade", "Mostly Shady", "Sun or Shade", "Mostly Sunny", "Sunny" ]
+              },
               "xtype": "tedselectcolumn"
             }
           ]
