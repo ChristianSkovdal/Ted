@@ -20,6 +20,11 @@ Ext.define('Admin.view.controls.PanelHost', {
         return ['title', 'itemId', 'dataSourceId', 'masterTableId'];
     },
 
+    
+    getMasterTableId() {
+        return this.masterTableId;
+    },
+    
     getChildren() {
         return this.items.items;
     },

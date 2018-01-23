@@ -19,6 +19,7 @@ Ext.application({
     requires: [
         'Admin.*',
         'Aux.*',
-        'Ted.Enum.*'
+        'Ted.Enum.*',
+        'Util.Msg'
     ]
 });

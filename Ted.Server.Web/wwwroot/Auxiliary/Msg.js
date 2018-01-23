@@ -16,7 +16,7 @@ Ext.define('Util.Msg', {
                 var field = fn;
                 fn = function () {
                     field.focus();
-                    if (field.xtype == 'textfield') {
+                    if (field.xtype === 'textfield') {
                         field.selectText();
                     }
                 }
@@ -64,7 +64,7 @@ Ext.define('Util.Msg', {
             buttons: Ext.MessageBox.YESNO,
             icon: Ext.MessageBox.QUESTION,
             fn: function (btn, text) {
-                if (btn == "yes")
+                if (btn === "yes")
                     func();
             }
         });
@@ -89,7 +89,7 @@ Ext.define('Util.Msg', {
             buttons: Ext.MessageBox.OKCANCEL,
             icon: Ext.MessageBox.QUESTION,
             fn: function (btn, text) {
-                if (btn == "ok")
+                if (btn === "ok")
                     func();
             }
         });

@@ -3,11 +3,28 @@
     alias: 'controller.tedgrid',
 
     control: {
-        //'*': {
-        //    specialkey: function (field, event, options) {
-        //        debugger;
-        //    }
-        //}
+        'tedgrid': {
+            select: function (cmp, records, eOpts) {
+                let hostPanel = this.getView().getParent();
+                let listeners = Ext.ComponentQuery.query('panelhost[masterTableId=' + hostPanel.getItemId() + ']');
+                for (let linked of listeners) {
+                    let grid = linked.down('tedgrid');
+                    grid.fireEvent('refreshLinkedData', cmp, records[0]);
+                }
+            },
+
+            refreshLinkedData: function (masterGrid, record) {
+
+                let masterRecordId = record.get('id');
+                
+                this.getView().getStore().load({
+                    params: {
+                        masterRecordId: masterRecordId,
+                        masterId: masterGrid.getParent().getItemId()
+                    }
+                });
+            }
+        }
     },
 
     requires: [
@@ -37,17 +54,38 @@
                 case 'date':
                     return new Date();
                 case 'int':
-                    return (store.count()+1)*100;
+                    return (store.count() + 1) * 100;
                 case 'boolean':
                     return true;
             }
-            return 'My data: ' + (store.count()+1);
+            return 'My data: ' + (store.count() + 1);
         };
 
         let record = {};
         grid.getColumns().forEach(col => {
             record[col.getDataIndex()] = getDefaultValue(col.dataType);
         });
+
+        let mtid = grid.getMasterTableId();
+        if (mtid) {
+            let masterPanel = Ext.ComponentQuery.query('#' + mtid);
+            if (masterPanel.length === 0) {
+                Msg.error('Table not found', 'The master table with id ' +mtid+ ' does not exist');
+            }
+            else {        
+                let grid = masterPanel[0].down('tedgrid');
+                assert(grid);
+                let selectedMasterRecord = grid.getSelection();
+                debugger;
+                if (selectedMasterRecord) {
+                    record[mtid+'_id'] = selectedMasterRecord.get('id');
+                }
+                else {
+                    Ext.Msg.alert('Select Master Record', 'No row in the master table is selected. Select one before adding a row in a linked table');
+                }
+                
+            }
+        }
 
         store.insert(0, record);
         //store.sync();
@@ -60,7 +98,7 @@
         let store = grid.getStore();
         let selected = vm.get('selected');
         let idx = store.indexOf(selected);
-        
+
         store.remove(selected);
         store.sync({
             vm: vm,
@@ -73,7 +111,7 @@
                 }
                 else {
                     opts.vm.set('selected', opts.store.getAt(0)); // If the store is empty selectedd=null (ok)
-                }               
+                }
             }
         });
     },
@@ -106,7 +144,7 @@
             text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
             flex: 1,
             itemId: Util.createCmpGuid(),
-            dataType: itm.columnXType            
+            dataType: itm.columnXType
         };
 
         // Insert UI column
@@ -138,12 +176,7 @@
         // Send a request to update the page json as well as creating the column in the table
         AjaxUtil.put('/api/page/' + user.token + '/' + canvas.pageId, arg);
 
-        
-    },
-
-    gridInitialize(cmp, opts) {
 
     }
-
 
 });

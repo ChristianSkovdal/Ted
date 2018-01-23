@@ -39,10 +39,28 @@ namespace Ted.Server.Web.Controllers
             if (!_auth.AuthenticateForTable(token, table))
                 throw new TedExeption(ExceptionCodes.Authentication);
 
+            int masterRecordId = -1;
+            string masterId = "";
+            var masterRecordIdStr = HttpContext.Request.Query["masterRecordId"];
+            if (!string.IsNullOrEmpty(masterRecordIdStr))
+            {
+                if (!int.TryParse(masterRecordIdStr, out masterRecordId))
+                {
+                    throw new TedExeption(ExceptionCodes.UnableToParseArgument);
+                }
+                if (masterRecordId > 0)
+                {
+                    masterId = HttpContext.Request.Query["masterId"];
+                    if (string.IsNullOrEmpty(masterId))
+                        throw new TedExeption(ExceptionCodes.InvalidArgument);
+                }
+            }
+
+
             return Json(new
             {
                 success = true,
-                data = _repo.GetAllRows(table).OrderByDescending(r => r.id)
+                data = _repo.GetAllRows(table, masterRecordId, masterId).OrderByDescending(r => r.id)
             });
         }
 
@@ -51,7 +69,7 @@ namespace Ted.Server.Web.Controllers
         {
             var user = _auth.Authenticate(token);
 
-            _repo.CreateTable(user, table, value["columns"], value["masterTableId"]?.Value); 
+            _repo.CreateTable(user, table, value["columns"], value["masterTableId"]?.Value);
         }
 
         [HttpPost("{token}/{table}")]

@@ -27,11 +27,17 @@ namespace Ted.Server.Data
 
         }
 
-        public IEnumerable<dynamic> GetAllRows(string tableName)
+        public IEnumerable<dynamic> GetAllRows(string tableName, int masterRecordId, string masterId)
         {
             using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), tableName))
             {
-                var dt = tbl.Select($"SELECT * FROM [{tableName}]");
+                var sql = $"SELECT * FROM [{tableName}]";
+                if (masterRecordId>0 && !string.IsNullOrEmpty(masterId))
+                {
+                    sql += $" WHERE {masterId}_id={masterRecordId}";
+                }
+
+                var dt = tbl.Select(sql);
                 return dt.AsDynamicEnumerable();
             }
         }
@@ -96,7 +102,7 @@ namespace Ted.Server.Data
 
                 if (!string.IsNullOrEmpty(masterTableId))
                 {
-                    tbl.CreateColumn(masterTableId + "id", "int", false);
+                    tbl.CreateColumn(masterTableId + "_id", "int", false);
                 }
             }
         }

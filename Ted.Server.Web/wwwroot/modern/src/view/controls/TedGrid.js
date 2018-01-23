@@ -14,7 +14,9 @@ Ext.define('Admin.view.controls.TedGrid', {
         type: 'cellediting'
     }],
 
-
+    getMasterTableId() {
+        return this.getParent().getMasterTableId();
+    },
 
     listeners: {
         specialkey: function () {

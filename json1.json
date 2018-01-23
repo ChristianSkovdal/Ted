@@ -1,35 +1,61 @@
 {
   "items": [
     {
-      "title": "New Form Panel",
-      "itemId": "aCwjjpxnpgaJBuYk",
-      "dataSourceId": "_1_uWPaTgtfkJQPcUxu",
+      "title": "New Data Panel",
+      "itemId": "FCskQqQVBLoTfkPs",
+      "dataSourceId": "_1_kTNeEBpgpxFosjdS",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "ext-tedform-10",
-          "xtype": "tedform"
+          "itemId": "YnLvQVqZODidOpls",
+          "xtype": "tedgrid",
+          "columns": [
+            {
+              "text": "First Column",
+              "flex": 1,
+              "itemId": "hsvRJuCvQoRUZHjf",
+              "dataType": "string",
+              "dataIndex": "col1",
+              "xtype": "tedstringcolumn"
+            },
+            {
+              "text": "Int Column 2",
+              "flex": 1,
+              "itemId": "JdkulTSwGwwseNSv",
+              "dataType": "int",
+              "dataIndex": "col2",
+              "xtype": "tedintcolumn"
+            },
+            {
+              "text": "Date Column 3",
+              "flex": 1,
+              "itemId": "JllSWBoWvIorVXfb",
+              "dataType": "date",
+              "dataIndex": "col3",
+              "xtype": "teddatecolumn"
+            }
+          ]
         }
       ]
     },
     {
+      "title": "New Linked Table",
+      "itemId": "YguWeaWFskayKCKh",
+      "dataSourceId": "_1_hFARdBmmcbXXalIo",
+      "masterTableId": "FCskQqQVBLoTfkPs",
       "xtype": "panelhost",
-      "title": "New Form Panel",
-      "itemId": "kCBRxtOSXHFPaPyU",
-      "dataSourceId": "_1_hjadrtvjClIXRMBq",
       "items": [
         {
-          "xtype": "tedform",
-          "items": [
+          "itemId": "uAfxaBHmeoiJkcXI",
+          "xtype": "tedgrid",
+          "columns": [
             {
-              "xtype": "textfield",
-              "itemId": "sdepRYnfrsdsRtRc",
-              "label": "Name"
-            },
-            {
-              "xtype": "numberfield",
-              "itemId": "tlnqrHJJQqGgcbPT",
-              "label": "Age"
+              "text": "First Column",
+              "flex": 1,
+              "itemId": "xQeVByQYkmuvMIka",
+              "dataType": "string",
+              "dataIndex": "col1",
+              "xtype": "tedstringcolumn"
             }
           ]
         }
