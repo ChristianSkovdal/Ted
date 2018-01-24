@@ -17,7 +17,7 @@
             refreshLinkedData: function (masterGrid, record) {
 
                 let masterRecordId = record.get('id');
-                
+
                 this.getView().getStore().load({
                     params: {
                         masterRecordId: masterRecordId,
@@ -36,7 +36,8 @@
 
     reload() {
         let vm = this.getViewModel();
-        let grid = this.getView().down('grid');
+        let v = this.getView();
+        let grid = v.down('tedgrid') || v;
         let store = grid.getStore();
         store.reload();
     },
@@ -72,33 +73,33 @@
         let mtid = grid.getMasterTableId();
         if (mtid) {
             let masterPanel = Ext.ComponentQuery.query('#' + mtid);
-            assert(masterPanel.length<=1);
+            assert(masterPanel.length <= 1);
             if (masterPanel.length === 0) {
                 error = true;
                 Ext.Msg.alert('Table not found', 'The master table with id ' + mtid + ' does not exist. Do you wish to convert the linked table into a regular table?', (btn, val, opts) => {
                     // TODO:
-                    debugger; 
+                    debugger;
                 });
             }
-            else {        
+            else {
                 let grid = masterPanel[0].down('tedgrid');
                 assert(grid);
                 let selectedMasterRecord = grid.getSelection();
                 if (selectedMasterRecord) {
-                    record[mtid+'_id'] = selectedMasterRecord.get('id');
+                    record[mtid + '_id'] = selectedMasterRecord.get('id');
                 }
                 else {
                     error = true;
                     Ext.Msg.alert('Select Master Record', 'No row in the master table is selected. Select one before adding a row in a linked table');
                 }
-                
+
             }
         }
 
         if (!error) {
             store.insert(0, record);
         }
-        
+
     },
 
     deleteRow() {
@@ -126,13 +127,26 @@
         });
     },
 
-    //onDateCellRender(value, record) {
-    //    debugger;
-    //    let ms = Date.parse('20 Aug 1973 14:58:14 GMT');
-    //    let date = new Date(ms);
-    //    let res = Ext.Date.format(value, 'm-d-Y g:i A');;
-    //    return date.toString();
-    //},
+    onDateCellRender(value, record) {
+        debugger;
+        let ms = Date.parse('20 Aug 1973 14:58:14 GMT');
+        let date = new Date(ms);
+        let res = Ext.Date.format(value, 'm-d-Y g:i A');;
+        return date.toString();
+    },
+
+    cellRenderer(value, record, index, cell, column) {
+        
+        if (column.scriptCode) {
+            if (!column.scriptFunction) {
+                column.scriptFunction = new Function('value', 'data', 'name', 'record', 'cell', 'column', column.scriptCode);
+            }
+            
+            return column.scriptFunction(value, record.data, index, record, cell, column);
+        }
+
+        return value;
+    },
 
     columnSettings(itm, event) {
 
@@ -142,6 +156,7 @@
 
         let column = itm.up('column');
 
+        // OPTIONS COMBO
         //column.setEditor({
         //    name: column.getDataIndex(),
         //    xtype: 'selectfield',
@@ -154,19 +169,22 @@
         //    ]
         //});
 
-        const srcId = '_1_fcsbLnxvXTYxLJbv';
-        const colname = 'col2';
+        // REMOTE DATA COMBO
+        //const srcId = '_1_fcsbLnxvXTYxLJbv';
+        //const colname = 'col2';
 
-        column.setEditor({
+        //column.setEditor({
+        //    dataSourceId: srcId,
+        //    columnName: colname,
+        //    xtype: 'gridcellcombo',
+        //    //itemTpl: '<span role="option" class="x-boundlist-item">{abbr} - {name}</span>',
+        //    //displayTpl: '{abbr} - {name}',
+        //});
 
-            dataSourceId: srcId,
-            columnName: colname,
-            xtype: 'gridcellcombo',
-            //itemTpl: '<span role="option" class="x-boundlist-item">{abbr} - {name}</span>',
-            //displayTpl: '{abbr} - {name}',
-            
-            
-        });
+        // FUNCTION CELL
+        //debugger;
+        column.scriptCode = 'record.set("col2", "Dims Dims: "+value); return value';
+        this.reload();
 
         let hdr = grid.getHeaderContainer();
 
@@ -203,7 +221,8 @@
             text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
             flex: 1,
             itemId: Util.createCmpGuid(),
-            dataType: itm.columnXType
+            dataType: itm.columnXType,
+          
         };
 
         // Insert UI column
@@ -211,7 +230,7 @@
         index++;
         hdr.insert(index, obj);
 
-        // Notify that th emodel has changed
+        // Notify that the model has changed
         grid.getParent().fireEvent('modelChange');
 
         // Find the page from the tab so the UI hierachy are serialized

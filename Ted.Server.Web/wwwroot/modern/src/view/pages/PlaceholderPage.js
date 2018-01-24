@@ -13,6 +13,8 @@ Ext.define('Admin.view.pages.PlaceholderPage', {
         "align": "center"
     },
 
+
+
     //bodyStyle: 'background-color:red;'
 
 });

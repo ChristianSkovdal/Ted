@@ -10,9 +10,20 @@ Ext.define('Admin.view.controls.TedGrid', {
 
     controller: 'tedgrid',
 
-    plugins: [{
-        type: 'cellediting'
-    }],
+    //plugins: [{
+    //    type: 'cellediting'
+    //}],
+
+    plugins: {
+        gridcellediting: {
+            selectOnEdit: true
+        }
+    },
+
+    selectable: {
+        rows: false,
+        cells: true
+    },
 
     getMasterTableId() {
         return this.getParent().getMasterTableId();
@@ -23,6 +34,7 @@ Ext.define('Admin.view.controls.TedGrid', {
 
         }
     },
+    
 
     bind: {
         selection: '{selected}',
@@ -85,7 +97,10 @@ Ext.define('Admin.view.controls.TedGrid', {
         }
 
         return buttons;
-    }
+    },
+
+
+  
     
 
 

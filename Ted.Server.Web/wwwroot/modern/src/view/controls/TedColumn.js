@@ -1,8 +1,8 @@
 ﻿Ext.define('Admin.view.controls.TedStringColumn', {
-    extend: 'Ext.grid.column.Text',
+    extend: 'Ext.grid.column.Column',
     xtype: 'tedstringcolumn',
 
-
+    renderer: 'cellRenderer'
 });
 
 Ext.define('Admin.view.controls.TedNumberColumn', {
@@ -26,7 +26,7 @@ Ext.define('Admin.view.controls.TedDateColumn', {
     xtype: 'teddatecolumn',
 
     //format: 'd-Y-m'
-    //renderer: 'onDateCellRender'
+    //renderer: 'myrender'
 });
 
 Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
@@ -53,9 +53,9 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
         //},
 
         editable: true,
-
+        
         getSerializableProperties() {
-            return ['text', 'flex', 'itemId', 'dataType', 'dataIndex', '.editor'];
+            return ['text', 'flex', 'itemId', 'dataType', 'dataIndex', '.editor', 'renderer', 'scriptCode'];
         },
 
         getEditorConfig() {
@@ -66,7 +66,7 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
                     name: e.name
                 };
                 if (e.xtype === 'selectfield' && e._options) {
-                    obj.options = e._options.data.items.map(r => r.data.text);                    
+                    obj.options = e._options.data.items.map(r => r.data.text);
                 }
                 else if (e.xtype === 'gridcellcombo') {
 

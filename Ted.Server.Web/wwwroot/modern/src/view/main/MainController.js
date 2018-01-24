@@ -288,6 +288,8 @@ Ext.define('Admin.view.main.MainController', {
                         iconCls: 'x-fa fa-calendar-plus-o'
                     },
                     rsp => {
+
+                        debugger;
                         let page = rsp.data;
                         item = JSON.parse(page.json);
 
@@ -547,6 +549,7 @@ Ext.define('Admin.view.main.MainController', {
     addDataPanelButtonClick() {
         this.addPanel({
             xtype: 'tedgrid',
+            editable: true,
             itemId: Util.createCmpGuid(),
             columns: [
                 {
@@ -555,7 +558,8 @@ Ext.define('Admin.view.main.MainController', {
                     xtype: 'tedstringcolumn',
                     itemId: Util.createCmpGuid(),
                     dataIndex: 'col1',
-                    dataType: 'string'
+                    dataType: 'string',
+                    //renderer: 'myrender'
                 }
             ]
         }, 'New Data Panel (' + (this.getView().getItems().items.length+1) + ')');

@@ -2,21 +2,30 @@
   "items": [
     {
       "title": "New Data Panel (5)",
-      "itemId": "DEWrRaggAxgPnAhp",
-      "dataSourceId": "_1_iTghigRENdBhcRDc",
+      "itemId": "TWuqNQwuvncXOYFm",
+      "dataSourceId": "_1_hWfAxOkxckhxZTtZ",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "VFVnYGfuTYjROiXo",
+          "itemId": "OEMrAQOTkmNMexHg",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "waTMcaKTJNHGnyPp",
+              "itemId": "QVYseVYfcjBvyeEe",
               "dataType": "string",
               "dataIndex": "col1",
               "xtype": "tedstringcolumn"
+            },
+            {
+              "text": "Date Column 2",
+              "flex": 1,
+              "itemId": "XWxPTaLPvGADJHeq",
+              "dataType": "date",
+              "dataIndex": "col2",
+              "renderer": "myrender",
+              "xtype": "teddatecolumn"
             }
           ]
         }
