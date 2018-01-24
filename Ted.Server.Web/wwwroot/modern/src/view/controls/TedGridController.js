@@ -48,10 +48,6 @@
         let grid = this.getView().down('grid');
         let store = grid.getStore();
 
-        //let record = Ext.create('Admin.model.FlexRow', {
-        //    fields: fields
-        //});
-
         let getDefaultValue = (type) => {
             switch (type) {
                 case 'date':
@@ -66,7 +62,8 @@
 
         let record = {};
         grid.getColumns().forEach(col => {
-            record[col.getDataIndex()] = getDefaultValue(col.dataType);
+            if (col.getDataIndex() != 'id')
+                record[col.getDataIndex()] = getDefaultValue(col.dataType);
         });
 
         let error = false;
@@ -97,7 +94,21 @@
         }
 
         if (!error) {
+
+            vm.set('selected', null);
+            store.suspendAutoSync();
             store.insert(0, record);
+            //store.on('add', (s,o) => vm.set('selected', o.getRecords()[0]));
+
+            store.sync({
+                vm: vm,
+                store: store,
+                success(batch, opts) {
+                    let prev = opts.store.getAt(0);
+                    opts.vm.set('selected', prev);
+                }
+            });
+            store.resumeAutoSync();
         }
 
     },
@@ -109,7 +120,9 @@
         let store = grid.getStore();
         let selected = vm.get('selected');
         let idx = store.indexOf(selected);
+        assert(idx >= 0);
 
+        store.suspendAutoSync();
         store.remove(selected);
         store.sync({
             vm: vm,
@@ -125,23 +138,16 @@
                 }
             }
         });
-    },
-
-    onDateCellRender(value, record) {
-        debugger;
-        let ms = Date.parse('20 Aug 1973 14:58:14 GMT');
-        let date = new Date(ms);
-        let res = Ext.Date.format(value, 'm-d-Y g:i A');;
-        return date.toString();
+        store.resumeAutoSync();
     },
 
     cellRenderer(value, record, index, cell, column) {
-        
+
         if (column.scriptCode) {
             if (!column.scriptFunction) {
                 column.scriptFunction = new Function('value', 'data', 'name', 'record', 'cell', 'column', column.scriptCode);
             }
-            
+
             return column.scriptFunction(value, record.data, index, record, cell, column);
         }
 
@@ -222,7 +228,6 @@
             flex: 1,
             itemId: Util.createCmpGuid(),
             dataType: itm.columnXType,
-          
         };
 
         // Insert UI column
@@ -257,7 +262,46 @@
 
 
     showAll() {
-        this.getView().down('tedgrid').getStore().load();
+        let grid = this.getView().down('tedgrid');
+        grid.getStore().load();
+    },
+
+    duplicateRowButtonClick() {
+        let vm = this.getViewModel();
+        let grid = this.getView().down('tedgrid');
+        var store = grid.getStore();
+        let selected = vm.get('selected');
+        let index = store.indexOf(selected);
+        
+        vm.set('selected', null);
+        store.suspendAutoSync();
+
+        let rec = store.insert(index, {})[0];
+
+        for (var prop in selected.data) {
+            if (prop != 'id') {
+                rec.set(prop, selected.get(prop));
+            }
+        }
+
+        store.sync({
+            vm: vm,
+            success(batch, opts) {
+                opts.vm.set('selected', opts.operations.create[0]);
+                store.resumeAutoSync();
+            }
+        });
+    },
+
+    importButtonClick() {
+
+
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+        } else {
+            alert('The File APIs are not fully supported in this browser.');
+        }
+
     }
 
 });

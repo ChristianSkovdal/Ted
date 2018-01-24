@@ -68,7 +68,9 @@ Ext.define('Admin.view.main.Toolbar', {
     //          bind: {
     //              pressed: '{editMode}'
     //          }
-    //},
+        //},
+
+
         {
             iconCls: 'x-fa fa-link',
             margin: '0 7 0 0',

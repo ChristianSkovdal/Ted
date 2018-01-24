@@ -31,7 +31,6 @@
     },
 
     defineDataModel(cmp) {
-        
         //assert(this.getView().getItemId());
         let modelName = 'Ted.data.DynamicModel.' + Util.createCmpGuid();// this.getView().getItemId();
         //let modelName = 'Ted.data.DynamicModel.' + this.getView().getItemId();
@@ -145,6 +144,12 @@
     onAddSomething(panel) {
         
         // Add linked table
+
+    },
+
+    browseButtonClick() {
+        debugger;
+        $('input[type=file]').trigger('click');
 
     }
 

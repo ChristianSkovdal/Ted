@@ -2,30 +2,33 @@
   "items": [
     {
       "title": "New Data Panel (5)",
-      "itemId": "TWuqNQwuvncXOYFm",
-      "dataSourceId": "_1_hWfAxOkxckhxZTtZ",
+      "itemId": "cDMJMgdrEFqeiIjX",
+      "dataSourceId": "_1_XeZKwAergCRxIwGT",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "OEMrAQOTkmNMexHg",
+          "itemId": "oFAJCgqMwrqGnpww",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "QVYseVYfcjBvyeEe",
+              "itemId": "FShNNlnEJxEyVKCd",
               "dataType": "string",
               "dataIndex": "col1",
+              "renderer": "cellRenderer",
+              "scriptCode": "debugger;return \"Hej,\" + value",
               "xtype": "tedstringcolumn"
             },
             {
-              "text": "Date Column 2",
+              "text": "String Column 2",
               "flex": 1,
-              "itemId": "XWxPTaLPvGADJHeq",
-              "dataType": "date",
+              "itemId": "wUxLGeRNHuOxKScn",
+              "dataType": "string",
               "dataIndex": "col2",
-              "renderer": "myrender",
-              "xtype": "teddatecolumn"
+              "renderer": "cellRenderer",
+              "scriptCode": "record.set(\"col2\", \"Dims Dims: \"+value); return value",
+              "xtype": "tedstringcolumn"
             }
           ]
         }

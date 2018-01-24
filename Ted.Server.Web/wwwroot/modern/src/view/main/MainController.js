@@ -185,7 +185,7 @@ Ext.define('Admin.view.main.MainController', {
                     },
                     err => {
                         Ext.Msg.alert('Communication Error', err.message, () => {
-                            me.redirectTo('login');
+                           // me.redirectTo('login');
                         });
                     }
                 );
@@ -525,6 +525,27 @@ Ext.define('Admin.view.main.MainController', {
         );
     },
 
+    //addFormPanelButtonClick() {
+
+    //    this.addPanel(
+    //        {
+    //            xtype: 'tedform',
+    //            itemId: Util.createCmpGuid(),
+    //            items: [
+    //                {
+    //                    xtype: 'tedtextfield',
+    //                    itemId: Util.createCmpGuid(),
+    //                    label: 'Name'
+    //                },
+    //                {
+    //                    xtype: 'tednumberfield',
+    //                    itemId: Util.createCmpGuid(),
+    //                    label: 'Age'
+    //                }
+    //            ]
+    //        }, 'New Form Panel', true);
+    //},
+
     addFormPanelButtonClick() {
 
         this.addPanel(
@@ -533,14 +554,14 @@ Ext.define('Admin.view.main.MainController', {
                 itemId: Util.createCmpGuid(),
                 items: [
                     {
-                        xtype: 'tedtextfield',
+                        html: '<input type="file" />',
                         itemId: Util.createCmpGuid(),
-                        label: 'Name'
                     },
                     {
-                        xtype: 'tednumberfield',
+                        xtype: 'button',
                         itemId: Util.createCmpGuid(),
-                        label: 'Age'
+                        text: 'Browse',
+                        handler: 'browseButtonClick'
                     }
                 ]
             }, 'New Form Panel', true);
@@ -553,13 +574,22 @@ Ext.define('Admin.view.main.MainController', {
             itemId: Util.createCmpGuid(),
             columns: [
                 {
+                    text: 'Id',
+                    //flex: 1,
+                    xtype: 'tedintcolumn',
+                    itemId: Util.createCmpGuid(),
+                    dataIndex: 'id',
+                    dataType: 'int',
+                    format: '0,000',
+                    editable: false
+                },
+                {
                     text: 'First Column',
                     flex: 1,
                     xtype: 'tedstringcolumn',
                     itemId: Util.createCmpGuid(),
                     dataIndex: 'col1',
                     dataType: 'string',
-                    //renderer: 'myrender'
                 }
             ]
         }, 'New Data Panel (' + (this.getView().getItems().items.length+1) + ')');
