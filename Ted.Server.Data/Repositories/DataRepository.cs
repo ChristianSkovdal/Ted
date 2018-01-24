@@ -42,6 +42,19 @@ namespace Ted.Server.Data
             }
         }
 
+        public IEnumerable<dynamic> GetColumnValues(string tableName, string columnName)
+        {
+
+
+            using (var tbl = new FlexTable(_config.GetConnectionString("DefaultConnection"), tableName))
+            {
+                var sql = $"SELECT [{columnName}] AS [name] FROM [{tableName}]";
+                var dt = tbl.Select(sql);
+                return dt.AsDynamicEnumerable();
+            }
+
+        }
+
         private List<string> GetDynamicPropertyName(dynamic value)
         {
             var list = new List<string>();

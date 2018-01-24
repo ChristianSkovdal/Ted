@@ -5,6 +5,7 @@
     control: {
         'tedgrid': {
             select: function (cmp, records, eOpts) {
+
                 let hostPanel = this.getView().getParent();
                 let listeners = Ext.ComponentQuery.query('panelhost[masterTableId=' + hostPanel.getItemId() + ']');
                 for (let linked of listeners) {
@@ -29,7 +30,8 @@
 
     requires: [
         'Aux.Util',
-        'Admin.model.FlexRow'
+        'Admin.model.FlexRow',
+        'Admin.view.controls.GridCellComboBox'
     ],
 
     reload() {
@@ -66,29 +68,37 @@
             record[col.getDataIndex()] = getDefaultValue(col.dataType);
         });
 
+        let error = false;
         let mtid = grid.getMasterTableId();
         if (mtid) {
             let masterPanel = Ext.ComponentQuery.query('#' + mtid);
+            assert(masterPanel.length<=1);
             if (masterPanel.length === 0) {
-                Msg.error('Table not found', 'The master table with id ' +mtid+ ' does not exist');
+                error = true;
+                Ext.Msg.alert('Table not found', 'The master table with id ' + mtid + ' does not exist. Do you wish to convert the linked table into a regular table?', (btn, val, opts) => {
+                    // TODO:
+                    debugger; 
+                });
             }
             else {        
                 let grid = masterPanel[0].down('tedgrid');
                 assert(grid);
                 let selectedMasterRecord = grid.getSelection();
-                debugger;
                 if (selectedMasterRecord) {
                     record[mtid+'_id'] = selectedMasterRecord.get('id');
                 }
                 else {
+                    error = true;
                     Ext.Msg.alert('Select Master Record', 'No row in the master table is selected. Select one before adding a row in a linked table');
                 }
                 
             }
         }
 
-        store.insert(0, record);
-        //store.sync();
+        if (!error) {
+            store.insert(0, record);
+        }
+        
     },
 
     deleteRow() {
@@ -126,23 +136,38 @@
 
     columnSettings(itm, event) {
 
-        let columnConfig = {
-            type: ColumnSelectType.Simple,
-            options: [
-                'Shade',
-                'Mostly Shady',
-                'Sun or Shade',
-                'Mostly Sunny',
-                'Sunny'
-            ]
-        }
-
         let vm = this.getViewModel();
         let grid = this.getView();
         let user = vm.get('user');
 
         let column = itm.up('column');
-        column.columnConfig = columnConfig;
+
+        //column.setEditor({
+        //    name: column.getDataIndex(),
+        //    xtype: 'selectfield',
+        //    options: [
+        //        'Shade',
+        //        'Mostly Shady',
+        //        'Sun or Shade',
+        //        'Mostly Sunny',
+        //        'Sunny'
+        //    ]
+        //});
+
+        const srcId = '_1_fcsbLnxvXTYxLJbv';
+        const colname = 'col2';
+
+        column.setEditor({
+
+            dataSourceId: srcId,
+            columnName: colname,
+            xtype: 'gridcellcombo',
+            //itemTpl: '<span role="option" class="x-boundlist-item">{abbr} - {name}</span>',
+            //displayTpl: '{abbr} - {name}',
+            
+            
+        });
+
         let hdr = grid.getHeaderContainer();
 
         // Find the page from the tab so the UI hierachy are serialized

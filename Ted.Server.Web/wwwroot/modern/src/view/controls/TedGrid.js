@@ -20,7 +20,7 @@ Ext.define('Admin.view.controls.TedGrid', {
 
     listeners: {
         specialkey: function () {
-            debugger;
+
         }
     },
 

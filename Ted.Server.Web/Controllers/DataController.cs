@@ -22,6 +22,22 @@ namespace Ted.Server.Web.Controllers
         }
 
 
+
+        [HttpGet("column/{token}/{table}/{columns}")]
+        public JsonResult GetColumnValues(string token, string table, string columns)
+        {
+            var tbl = _repo.GetTable(table);
+
+            if (!_auth.AuthenticateForTable(token, table))
+                throw new TedExeption(ExceptionCodes.Authentication);
+
+            return Json(new
+            {
+                success = true,
+                data = _repo.GetColumnValues(table, columns)
+            });
+        }
+
         [HttpGet("{token}/{table}")]
         public JsonResult GetAllRows(string token, string table)
         {

@@ -131,6 +131,7 @@
         let token = vm.get('user.token');
 
         panel.getParent().remove(panel);
+        panel.destroy();
         let objTree = page.getComponentTree();
 
 

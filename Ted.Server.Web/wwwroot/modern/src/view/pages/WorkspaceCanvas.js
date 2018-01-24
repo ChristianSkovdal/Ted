@@ -6,8 +6,8 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
     cls: 'userProfile-container dashboard',
     scrollable: 'y',
     layout: 'hbox',
-   // style: 'background:white;',
-    
+    // style: 'background:white;',
+
 
     defaults: {
         shadow: true,
@@ -23,20 +23,50 @@ Ext.define('Admin.view.profile.WorkspaceCanvas', {
             if (cmp.getSerializableProperties) {
                 let propNames = cmp.getSerializableProperties();
                 let obj = {};
+
                 for (let pname of propNames) {
 
-                    if (cmp[pname]) {
-                        obj[pname] = cmp[pname];
-                    }                    
+                    //let current = cmp;
+                    //let currentObj = obj;
 
-                    let propname = '_' + pname;
-                    if (cmp[propname]) {
-                        obj[pname] = cmp[propname];
-                    }                    
+                    //let tokens = pname.split('.');
+                    //if (tokens.length == 2) {
+                    //    let prop = tokens[0];
+                    //    let propprop = tokens[1];
+                    //    debugger;
+                    //    current = current['_' + prop];
+                    //    assert(current);
+                    //    currentObj[prop] = {};
+                    //    currentObj = currentObj[prop];
+                    //    pname = propprop;
+                    //}
+
+                    if (pname.startsWith('.')) {
+                        pname = pname.substr(1);
+                        let fnName = 'get' + Util.capitalizeFirstLetter(pname) + 'Config';
+                        let cfg = cmp[fnName]();
+                        if (cfg) {
+                            obj[pname] = cfg;
+                        }
+                    }
+                    else {
+
+                        if (cmp[pname]) {
+                            obj[pname] = cmp[pname];
+                        }
+                        else {
+                            let propname = '_' + pname;
+                            if (cmp[propname]) {
+                                obj[pname] = cmp[propname];
+                            }
+                        }
+                    }
+
                 }
+                
                 obj.xtype = cmp.xtype;
                 array.push(obj);
-                
+
                 if (cmp.getChildren) {
 
                     if (cmp.getColumns) {

@@ -122,6 +122,7 @@ Ext.define('Admin.view.main.MainController', {
             item = view.child('component[routeId=' + hashTag + ']');
 
         if (item && item.reloadItem) {
+            item.destroy();
             item = null;
         }
 
@@ -151,6 +152,7 @@ Ext.define('Admin.view.main.MainController', {
 
                 AjaxUtil.get('/api/page/' + token + '/' + pageid + '/' + currentWsId,
                     rsp => {
+                        
                         let page = rsp.data;
                         item = JSON.parse(page.json);
                         item.pageId = rsp.data.id;
@@ -467,9 +469,12 @@ Ext.define('Admin.view.main.MainController', {
         let vm = this.getViewModel();
         let user = vm.get('user');
 
+        assert(childCfg);
+        assert(title);
+
         let panelCfg = {
             xtype: 'panelhost',
-            title: title || 'New Data Panel',
+            title: title,
             itemId: Util.createCmpGuid(),
             masterTableId: masterTableId,
             items: [childCfg]
@@ -540,7 +545,6 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     addDataPanelButtonClick() {
-
         this.addPanel({
             xtype: 'tedgrid',
             itemId: Util.createCmpGuid(),
@@ -554,7 +558,7 @@ Ext.define('Admin.view.main.MainController', {
                     dataType: 'string'
                 }
             ]
-        });
+        }, 'New Data Panel (' + (this.getView().getItems().items.length+1) + ')');
     },
 
     addLinkedFormPanelButtonClick() {

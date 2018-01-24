@@ -1,62 +1,19 @@
 {
   "items": [
     {
-      "title": "New Data Panel",
-      "itemId": "QusJAnZdryxDBDtg",
-      "dataSourceId": "_1_OlvLdAnGAeNlfusy",
+      "title": "New Data Panel (5)",
+      "itemId": "DEWrRaggAxgPnAhp",
+      "dataSourceId": "_1_iTghigRENdBhcRDc",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "kuHgafJwNyXuvGas",
+          "itemId": "VFVnYGfuTYjROiXo",
           "xtype": "tedgrid",
           "columns": [
             {
               "text": "First Column",
               "flex": 1,
-              "itemId": "ZMQagkOFGrhxGKav",
-              "dataType": "string",
-              "dataIndex": "col1",
-              "xtype": "tedstringcolumn"
-            },
-            {
-              "text": "Date Column 2",
-              "flex": 1,
-              "itemId": "YnGYRKwEonxMlDkG",
-              "dataType": "date",
-              "dataIndex": "col2",
-              "xtype": "teddatecolumn"
-            },
-            {
-              "text": "String Column 3",
-              "flex": 1,
-              "itemId": "tscfGLGJhsDgfxnl",
-              "dataType": "string",
-              "dataIndex": "col3",
-              "columnConfig": {
-                "type": 1,
-                "options": [ "Shade", "Mostly Shady", "Sun or Shade", "Mostly Sunny", "Sunny" ]
-              },
-              "xtype": "tedselectcolumn"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "New Linked Table",
-      "itemId": "MdPApuAKonxLBIPS",
-      "dataSourceId": "_1_mlRqUHRFBHsMXVLS",
-      "masterTableId": "QusJAnZdryxDBDtg",
-      "xtype": "panelhost",
-      "items": [
-        {
-          "itemId": "LKqMDFWLXWMWUCeG",
-          "xtype": "tedgrid",
-          "columns": [
-            {
-              "text": "First Column",
-              "flex": 1,
-              "itemId": "jUEwCOKeZBPdPWgL",
+              "itemId": "waTMcaKTJNHGnyPp",
               "dataType": "string",
               "dataIndex": "col1",
               "xtype": "tedstringcolumn"
