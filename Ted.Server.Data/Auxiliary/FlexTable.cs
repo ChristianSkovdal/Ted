@@ -372,6 +372,11 @@ namespace Ted.Server.Data
             //    }
             //}
 
+            if (records[0].GetType() == typeof(JArray))
+            {
+                records = records[0];
+            }
+
             GetColumnMetaData().ToList().ForEach(r => tbl.Columns.Add(new DataColumn
             {
                 DataType = r.Value,
@@ -392,7 +397,7 @@ namespace Ted.Server.Data
                     }
                     else
                     {
-                        row[prop.Path] = prop.Value.Value;
+                        row[prop.Name] = prop.Value.Value;
                     }
 
                 }

@@ -29,6 +29,66 @@ Ext.define('Admin.view.controls.TedDateColumn', {
     //renderer: 'myrender'
 });
 
+Ext.define('Admin.view.controls.TedImportColumn', {
+    extend: 'Ext.grid.column.Column',
+    xtype: 'importcolumn',
+
+    flex: 1,
+    getMenu() {
+
+        let me = this;
+        let menu = this.callParent(arguments);
+
+        menu.on('beforeshow', menu => {
+
+            menu.items.items.forEach(m => {
+                if (!m.addedMenuItem)
+                    m.hide();
+            });
+
+            addIfNeeded = function (m, i) {
+                if (!m.down('#' + i.itemId)) {
+                    i.addedMenuItem = true;
+                    m.add(i);
+                }
+            };
+
+
+            addIfNeeded(menu, {
+                text: 'Ignore',
+                itemId: 'column-ignore',
+                group: 'itemGroup',
+                //iconCls: Ext.baseCSSPrefix + 'headermenu-sort-asc'
+            });
+            addIfNeeded(menu, {
+                text: 'Create',
+                itemId: 'column-create',
+                group: 'itemGroup',
+                checked: true,
+
+            });
+            addIfNeeded(menu, {
+                xtype: 'menuseparator'
+            });
+            assert(me.up('dialog').destinationGrid);
+            for (let col of me.up('dialog').destinationGrid.getColumns()) {
+                if (col.getDataIndex() != 'id') {
+                    addIfNeeded(menu, {
+                        text: col.getText(),
+                        itemId: col.getDataIndex(),
+                        group: 'itemGroup',
+                    });
+                }
+            }
+            
+            return true;
+        });
+
+        return menu;
+    }
+});
+
+
 Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
 
     var props = {
@@ -53,7 +113,7 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
         //},
 
         editable: true,
-        
+
         getSerializableProperties() {
             return ['text', 'flex', 'itemId', 'dataType', 'dataIndex', '.editor', 'renderer', 'scriptCode'];
         },

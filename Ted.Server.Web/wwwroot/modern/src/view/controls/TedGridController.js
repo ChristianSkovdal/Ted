@@ -3,6 +3,9 @@
     alias: 'controller.tedgrid',
 
     control: {
+        'importcolumn>menu': {
+            click: 'importColumnMenuClick'
+        },
         'tedgrid': {
             select: function (cmp, records, eOpts) {
 
@@ -25,13 +28,15 @@
                     }
                 });
             }
+
         }
     },
 
     requires: [
         'Aux.Util',
         'Admin.model.FlexRow',
-        'Admin.view.controls.GridCellComboBox'
+        'Admin.view.controls.GridCellComboBox',
+        'Admin.view.dialogs.ImportDlg'
     ],
 
     reload() {
@@ -48,23 +53,23 @@
         let grid = this.getView().down('grid');
         let store = grid.getStore();
 
-        let getDefaultValue = (type) => {
-            switch (type) {
-                case 'date':
-                    return new Date();
-                case 'int':
-                    return (store.count() + 1) * 100;
-                case 'boolean':
-                    return true;
-            }
-            return 'My data: ' + (store.count() + 1);
-        };
+        //let getDefaultValue = (type) => {
+        //    switch (type) {
+        //        case 'date':
+        //            return new Date();
+        //        case 'int':
+        //            return (store.count() + 1) * 100;
+        //        case 'boolean':
+        //            return true;
+        //    }
+        //    return 'My data: ' + (store.count() + 1);
+        //};
 
         let record = {};
-        grid.getColumns().forEach(col => {
-            if (col.getDataIndex() != 'id')
-                record[col.getDataIndex()] = getDefaultValue(col.dataType);
-        });
+        //grid.getColumns().forEach(col => {
+        //    if (col.getDataIndex() != 'id')
+        //        record[col.getDataIndex()] = getDefaultValue(col.dataType);
+        //});
 
         let error = false;
         let mtid = grid.getMasterTableId();
@@ -75,7 +80,7 @@
                 error = true;
                 Ext.Msg.alert('Table not found', 'The master table with id ' + mtid + ' does not exist. Do you wish to convert the linked table into a regular table?', (btn, val, opts) => {
                     // TODO:
-                    debugger;
+                    
                 });
             }
             else {
@@ -211,32 +216,74 @@
 
     },
 
+    createUniqueColumnDataIndex(baseName) {
+
+        baseName = baseName.replace(/\W/g, '');
+        let max = 10;
+        let i = 1;
+
+        if (baseName.length >= 1) {
+            let temp = baseName;
+
+            for (; this.getView().getColumns().some(r => r.getDataIndex() === temp) && i <= max; i++) {
+                temp = baseName + i;
+            }
+            baseName = temp;
+        }
+        else {
+            return Util.createCmpGuid();
+        }
+
+        if (i === max) {
+            return Util.createCmpGuid();
+        }
+        return baseName;
+    },
+
     columnAdd(itm, event) {
 
         let vm = this.getViewModel();
         let grid = this.getView();
-        let user = vm.get('user');
 
         let column = itm.up('column');
         let hdr = grid.getHeaderContainer();
 
         // UI Column definition
+        let colName = Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1);
+        let dataIndex = this.createUniqueColumnDataIndex(colName);
+
         let obj = {
-            dataIndex: 'col' + (hdr.getItems().length + 1),
+            dataIndex: dataIndex,
             xtype: itm.editor || 'ted' + itm.columnXType + 'column',
-            text: Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1),
+            text: colName + ' (' + dataIndex + ')',
             flex: 1,
             itemId: Util.createCmpGuid(),
-            dataType: itm.columnXType,
+            dataType: itm.columnXType
         };
 
         // Insert UI column
         let index = hdr.getItems().indexOf(column);
         index++;
-        hdr.insert(index, obj);
+
+        this.insertColumn(index, obj, grid);
+    },
+
+    
+    insertColumn(index, obj, grid) {
+        
+        let user = App.getUser();
+
+        let hdr = grid.getHeaderContainer();
+
+        if (index >= 0) {
+            hdr.insert(index, obj);
+        }
+        else {
+            hdr.add(obj);
+        }
 
         // Notify that the model has changed
-        grid.getParent().fireEvent('modelChange');
+       // grid.getParent().fireEvent('modelChange');
 
         // Find the page from the tab so the UI hierachy are serialized
         let canvas = grid.upsafe('workspacecanvas');
@@ -251,7 +298,7 @@
             }),
             column: {
                 name: obj.dataIndex,
-                type: itm.columnXType
+                type: obj.dataType
             },
             dataSourceId: panel.dataSourceId
         };
@@ -279,7 +326,7 @@
         let rec = store.insert(index, {})[0];
 
         for (var prop in selected.data) {
-            if (prop != 'id') {
+            if (prop !== 'id') {
                 rec.set(prop, selected.get(prop));
             }
         }
@@ -295,6 +342,7 @@
 
     onImportFileChange(cmp, filename, oldval, opts) {
         let reader = new FileReader();
+        let grid = this.getView();
 
         reader.onload = (e) => {
             let text = e.target.result;
@@ -309,60 +357,49 @@
                         columnNames.push('column+' + i);
                     }
                 }
-
                 let data = [];
                 for (let i = 0; i < lines.length; i++) {
                     if (i > 0) {
 
-                        console.log('Importing row #' + i);
+                        if (i % 100 === 0)
+                            console.log('Importing row #' + i);
+
                         let obj = {};
                         let tokens = lines[i].split(';');
-                        for (let i = 0; i < Math.min(tokens.length, columnNames.length); i++) {
-                            obj[columnNames[i]] = tokens[i];
+                        if (tokens.length > 1) {                        
+                            for (let i = 0; i < Math.min(tokens.length, columnNames.length); i++) {
+                                obj[columnNames[i]] = tokens[i];
+                            }
+                            data.push(obj);
                         }
-                        data.push(obj);
-                    }
-                }
-                debugger;
-
+                    }                }
+                
                 var store = Ext.create('Ext.data.Store', {
                     fields: columnNames,
-                    data: data
+                    data: data,
+                    originalData: data
                 });
-
-
+                
                 let w = Ext.create({
-                    xtype: 'dialog',
-                    title: 'Import',
-                    resizeable: true,
-                    width: 800,
-                    height: 400,
-                    layout: 'fit',
-                    //defaultListenerScope: true,
-                    maximizable: true,
+                    xtype: 'importdlg',
+                    controller: 'tedgrid',
+                    title: 'Import ' + filename,
+                    destinationGrid: grid,
+                    columnNames: columnNames,
                     items: [
                         {
                             xtype: 'grid',
+                            itemId: 'importGrid',
                             columns: columnNames.map(r => ({
-                                text: Util.capitalizeFirstLetter(r).replace('_', ''),
+                                text: Util.capitalizeFirstLetter(r).replace('_', '') + ' (Create)',
+                                oldText: Util.capitalizeFirstLetter(r).replace('_', ''),
                                 dataIndex: r,
-                                flex: 1
+                                xtype: 'importcolumn',
+                                importAction: 'create'
                             })),
                             store: store
-
                         }
-                    ],
-                    buttons: {
-                        cancel: function () {  // standard button (see below)
-                            this.up('dialog').destroy();
-                        },
-                        import: {
-                            text: 'Import',
-                            handler: 'onStartImport',
-                            weight: 200
-                        }
-                    }
-
+                    ]
                 });
 
                 w.show();
@@ -370,13 +407,120 @@
 
         };
         reader.readAsText(cmp.getFiles()[0]);
-
-        
-
     },
 
     onStartImport() {
+        let dlg = this.getView();
+        let srcgrid = dlg.downsafe('grid');
+        assert(dlg.destinationGrid);
+        let dst = dlg.destinationGrid.getStore();
+
+        let src = srcgrid.getStore();
         debugger;
+        // First let se if we have to create any columns
+        for (let col of srcgrid.getColumns()) {
+            if (col.importAction === 'create') {
+                if (!this.createColumn(col.oldText, col.getDataIndex(), dlg.destinationGrid)) {
+                    return;
+                }
+                else {
+                    col.destinationColumn = col.getDataIndex();
+                }
+            }
+        }
+        
+        let columns = srcgrid.getColumns();
+        let postData = [];
+        for (let row of src.originalData) {
+            let idx = 0;
+            delete row['id'];
+            let newRow = {};
+            for (prop in row) {
+                let column = columns[idx];
+                if (column.importAction !== 'ignore') {
+                    newRow[column.destinationColumn] = row[prop];
+                }
+                idx++;
+            }
+            postData.push(newRow);
+        }
+        
+        AjaxUtil.post('/api/data/' + App.getUser().token + '/' + dlg.destinationGrid.upsafe('panelhost').dataSourceId,
+            postData,
+            () => dst.reload()
+        );
+
+        //// Next start the import
+        //dst.suspendAutoSync();
+        //for (var i = 0; i < 10; i++) {
+        //    dst.add({
+        //        col1: 'Nr ' + i
+        //    });
+        //}
+        //dst.resumeAutoSync();
+        
+        ////dst.add(src.getRange());
+        ////debugger;
+        //dst.sync();
+    },
+
+    createColumn(name, dataIndex, dstGrid) {
+
+        if (dstGrid.getColumns().some(c => c.getText() === name)) {
+            Ext.Msg.alert('Could Not Import', 'Cannot create the column. There is already a column in the destination table with the name ' + name);
+            return false;
+        }
+        else {
+
+            //let temp = '';
+            //let counter = 1;
+            //while (dstGrid.getColumns().some(c => c.getDataIndex()) == dataIndex)) {
+            //    temp = dataIndex + (counter++);
+            //}
+            //dataIndex = temp;
+
+            let obj = {
+                dataIndex: dataIndex,
+                xtype: 'tedstringcolumn',
+                text: name,
+                flex: 1,
+                itemId: Util.createCmpGuid(),
+                dataType: 'string'
+            };
+
+
+            this.insertColumn(-1, obj, dstGrid);
+        }
+
+        return true;
+    },
+
+    importColumnMenuClick(menu, item, evt) {
+
+        debugger;
+        let grid = this.getView();
+        let column = menu.up('column');
+
+        let action = '';
+        let text = '';
+
+        if (item.getItemId() === 'column-create') {
+            text = column.oldText + ' (Create)';
+            action = 'create';
+        }
+        else if (item.getItemId() === 'column-ignore') {            
+            text = column.oldText + ' (Ignore)';
+            action = 'ignore';
+        }
+        else {
+            text = item.getText();
+            column.destinationColumn = item.getItemId();
+            action = 'map';
+        }
+
+        column.importAction = action;
+        column.setText(text);        
+
     }
 
 

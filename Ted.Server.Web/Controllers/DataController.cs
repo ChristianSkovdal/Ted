@@ -89,7 +89,7 @@ namespace Ted.Server.Web.Controllers
         }
 
         [HttpPost("{token}/{table}")]
-        public JsonResult AddRow(string token, string table, [FromBody] dynamic value)
+        public JsonResult AddRows(string token, string table, [FromBody] dynamic value)
         {
             if (!_auth.AuthenticateForTable(token, table))
                 throw new TedExeption(ExceptionCodes.Authentication);

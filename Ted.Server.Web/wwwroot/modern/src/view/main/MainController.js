@@ -289,7 +289,6 @@ Ext.define('Admin.view.main.MainController', {
                     },
                     rsp => {
 
-                        debugger;
                         let page = rsp.data;
                         item = JSON.parse(page.json);
 

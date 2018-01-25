@@ -7,10 +7,6 @@
     controller: 'newpagedlg',
     viewModel: 'newpagedlg',
 
-    requires: [
-        
-    ],
-
 	items: [
 		{
 			xtype: 'textfield',

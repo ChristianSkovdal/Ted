@@ -37,10 +37,10 @@
 
         let modelFields = [];
         let fields = cmp.getFields();
-        let index=1
+
         for (let f of fields) {
             modelFields.push({
-                name: 'col'+ index++,
+                name: f.name,
                 type: f.type
             });
         }
@@ -146,12 +146,7 @@
         // Add linked table
 
     },
-
-    browseButtonClick() {
-        debugger;
-        $('input[type=file]').trigger('click');
-
-    }
+    
 
 
 });

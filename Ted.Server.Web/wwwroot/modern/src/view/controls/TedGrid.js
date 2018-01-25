@@ -98,23 +98,45 @@ Ext.define('Admin.view.controls.TedGrid', {
                     disabled: '{!selected}'
                 }
             },
-            {
-                hidden:true,
-                xtype: 'filefield',
+            //{
+            //    //hidden:true,
+            //    xtype: 'filefield',
 
-                listeners: {
-                    scope: 'controller',
-                    change: function (cmp, filename, oldval, opts) {
-                        this.getView().down('grid').getController().onImportFileChange(cmp, filename, oldval, opts);
-                    }
-                }
-            },
+            //    listeners: {
+            //        scope: 'controller',
+            //        change: function (cmp, filename, oldval, opts) {
+            //            this.getView().down('grid').getController().onImportFileChange(cmp, filename, oldval, opts);
+            //        }
+            //    }
+            //},
             {
                 text: 'Import',
                 iconCls: 'x-fa fa-cloud-upload',
                 margin: '0 7 0 0',
                 handler: function () {
-                    $('input[type=file]').trigger('click');
+
+                    // Destroy and recreate the file field
+                    let tb = this.upsafe('toolbar');
+                    let ff = tb.down('filefield');
+                    if (ff) {
+                        ff.destroy();
+                    }
+                    tb.add({
+                        hidden:true,
+                        xtype: 'filefield',
+
+                        listeners: {
+                            scope: 'controller',
+                            change: function (cmp, filename, oldval, opts) {
+                                this.getView().down('grid').getController().onImportFileChange(cmp, filename, oldval, opts);
+                            }
+                        }
+                    });
+
+                    let id = tb.downsafe('filefield').getItemId();
+                    let input = $('#' + id).find('input[type=file]');
+                    assert(input.length == 1);
+                    input.trigger('click');
                 },
 
 

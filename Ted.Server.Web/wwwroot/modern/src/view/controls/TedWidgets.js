@@ -5,7 +5,7 @@
 
     listeners: {
         specialkey: function (field, event, eOpts) {
-            debugger;
+            
             //if (event.getKey() == event.TAB) {
             //    console.log('TAB');
             //} else if (event.getKey() == event.ENTER) {
