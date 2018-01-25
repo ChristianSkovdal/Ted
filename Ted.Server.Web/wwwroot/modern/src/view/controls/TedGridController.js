@@ -272,7 +272,7 @@
         var store = grid.getStore();
         let selected = vm.get('selected');
         let index = store.indexOf(selected);
-        
+
         vm.set('selected', null);
         store.suspendAutoSync();
 
@@ -293,15 +293,91 @@
         });
     },
 
-    importButtonClick() {
+    onImportFileChange(cmp, filename, oldval, opts) {
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+            let text = e.target.result;
+            const columNamesInFirstRow = true;
+            let lines = text.split('\n');
+            let firstRow = lines[0].split(';');
+            if (lines.length > 0) {
+
+                let columnNames = firstRow;
+                if (!columNamesInFirstRow) {
+                    for (let i = 1; i <= firstRow.length; i++) {
+                        columnNames.push('column+' + i);
+                    }
+                }
+
+                let data = [];
+                for (let i = 0; i < lines.length; i++) {
+                    if (i > 0) {
+
+                        console.log('Importing row #' + i);
+                        let obj = {};
+                        let tokens = lines[i].split(';');
+                        for (let i = 0; i < Math.min(tokens.length, columnNames.length); i++) {
+                            obj[columnNames[i]] = tokens[i];
+                        }
+                        data.push(obj);
+                    }
+                }
+                debugger;
+
+                var store = Ext.create('Ext.data.Store', {
+                    fields: columnNames,
+                    data: data
+                });
 
 
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-            // Great success! All the File APIs are supported.
-        } else {
-            alert('The File APIs are not fully supported in this browser.');
-        }
+                let w = Ext.create({
+                    xtype: 'dialog',
+                    title: 'Import',
+                    resizeable: true,
+                    width: 800,
+                    height: 400,
+                    layout: 'fit',
+                    //defaultListenerScope: true,
+                    maximizable: true,
+                    items: [
+                        {
+                            xtype: 'grid',
+                            columns: columnNames.map(r => ({
+                                text: Util.capitalizeFirstLetter(r).replace('_', ''),
+                                dataIndex: r,
+                                flex: 1
+                            })),
+                            store: store
 
+                        }
+                    ],
+                    buttons: {
+                        cancel: function () {  // standard button (see below)
+                            this.up('dialog').destroy();
+                        },
+                        import: {
+                            text: 'Import',
+                            handler: 'onStartImport',
+                            weight: 200
+                        }
+                    }
+
+                });
+
+                w.show();
+            }
+
+        };
+        reader.readAsText(cmp.getFiles()[0]);
+
+        
+
+    },
+
+    onStartImport() {
+        debugger;
     }
+
 
 });

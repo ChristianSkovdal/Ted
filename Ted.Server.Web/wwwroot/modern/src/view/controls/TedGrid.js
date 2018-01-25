@@ -99,77 +99,14 @@ Ext.define('Admin.view.controls.TedGrid', {
                 }
             },
             {
-                // hidden:true,
+                hidden:true,
                 xtype: 'filefield',
 
                 listeners: {
+                    scope: 'controller',
                     change: function (cmp, filename, oldval, opts) {
-                        let reader = new FileReader();
-
-                        reader.onload = (e) => {
-                            let text = e.target.result;
-                            const columNamesInFirstRow = true;
-                            let lines = text.split('\n');
-                            let firstRow = lines[0].split(';');
-                            if (lines.length > 0) {
-
-                                let columnNames = firstRow;
-                                if (!columNamesInFirstRow) {
-                                    for (let i = 1; i <= firstRow.length; i++) {
-                                        columnNames.push('column+' + i);
-                                    }
-                                }
-
-                                let data = [];
-                                for (let i = 0; i < lines.length; i++) {
-                                    if (i > 0) {
-
-                                        console.log('Importing row #'+i);
-                                        let obj = {};
-                                        let tokens = lines[i].split(';');
-                                        for (let i = 0; i < Math.min(tokens.length, columnNames.length); i++) {
-                                            obj[columnNames[i]] = tokens[i];
-                                        }
-                                        data.push(obj);
-                                    }
-                                }
-                                debugger;
-
-                                var store = Ext.create('Ext.data.Store', {
-                                    fields: columnNames,
-                                    data: data
-                                });
-                             
-
-                                let w = Ext.widget('window', {
-                                    title: 'Import',
-                                    resizeable: true,
-                                    width: 800,
-                                    height: 400,
-                                    layout:'fit',
-                                    items: [
-                                        {
-                                            xtype: 'grid',
-                                            columns: columnNames.map(r => ({
-                                                text: Util.capitalizeFirstLetter(r).replace('_', ''),
-                                                dataIndex: r,
-                                                flex: 1
-                                            })),
-                                            store: store
-
-                                        }
-                                    ],
-
-
-                                });
-
-                                w.show();
-                            }
-
-                        };
-                        reader.readAsText(cmp.getFiles()[0]);
+                        this.getView().down('grid').getController().onImportFileChange(cmp, filename, oldval, opts);
                     }
-
                 }
             },
             {
