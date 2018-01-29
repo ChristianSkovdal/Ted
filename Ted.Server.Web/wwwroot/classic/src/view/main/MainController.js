@@ -149,30 +149,30 @@ Ext.define('Admin.view.main.MainController', {
         this.setCurrentView(id);
     },
 
-    onSearchRouteChange: function () {
-        this.setCurrentView('searchresults');
-    },
+    //onSearchRouteChange: function () {
+    //    this.setCurrentView('searchresults');
+    //},
 
-    onSwitchToModern: function () {
-        Ext.Msg.confirm('Switch to Modern', 'Are you sure you want to switch toolkits?',
-                        this.onSwitchToModernConfirmed, this);
-    },
+    //onSwitchToModern: function () {
+    //    Ext.Msg.confirm('Switch to Modern', 'Are you sure you want to switch toolkits?',
+    //                    this.onSwitchToModernConfirmed, this);
+    //},
 
-    onSwitchToModernConfirmed: function (choice) {
-        if (choice === 'yes') {
-            var s = window.location.search;
+    //onSwitchToModernConfirmed: function (choice) {
+    //    if (choice === 'yes') {
+    //        var s = window.location.search;
 
-            // Strip "?classic" or "&classic" with optionally more "&foo" tokens
-            // following and ensure we don't start with "?".
-            s = s.replace(/(^\?|&)classic($|&)/, '').replace(/^\?/, '');
+    //        // Strip "?classic" or "&classic" with optionally more "&foo" tokens
+    //        // following and ensure we don't start with "?".
+    //        s = s.replace(/(^\?|&)classic($|&)/, '').replace(/^\?/, '');
 
-            // Add "?modern&" before the remaining tokens and strip & if there are
-            // none.
-            window.location.search = ('?modern&' + s).replace(/&$/, '');
-        }
-    },
+    //        // Add "?modern&" before the remaining tokens and strip & if there are
+    //        // none.
+    //        window.location.search = ('?modern&' + s).replace(/&$/, '');
+    //    }
+    //},
 
-    onEmailRouteChange: function () {
-        this.setCurrentView('email');
-    }
+    //onEmailRouteChange: function () {
+    //    this.setCurrentView('email');
+    //}
 });

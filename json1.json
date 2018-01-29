@@ -2,32 +2,40 @@
   "items": [
     {
       "title": "New Data Panel (5)",
-      "itemId": "cDMJMgdrEFqeiIjX",
-      "dataSourceId": "_1_XeZKwAergCRxIwGT",
+      "itemId": "JryZZxrhFNTDnVMg",
+      "dataSourceId": "_1_axuDcFpRPpPKGvDH",
       "xtype": "panelhost",
       "items": [
         {
-          "itemId": "oFAJCgqMwrqGnpww",
+          "itemId": "nIdPwHvPhffGcFvw",
           "xtype": "tedgrid",
           "columns": [
             {
-              "text": "First Column",
-              "flex": 1,
-              "itemId": "FShNNlnEJxEyVKCd",
-              "dataType": "string",
-              "dataIndex": "col1",
-              "renderer": "cellRenderer",
-              "scriptCode": "debugger;return \"Hej,\" + value",
-              "xtype": "tedstringcolumn"
+              "text": "Id",
+              "itemId": "fWGKUsNKLYRrOois",
+              "dataType": "int",
+              "dataIndex": "id",
+              "editor": {
+                "xtype": "spinnerfield",
+                "name": null
+              },
+              "xtype": "tedintcolumn"
             },
             {
-              "text": "String Column 2",
+              "text": "Picture Column 3 (PictureColumn3)",
               "flex": 1,
-              "itemId": "wUxLGeRNHuOxKScn",
+              "itemId": "mayjbJwiPCdGkyrq",
               "dataType": "string",
-              "dataIndex": "col2",
-              "renderer": "cellRenderer",
-              "scriptCode": "record.set(\"col2\", \"Dims Dims: \"+value); return value",
+              "dataIndex": "PictureColumn3",
+              "xtype": "tedpicturecolumn"
+            },
+            {
+              "text": "First Column",
+              "flex": 1,
+              "itemId": "YDjhHaOjbXWjQiTf",
+              "dataType": "string",
+              "dataIndex": "col1",
+              "renderer": "textCellRenderer",
               "xtype": "tedstringcolumn"
             }
           ]

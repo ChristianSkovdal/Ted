@@ -3,7 +3,7 @@ Ext.define('Admin.view.controls.TedGrid', {
     xtype: 'tedgrid',
 
     requires: [
-        'Admin.view.controls.TedGridController',
+        'Admin.view.controls.TedGridController'
     ],
 
     hostedItem: true,
@@ -18,6 +18,10 @@ Ext.define('Admin.view.controls.TedGrid', {
         gridcellediting: {
             selectOnEdit: true
         }
+    },
+
+    viewConfig: {
+        enableTextSelection: true
     },
 
     //selectable: {
@@ -37,7 +41,7 @@ Ext.define('Admin.view.controls.TedGrid', {
 
 
     bind: {
-        selection: '{selected}',
+        selection: '{selected}'
     },
 
     getSerializableProperties() {
@@ -50,12 +54,13 @@ Ext.define('Admin.view.controls.TedGrid', {
 
     getFields() {
         return this.getColumns()
-            .filter(r => r._dataIndex != 'id')
+            .filter(r => r._dataIndex !== 'id')
             .map(r => {
+
                 return {
                     type: r.dataType || r._dataType,
                     name: r._dataIndex
-                }
+                };
             });
 
     },
@@ -135,12 +140,12 @@ Ext.define('Admin.view.controls.TedGrid', {
 
                     let id = tb.downsafe('filefield').getItemId();
                     let input = $('#' + id).find('input[type=file]');
-                    assert(input.length == 1);
+                    assert(input.length === 1);
                     input.trigger('click');
-                },
+                }
 
 
-            },
+            }
         ];
 
         if (this.getMasterTableId()) {
@@ -152,7 +157,7 @@ Ext.define('Admin.view.controls.TedGrid', {
         }
 
         return buttons;
-    },
+    }
 
 
 

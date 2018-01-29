@@ -2,7 +2,7 @@
     extend: 'Ext.grid.column.Column',
     xtype: 'tedstringcolumn',
 
-    renderer: 'cellRenderer'
+    renderer: 'textCellRenderer'
 });
 
 Ext.define('Admin.view.controls.TedNumberColumn', {
@@ -10,23 +10,110 @@ Ext.define('Admin.view.controls.TedNumberColumn', {
     xtype: 'tedintcolumn',
 
     editor: {
-        xtype: 'numberfield',
-        //minValue: 10,
-        //maxValue: 15,
-    }
+        xtype: 'spinnerfield'
+    },
+
 });
 
 Ext.define('Admin.view.controls.TedBooleanColumn', {
     extend: 'Ext.grid.column.Boolean',
-    xtype: 'tedbooleancolumn'
+    xtype: 'tedbooleancolumn',
+
+
 });
 
 Ext.define('Admin.view.controls.TedDateColumn', {
     extend: 'Ext.grid.column.Date',
-    xtype: 'teddatecolumn',
+    xtype: 'teddatecolumn'
 
     //format: 'd-Y-m'
     //renderer: 'myrender'
+});
+
+Ext.define('Admin.view.controls.PictureCellEditor', {
+    extend: 'Ext.field.Select',
+    xtype: 'picturepicker',
+
+    //editable: true,
+    //forceSelection: true,
+    //    //itemTpl: '<span role="option" class="x-boundlist-item">{abbr} - {name}</span>',
+    //    //displayTpl: '{abbr} - {name}',
+
+    options: [
+        {
+            text: 'Upload...',
+            value: 'fdsgsf'
+        },
+        {
+            text: 'Hydrangeas.jpg',
+            value: 'Hydrangeas.jpg'
+        },
+        {
+            text: 'Jellyfish.jpg',
+            value: 'Jellyfish.jpg'
+        }, ,
+        {
+            text: 'Koala.jpg',
+            value: 'Koala.jpg'
+        }, ,
+        {
+            text: 'Penguins.jpg',
+            value: 'Penguins.jpg'
+        }
+    ]
+
+});
+
+
+Ext.define('Admin.view.controls.TedPictureColumn', {
+    extend: 'Ext.grid.column.Column',
+    xtype: 'tedpicturecolumn',
+
+    //editor: {
+    //    xtype: 'selectfield',
+    //    options: [
+    //        {
+    //            text: 'Upload...',
+    //            value: 'fdsgsf'
+    //        },
+    //        {
+    //            text: 'Hydrangeas.jpg',
+    //            value: 'Hydrangeas.jpg'
+    //        },
+    //        {
+    //            text: 'Jellyfish.jpg',
+    //            value: 'Jellyfish.jpg'
+    //        }, ,
+    //        {
+    //            text: 'Koala.jpg',
+    //            value: 'Koala.jpg'
+    //        }, ,
+    //        {
+    //            text: 'Penguins.jpg',
+    //            value: 'Penguins.jpg'
+    //        }
+    //    ]
+    //},
+
+
+
+    //renderer: 'pictureCellRenderer'
+
+    //cell: {
+    //    xtype: 'widgetcell',
+    //    widget: {
+    //        xtype: 'container',
+    //        layout:'fit',
+    //        items: [
+    //            {
+    //                margin:0,
+    //                xtype: 'container',
+    //                html: '<b>dsfaadf</b>',
+    //                style: 'background:blue;'
+    //            }
+    //        ]
+    //    }
+    //}
 });
 
 Ext.define('Admin.view.controls.TedImportColumn', {
@@ -57,14 +144,14 @@ Ext.define('Admin.view.controls.TedImportColumn', {
             addIfNeeded(menu, {
                 text: 'Ignore',
                 itemId: 'column-ignore',
-                group: 'itemGroup',
+                group: 'itemGroup'
                 //iconCls: Ext.baseCSSPrefix + 'headermenu-sort-asc'
             });
             addIfNeeded(menu, {
                 text: 'Create',
                 itemId: 'column-create',
                 group: 'itemGroup',
-                checked: true,
+                checked: true
 
             });
             addIfNeeded(menu, {
@@ -72,15 +159,15 @@ Ext.define('Admin.view.controls.TedImportColumn', {
             });
             assert(me.up('dialog').destinationGrid);
             for (let col of me.up('dialog').destinationGrid.getColumns()) {
-                if (col.getDataIndex() != 'id') {
+                if (col.getDataIndex() !== 'id') {
                     addIfNeeded(menu, {
                         text: col.getText(),
                         itemId: col.getDataIndex(),
-                        group: 'itemGroup',
+                        group: 'itemGroup'
                     });
                 }
             }
-            
+
             return true;
         });
 
@@ -138,7 +225,7 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
                     obj.dataSourceId = e.dataSourceId;
                     obj.columnName = e.columnName;
 
-                };
+                }
                 return obj;
             }
         },
@@ -172,27 +259,37 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
                     menu: [
                         {
                             text: 'Text',
-                            handler: 'columnAdd',
-                            columnXType: 'string'
+                            handler: 'addColumn',
+                            dataType: 'string',
+                            columnXType: 'tedstringcolumn'
                         },
                         {
                             text: 'Number',
-                            handler: 'columnAdd',
-                            columnXType: 'int'
+                            handler: 'addColumn',
+                            dataType: 'int',
+                            columnXType: 'tedintcolumn'
                         },
                         {
                             text: 'Date',
-                            handler: 'columnAdd',
-                            columnXType: 'date'
+                            handler: 'addColumn',
+                            dataType: 'date',
+                            columnXType: 'teddatecolumn'
                         },
                         {
                             text: 'Yes/No',
-                            handler: 'columnAdd',
-                            columnXType: 'boolean'
+                            handler: 'addColumn',
+                            dataType: 'boolean',
+                            columnXType: 'tedbooleancolumn'
                         },
+                        {
+                            text: 'Picture',
+                            handler: 'addColumn',
+                            dataType: 'string',
+                            columnXType: 'tedpicturecolumn'
+                        }
                         //{
                         //    text: 'Select',
-                        //    handler: 'columnAdd',
+                        //    handler: 'addColumn',
                         //    columnXType: 'string',
                         //    editor: 'tedselectcolumn'
                         //},
@@ -220,6 +317,7 @@ Ext.define('Admin.view.controls.TedColumnInitializer', {}, () => {
     Ext.override(Admin.view.controls.TedNumberColumn, props);
     Ext.override(Admin.view.controls.TedDateColumn, props);
     Ext.override(Admin.view.controls.TedBooleanColumn, props);
+    Ext.override(Admin.view.controls.TedPictureColumn, props);
     //    Ext.override(Admin.view.controls.TedSelectColumn, props);
 
 });

@@ -80,7 +80,7 @@
                 error = true;
                 Ext.Msg.alert('Table not found', 'The master table with id ' + mtid + ' does not exist. Do you wish to convert the linked table into a regular table?', (btn, val, opts) => {
                     // TODO:
-                    
+
                 });
             }
             else {
@@ -146,8 +146,7 @@
         store.resumeAutoSync();
     },
 
-    cellRenderer(value, record, index, cell, column) {
-
+    textCellRenderer(value, record, index, cell, column) {
         if (column.scriptCode) {
             if (!column.scriptFunction) {
                 column.scriptFunction = new Function('value', 'data', 'name', 'record', 'cell', 'column', column.scriptCode);
@@ -155,6 +154,11 @@
 
             return column.scriptFunction(value, record.data, index, record, cell, column);
         }
+
+        return value;
+    },
+
+    pictureCellRenderer(value, record, index, cell, column) {
 
         return value;
     },
@@ -219,6 +223,7 @@
     createUniqueColumnDataIndex(baseName) {
 
         baseName = baseName.replace(/\W/g, '');
+
         let max = 10;
         let i = 1;
 
@@ -240,25 +245,26 @@
         return baseName;
     },
 
-    columnAdd(itm, event) {
+    addColumn(menuItem, event) {
 
         let vm = this.getViewModel();
         let grid = this.getView();
 
-        let column = itm.up('column');
+        let column = menuItem.up('column');
         let hdr = grid.getHeaderContainer();
 
         // UI Column definition
-        let colName = Util.capitalizeFirstLetter(itm.columnXType) + ' Column ' + (hdr.getItems().length + 1);
+        let colName = menuItem.getText() + ' Column ' + (hdr.getItems().length + 1);
         let dataIndex = this.createUniqueColumnDataIndex(colName);
 
+        assert(!menuItem.editor);
         let obj = {
             dataIndex: dataIndex,
-            xtype: itm.editor || 'ted' + itm.columnXType + 'column',
+            xtype: menuItem.columnXType,
             text: colName + ' (' + dataIndex + ')',
             flex: 1,
             itemId: Util.createCmpGuid(),
-            dataType: itm.columnXType
+            dataType: menuItem.dataType
         };
 
         // Insert UI column
@@ -268,12 +274,13 @@
         this.insertColumn(index, obj, grid);
     },
 
-    
+
     insertColumn(index, obj, grid) {
-        
+
         let user = App.getUser();
 
         let hdr = grid.getHeaderContainer();
+        
 
         if (index >= 0) {
             hdr.insert(index, obj);
@@ -283,7 +290,7 @@
         }
 
         // Notify that the model has changed
-       // grid.getParent().fireEvent('modelChange');
+        // grid.getParent().fireEvent('modelChange');
 
         // Find the page from the tab so the UI hierachy are serialized
         let canvas = grid.upsafe('workspacecanvas');
@@ -348,6 +355,11 @@
             let text = e.target.result;
             const columNamesInFirstRow = true;
             let lines = text.split('\n');
+            
+            for (var i = 0; i < lines.length; i++) {
+                lines[0] = lines[0].trim().replace('\r', '');
+            }
+
             let firstRow = lines[0].split(';');
             if (lines.length > 0) {
 
@@ -416,11 +428,11 @@
         let dst = dlg.destinationGrid.getStore();
 
         let src = srcgrid.getStore();
-        debugger;
+        
         // First let se if we have to create any columns
         for (let col of srcgrid.getColumns()) {
             if (col.importAction === 'create') {
-                if (!this.createColumn(col.oldText, col.getDataIndex(), dlg.destinationGrid)) {
+                if (!this.createImportColumn(col.oldText, col.getDataIndex(), dlg.destinationGrid)) {
                     return;
                 }
                 else {
@@ -447,7 +459,10 @@
         
         AjaxUtil.post('/api/data/' + App.getUser().token + '/' + dlg.destinationGrid.upsafe('panelhost').dataSourceId,
             postData,
-            () => dst.reload()
+            () => {
+                dst.reload();
+                dlg.destroy();
+            }
         );
 
         //// Next start the import
@@ -464,7 +479,7 @@
         //dst.sync();
     },
 
-    createColumn(name, dataIndex, dstGrid) {
+    createImportColumn(name, dataIndex, dstGrid) {
 
         if (dstGrid.getColumns().some(c => c.getText() === name)) {
             Ext.Msg.alert('Could Not Import', 'Cannot create the column. There is already a column in the destination table with the name ' + name);
@@ -497,7 +512,6 @@
 
     importColumnMenuClick(menu, item, evt) {
 
-        debugger;
         let grid = this.getView();
         let column = menu.up('column');
 

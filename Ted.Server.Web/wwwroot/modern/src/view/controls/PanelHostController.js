@@ -34,7 +34,6 @@
         //assert(this.getView().getItemId());
         let modelName = 'Ted.data.DynamicModel.' + Util.createCmpGuid();// this.getView().getItemId();
         //let modelName = 'Ted.data.DynamicModel.' + this.getView().getItemId();
-
         let modelFields = [];
         let fields = cmp.getFields();
 
@@ -71,7 +70,7 @@
 
                 proxy: {
                     url: 'api/data/',
-                    type: 'tedproxy',
+                    type: 'tedproxy'
                 }
             });
 
@@ -145,7 +144,7 @@
         
         // Add linked table
 
-    },
+    }
     
 
 

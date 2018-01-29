@@ -354,24 +354,6 @@ namespace Ted.Server.Data
 
             var tbl = new DataTable(_tableId);
 
-            //var sqlColumns = $"SELECT COLUMN_NAME AS [Key], DATA_TYPE AS Value " +
-            //   $"FROM INFORMATION_SCHEMA.COLUMNS " +
-            //   $"WHERE TABLE_NAME = '{_tableId}'";
-            //SqlCommand command = _conn.CreateCommand();
-            //command.CommandText = sqlColumns;
-            //using (SqlDataReader reader = command.ExecuteReader())
-            //{
-            //    while (reader.Read())
-            //    {
-            //        DataColumn idColumn = new DataColumn
-            //        {
-            //            DataType = TranslateType(reader.GetString(1)),
-            //            ColumnName = reader.GetString(0)
-            //        };
-            //        tbl.Columns.Add(idColumn);
-            //    }
-            //}
-
             if (records[0].GetType() == typeof(JArray))
             {
                 records = records[0];

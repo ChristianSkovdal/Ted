@@ -37,9 +37,9 @@ namespace Ted.Server.Web.Controllers
         public JsonResult GetAllForUser(string token)
         {
             var user = _auth.Authenticate(token);
-            if (user==null)
+            if (user == null)
                 throw new TedExeption(ExceptionCodes.Authentication);
-            
+
             return Json(new
             {
                 success = true,

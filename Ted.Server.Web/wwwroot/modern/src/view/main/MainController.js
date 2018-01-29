@@ -10,7 +10,7 @@ Ext.define('Admin.view.main.MainController', {
     listen: {
         controller: {
             '#': {
-                unmatchedroute: 'setCurrentView',
+                unmatchedroute: 'setCurrentView'
             }
         }
     },
@@ -24,8 +24,6 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     collapsedCls: 'main-nav-collapsed',
-
-
 
     onNavigationItemClick() {
         // The phone profile's controller uses this event to slide out the navigation
@@ -152,15 +150,23 @@ Ext.define('Admin.view.main.MainController', {
 
                 AjaxUtil.get('/api/page/' + token + '/' + pageid + '/' + currentWsId,
                     rsp => {
-                        
+
                         let page = rsp.data;
-                        item = JSON.parse(page.json);
-                        item.pageId = rsp.data.id;
+                        try {
 
-                        item.xtype = item.xtype || 'workspacecanvas';
-                        item.routeId = hashTag;
+                            
+                            item = JSON.parse(page.json);
+                            item.pageId = rsp.data.id;
 
-                        view.setActiveItem(item);
+                            item.xtype = item.xtype || 'workspacecanvas';
+                            item.routeId = hashTag;
+
+                            view.setActiveItem(item);
+
+                        } catch (e) {
+                            Ext.Msg.alert('Parser Error', e.message);
+                            this.showJsonConsole(view, page.id, page.json);
+                        }
 
                         if (rsp.tree) {
 
@@ -185,7 +191,7 @@ Ext.define('Admin.view.main.MainController', {
                     },
                     err => {
                         Ext.Msg.alert('Communication Error', err.message, () => {
-                           // me.redirectTo('login');
+                            // me.redirectTo('login');
                         });
                     }
                 );
@@ -268,7 +274,7 @@ Ext.define('Admin.view.main.MainController', {
         let me = this;
 
         var dialog = Ext.create({
-            xtype: 'newpagedlg',
+            xtype: 'newpagedlg'
         });
 
         dialog.show();
@@ -339,7 +345,7 @@ Ext.define('Admin.view.main.MainController', {
     addWorkspaceButtonClick() {
 
         var dialog = Ext.create({
-            xtype: 'newworkspacedlg',
+            xtype: 'newworkspacedlg'
         });
 
         dialog.show();
@@ -484,7 +490,7 @@ Ext.define('Admin.view.main.MainController', {
         if (!omitDataSource) {
             panelCfg.dataSourceId = '_' + user.id + '_' + Util.createCmpGuid();
         }
-        
+
         let currentitem = view.getActiveItem();
         let routeId = currentitem.routeId;
 
@@ -510,7 +516,7 @@ Ext.define('Admin.view.main.MainController', {
 
         AjaxUtil.put('/api/page/' + user.token + '/' + page.id,
             {
-                json: json,
+                json: json
                 //masterTableId: childCfg.masterTableId
             },
             rsp => {
@@ -554,7 +560,7 @@ Ext.define('Admin.view.main.MainController', {
                 items: [
                     {
                         html: '<input type="file" />',
-                        itemId: Util.createCmpGuid(),
+                        itemId: Util.createCmpGuid()
                     },
                     {
                         xtype: 'button',
@@ -588,10 +594,10 @@ Ext.define('Admin.view.main.MainController', {
                     xtype: 'tedstringcolumn',
                     itemId: Util.createCmpGuid(),
                     dataIndex: 'col1',
-                    dataType: 'string',
+                    dataType: 'string'
                 }
             ]
-        }, 'New Data Panel (' + (this.getView().getItems().items.length+1) + ')');
+        }, 'New Data Panel (' + (this.getView().getItems().items.length + 1) + ')');
     },
 
     addLinkedFormPanelButtonClick() {
@@ -599,7 +605,7 @@ Ext.define('Admin.view.main.MainController', {
         let currentitem = this.getView().getActiveItem();
         assert(currentitem);
         var myMaster = currentitem.getItems().items[0];
-        
+
         this.addPanel({
             xtype: 'tedgrid',
             itemId: Util.createCmpGuid(),
@@ -619,6 +625,59 @@ Ext.define('Admin.view.main.MainController', {
             myMaster.getItemId()
         );
 
+    },
+
+    showJsonConsole(view, pageId, json) {
+
+        view.setActiveItem({
+            xtype: 'panel',
+            title: 'Fatal Error Parsing Component JSON!',
+            layout: 'fit',
+            shadow: true,
+            ui: 'light',
+            tbar: [
+                {
+                    text: 'Update',
+                    handler: function (btn) {
+                        let text = btn.upsafe('panel').downsafe('textareafield').getValue();
+                        AjaxUtil.put('/api/page/' + App.getUser().token + '/' + pageId, {
+                            json: text
+                        });
+                    }
+                },
+                {
+                    text: 'Reset',
+                    handler: function (btn) {
+                        btn.upsafe('panel').downsafe('textareafield').setValue(JSON.stringify({
+                            items: []
+                        }));
+                    }
+                }
+            ],
+            items: [
+                {
+                    margin: 2,
+                    xtype: 'textareafield',
+                    value: json
+                }
+            ]
+        });
+    },
+
+    showJsonConsoleButtonClick() {
+
+        let view = this.getView();
+        let ws = this.getViewModel().get('workspace');
+        let navigationTree = this.lookup('navigationTree');
+        let pageid = view.getActiveItem().pageId;
+
+        AjaxUtil.get('/api/page/' + App.getUser().token + '/' + pageid + '/' + ws.id,
+            rsp => {
+
+                let page = rsp.data;
+                this.showJsonConsole(view, pageid, page.json);
+            }
+        );
     }
 
 });

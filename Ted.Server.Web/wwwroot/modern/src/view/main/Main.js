@@ -34,7 +34,7 @@ Ext.define('Admin.view.main.Main', {
             shadow: true,
             bind: {
                 hidden: '{!showWorkspaceTools}'
-            },
+            }
 
         },
         //{

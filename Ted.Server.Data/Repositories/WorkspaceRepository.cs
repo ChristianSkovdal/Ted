@@ -81,7 +81,7 @@ namespace Ted.Server.Data
                 throw new Exception($"The page with id {pageId} does not exist");
 
             // Always set the child components JSON
-            page.json = update.json;
+            page.json = update.json.Replace("\\r", "");
 
             // This is a column update so create the column
             if (update.column!=null)

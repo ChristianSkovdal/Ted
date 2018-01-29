@@ -72,22 +72,28 @@ Ext.define('Admin.view.main.Toolbar', {
 
 
         {
+            iconCls: 'x-fa fa-wrench',
+            margin: '0 7 0 0',
+            text: 'Console',
+            handler: 'showJsonConsoleButtonClick'
+        },
+        {
             iconCls: 'x-fa fa-link',
             margin: '0 7 0 0',
             text: 'Linked Table',
-            handler: 'addLinkedFormPanelButtonClick',
+            handler: 'addLinkedFormPanelButtonClick'
         },
         {
             iconCls: 'x-fa fa-th',
             margin: '0 7 0 0',
             text: 'Grid',
-            handler: 'addDataPanelButtonClick',
+            handler: 'addDataPanelButtonClick'
         },
         {
-            iconCls: 'x-fa fa-th',
+            iconCls: 'x-fa fa-wpforms',
             margin: '0 7 0 0',
             text: 'Form',
-            handler: 'addFormPanelButtonClick',
+            handler: 'addFormPanelButtonClick'
         },
 
 
@@ -104,19 +110,19 @@ Ext.define('Admin.view.main.Toolbar', {
                     iconCls: 'x-fa fa-calendar-plus-o',
                     margin: '0 7 0 0',
                     text: 'Page',
-                    handler: 'addPageButtonClick',
+                    handler: 'addPageButtonClick'
                 },
                 {
                     iconCls: 'x-fa fa-th',
                     margin: '0 7 0 0',
                     text: 'Grid',
-                    handler: 'addDataPanelButtonClick',
+                    handler: 'addDataPanelButtonClick'
                 },
                 {
                     iconCls: 'fa-sticky-note-o',
                     margin: '0 7 0 0',
                     handler: '',
-                    text: 'Canvas',
+                    text: 'Canvas'
                 }
 
             ]
@@ -134,26 +140,26 @@ Ext.define('Admin.view.main.Toolbar', {
                     iconCls: 'x-fa fa-user',
                     margin: '0 7 0 0',
                     handler: '',
-                    text: 'Profile',
+                    text: 'Profile'
                 },
                 {
                     iconCls: 'x-fa fa-cog',
                     margin: '0 7 0 0',
                     handler: '',
-                    text: 'Workspace Settings',
+                    text: 'Workspace Settings'
                 },
                 '-',
                 {
                     iconCls: 'x-fa fa-cube',
                     margin: '0 7 0 0',
                     handler: 'gotoWorkspacesButtonClick',
-                    text: 'Workspaces',
+                    text: 'Workspaces'
                 },
                 {
                     iconCls: 'x-fa fa-sign-out',
                     margin: '0 7 0 0',
                     handler: 'signoutButtonClick',
-                    text: 'Sign out',
+                    text: 'Sign out'
                 }
             ]
         }
