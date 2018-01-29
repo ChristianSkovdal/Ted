@@ -1,5 +1,7 @@
 Ext.define('Ted.Enum.ExceptionCodes',
 {
+singleton: true,
+alternateClassName: ['ExceptionCodes'],
 Generic : 0,
 
 Authentication : 100,
@@ -12,4 +14,3 @@ UnableToParseArgument : 106,
 InvalidArgument : 107
 }
 );
-var ExceptionCodes = new Ext.create('Ted.Enum.ExceptionCodes');

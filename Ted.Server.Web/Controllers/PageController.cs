@@ -22,8 +22,8 @@ namespace Ted.Server.Web.Controllers
             _auth = auth;
         }
 
-        [HttpGet("{token}/{id}/{currentWorkspace}")]
-        public JsonResult GetPage(string token, int id, int currentWorkspace)
+        [HttpGet("{token}/{id}")]///{currentWorkspace}")]
+        public JsonResult GetPage(string token, int id)//, int currentWorkspace)
         {
 			var page = _repo.GetPage(id);
 			if (page == null)
@@ -39,7 +39,8 @@ namespace Ted.Server.Web.Controllers
 
             // Load tree
             ICollection<Page> tree = null;
-            if (page.WorkspaceId!=currentWorkspace && !page.isPublic)
+            //if (page.WorkspaceId!=currentWorkspace && !page.isPublic)
+            if (!page.isPublic)
             {
                 tree = _repo.GetNavigationTree(page.WorkspaceId);
             }

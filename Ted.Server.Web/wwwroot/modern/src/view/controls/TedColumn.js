@@ -9,6 +9,8 @@ Ext.define('Admin.view.controls.TedNumberColumn', {
     extend: 'Ext.grid.column.Number',
     xtype: 'tedintcolumn',
 
+    format: "0,000",
+
     editor: {
         xtype: 'spinnerfield'
     },
@@ -31,36 +33,58 @@ Ext.define('Admin.view.controls.TedDateColumn', {
 });
 
 Ext.define('Admin.view.controls.PictureCellEditor', {
-    extend: 'Ext.field.Select',
+    extend: 'Ext.grid.CellEditor',
     xtype: 'picturepicker',
 
-    //editable: true,
-    //forceSelection: true,
-    //    //itemTpl: '<span role="option" class="x-boundlist-item">{abbr} - {name}</span>',
-    //    //displayTpl: '{abbr} - {name}',
+    controller: 'tedgrid',
 
-    options: [
+    requires: [
+        'Admin.view.controls.FileUploadButton'
+    ],
+
+    items: [
+
         {
-            text: 'Upload...',
-            value: 'fdsgsf'
-        },
-        {
-            text: 'Hydrangeas.jpg',
-            value: 'Hydrangeas.jpg'
-        },
-        {
-            text: 'Jellyfish.jpg',
-            value: 'Jellyfish.jpg'
-        }, ,
-        {
-            text: 'Koala.jpg',
-            value: 'Koala.jpg'
-        }, ,
-        {
-            text: 'Penguins.jpg',
-            value: 'Penguins.jpg'
+            xtype: 'container',
+            layout: 'hbox',
+            items: [
+
+                {
+                    xtype: 'label',
+                    html: 'Filename here...',
+                    flex: 4
+                },
+                {
+                    iconCls: 'x-fa fa-arrow-circle-o-up',
+                    minWidth: 35,
+                    xtype: 'fileuploadbutton',
+                    text: 'Upload',
+                    flex: 1,
+                    //accept: "image/*"
+                },
+                {
+                    //ui: 'header',
+                    iconCls: 'x-fa fa-trash-o',
+                    minWidth: 35,
+                    xtype: 'button',
+                    text: 'Delete',
+                    flex: 1,
+                    handler: 'deleteFileButtonClick' 
+                }
+            ]
         }
-    ]
+    ],
+
+    listeners: {
+        initialize: function (cmp) {
+            this.originalTextField = cmp.items.items[cmp.items.items.length - 1];
+            this.originalTextField.hide();
+        }
+    },
+
+    getValue(value) {
+        return this.originalTextField.getValue();
+    }
 
 });
 
@@ -69,51 +93,18 @@ Ext.define('Admin.view.controls.TedPictureColumn', {
     extend: 'Ext.grid.column.Column',
     xtype: 'tedpicturecolumn',
 
-    //editor: {
-    //    xtype: 'selectfield',
-    //    options: [
-    //        {
-    //            text: 'Upload...',
-    //            value: 'fdsgsf'
-    //        },
-    //        {
-    //            text: 'Hydrangeas.jpg',
-    //            value: 'Hydrangeas.jpg'
-    //        },
-    //        {
-    //            text: 'Jellyfish.jpg',
-    //            value: 'Jellyfish.jpg'
-    //        }, ,
-    //        {
-    //            text: 'Koala.jpg',
-    //            value: 'Koala.jpg'
-    //        }, ,
-    //        {
-    //            text: 'Penguins.jpg',
-    //            value: 'Penguins.jpg'
-    //        }
-    //    ]
-    //},
+    editor: {
+        xtype: 'picturepicker',
+    },
 
+    cell: {
+        xtype: 'gridcell',
+        encodeHtml: false,
+        //align: 'center'
+    },
 
-
-    //renderer: 'pictureCellRenderer'
-
-    //cell: {
-    //    xtype: 'widgetcell',
-    //    widget: {
-    //        xtype: 'container',
-    //        layout:'fit',
-    //        items: [
-    //            {
-    //                margin:0,
-    //                xtype: 'container',
-    //                html: '<b>dsfaadf</b>',
-    //                style: 'background:blue;'
-    //            }
-    //        ]
-    //    }
-    //}
+    renderer: 'pictureCellRenderer'
+    
 });
 
 Ext.define('Admin.view.controls.TedImportColumn', {

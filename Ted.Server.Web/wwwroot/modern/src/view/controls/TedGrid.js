@@ -3,7 +3,8 @@ Ext.define('Admin.view.controls.TedGrid', {
     xtype: 'tedgrid',
 
     requires: [
-        'Admin.view.controls.TedGridController'
+        'Admin.view.controls.TedGridController',
+        'Ted.Util.TedGridCellEditing'
     ],
 
     hostedItem: true,
@@ -15,14 +16,15 @@ Ext.define('Admin.view.controls.TedGrid', {
     //}],
 
     plugins: {
-        gridcellediting: {
+        tedgridcellediting: {
             selectOnEdit: true
         }
     },
 
-    viewConfig: {
-        enableTextSelection: true
-    },
+    //userSelectable: {
+    //    element: true,       // optionally allow the element to be user selectable
+    //    bodyElement: true    // optionally allow the component's body element to be user selectable
+    //},
 
     //selectable: {
     //    rows: false,
@@ -83,7 +85,7 @@ Ext.define('Admin.view.controls.TedGrid', {
             //},
             {
                 text: 'Delete',
-                iconCls: 'x-fa fa-minus',
+                iconCls: 'x-fa fa-trash',
                 handler: 'deleteRow',
                 bind: {
                     disabled: '{!selected}'

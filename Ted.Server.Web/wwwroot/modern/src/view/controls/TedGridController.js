@@ -3,6 +3,10 @@
     alias: 'controller.tedgrid',
 
     control: {
+        'fileuploadbutton': {
+            filePicked: 'uploadFileButtonClick'
+        },
+
         'importcolumn>menu': {
             click: 'importColumnMenuClick'
         },
@@ -158,11 +162,6 @@
         return value;
     },
 
-    pictureCellRenderer(value, record, index, cell, column) {
-
-        return value;
-    },
-
     columnSettings(itm, event) {
 
         let vm = this.getViewModel();
@@ -222,7 +221,7 @@
 
     createUniqueColumnDataIndex(baseName) {
 
-        baseName = baseName.replace(/\W/g, '');
+        baseName = baseName.replace(/\W/g, '').toLowerCase();
 
         let max = 10;
         let i = 1;
@@ -535,7 +534,47 @@
         column.importAction = action;
         column.setText(text);        
 
-    }
+    },
 
+    uploadFileButtonClick(cmp, file) {
+        let ws = App.getMainView().getViewModel().get('workspace');
+        let fileInfoValue = cmp.up('editor').getValue() || '{ "fileGuid": "0" }';
+        let fileInfo = JSON.parse(fileInfoValue);
+        let url = 'api/file/' + App.getUser().token + '/' + ws.id + '/' + fileInfo.fileGuid;
+        let xhr = new XMLHttpRequest();
+        let fd = new FormData();
+        xhr.open("POST", url, true);
+        xhr.onreadystatechange = function (rsp) {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+
+                let fistr = rsp.currentTarget.responseText;
+                assert(fistr);
+                let fi = JSON.parse(fistr);
+                assert(fi && fi.data);
+
+                fi.data.name = file.name;
+                fi.data.type = file.type;
+                fi.data.size = file.size;
+
+                cmp.up('editor').updateValue(JSON.stringify(fi.data));
+            }
+        };
+        fd.append("file", file);
+        xhr.send(fd);
+
+
+    },
+
+
+    pictureCellRenderer(value, record, index, cell, column) {
+        let obj = JSON.parse(value);
+        return Ext.String.format('<a href="api/file/{3}/{0}/{1}" alt="{2}">{2}</a>',
+            obj.fileGuid, obj.version, obj.name, App.getUser().token);
+    },
+
+
+    deleteFileButtonClick() {
+        this.originalTextField.setValue(null);
+    },
 
 });

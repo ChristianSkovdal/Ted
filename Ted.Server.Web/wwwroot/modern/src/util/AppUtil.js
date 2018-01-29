@@ -4,6 +4,9 @@
     alternateClassName: ['App'],
 
     getUser() {
-        return Admin.getApplication().getMainView().getViewModel().get('user');
+        return this.getMainView().getViewModel().get('user');
+    },
+    getMainView() {
+        return Admin.getApplication().getMainView();
     }
 });

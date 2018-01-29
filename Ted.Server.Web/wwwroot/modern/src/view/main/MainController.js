@@ -46,7 +46,6 @@ Ext.define('Admin.view.main.MainController', {
 
     setCurrentView(hashTag) {
 
-        //
 
         hashTag = (hashTag || '').toLowerCase();
         if (hashTag !== 'login' && hashTag !== 'register') {
@@ -143,34 +142,35 @@ Ext.define('Admin.view.main.MainController', {
             if (hashTag.startsWith('page:')) {
 
                 let pageid = hashTag.split(':')[1];
-                let existingWS = vm.get('workspace');
-                let currentWsId = existingWS ? existingWS.id : -1;
+                //let existingWS = vm.get('workspace');
+                //assert(ws);
+                //let currentWsId = existingWS ? existingWS.id : -1;
 
                 let token = vm.get('user.token');
 
-                AjaxUtil.get('/api/page/' + token + '/' + pageid + '/' + currentWsId,
+                AjaxUtil.get('/api/page/' + token + '/' + pageid,// + '/' + currentWsId,
                     rsp => {
 
                         let page = rsp.data;
-                        try {
+                        //try {
 
-                            
-                            item = JSON.parse(page.json);
-                            item.pageId = rsp.data.id;
+                        item = JSON.parse(page.json);
+                        item.pageId = rsp.data.id;
 
-                            item.xtype = item.xtype || 'workspacecanvas';
-                            item.routeId = hashTag;
+                        item.xtype = item.xtype || 'workspacecanvas';
+                        item.routeId = hashTag;
 
-                            view.setActiveItem(item);
+                        view.setActiveItem(item);
 
-                        } catch (e) {
-                            Ext.Msg.alert('Parser Error', e.message);
-                            this.showJsonConsole(view, page.id, page.json);
-                        }
+                        //} catch (e) {
+                        //    Ext.Msg.alert('Parser Error', e.message);
+                        //    this.showJsonConsole(view, page.id, page.json);
+                        //}
+
+                        vm.set('workspace', page.workspace);
 
                         if (rsp.tree) {
 
-                            vm.set('workspace', page.workspace);
                             vm.set('showWorkspaceTools', true);
 
                             //let navData = JSON.parse(page.workspace.componentTree);
@@ -390,6 +390,8 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     openWorkspace(ws) {
+        debugger;
+        vm.set('workspace', ws);
         this.redirectTo('page:' + ws.get('startPageId'));
     },
 
