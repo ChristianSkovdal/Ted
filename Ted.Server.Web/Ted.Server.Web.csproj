@@ -30,15 +30,8 @@
   <ItemGroup>
     <Content Remove="wwwroot\%2a%2a" />
     <Content Remove="wwwroot\.jshintrc" />
-    <Content Remove="wwwroot\bootstrap.css" />
-    <Content Remove="wwwroot\bootstrap.js" />
     <Content Remove="wwwroot\build.xml" />
-    <Content Remove="wwwroot\classic.json" />
-    <Content Remove="wwwroot\classic.jsonp" />
-    <Content Remove="wwwroot\modern.json" />
-    <Content Remove="wwwroot\modern.jsonp" />
     <Content Remove="wwwroot\Readme.md" />
-    <Content Remove="wwwroot\workspace.json" />
   </ItemGroup>
 
   <ItemGroup>
