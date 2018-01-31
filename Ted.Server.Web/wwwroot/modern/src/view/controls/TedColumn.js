@@ -37,48 +37,66 @@ Ext.define('Admin.view.controls.PictureCellEditor', {
     xtype: 'picturepicker',
 
     controller: 'tedgrid',
+    
 
     requires: [
         'Admin.view.controls.FileUploadButton'
     ],
 
     items: [
-
         {
-            xtype: 'container',
-            layout: 'hbox',
-            items: [
+            xtype: 'toolbar',
+            docked: 'top',
 
+            defaults: {                
+                margin: '-10 0 0 0'
+            },
+
+            items: [
                 {
-                    xtype: 'label',
-                    html: 'Filename here...',
-                    flex: 4
+                    xtype: 'container',
+                    align: 'left',
+                    flex: 4,
+                    listeners: {
+                        painted: function () {
+                            var val = this.upsafe('editor').getValue();
+                            if (val) {
+                                let obj = JSON.parse(val);
+                                this.setHtml(obj.name);
+                            }
+                        }
+                    }
                 },
                 {
                     iconCls: 'x-fa fa-arrow-circle-o-up',
                     minWidth: 35,
+                    flex: 1,
                     xtype: 'fileuploadbutton',
                     text: 'Upload',
-                    flex: 1,
-                    //accept: "image/*"
+                    accept: "image/*",
+                    align: 'right',                    
                 },
                 {
-                    //ui: 'header',
                     iconCls: 'x-fa fa-trash-o',
                     minWidth: 35,
+                    flex: 1,
                     xtype: 'button',
                     text: 'Delete',
-                    flex: 1,
-                    handler: 'deleteFileButtonClick' 
+                    handler: 'deleteFileButtonClick',
+                    align: 'right',
                 }
             ]
         }
+
     ],
 
     listeners: {
         initialize: function (cmp) {
             this.originalTextField = cmp.items.items[cmp.items.items.length - 1];
             this.originalTextField.hide();
+        },
+        specialKey: function () {
+            debugger;
         }
     },
 
@@ -104,7 +122,7 @@ Ext.define('Admin.view.controls.TedPictureColumn', {
     },
 
     renderer: 'pictureCellRenderer'
-    
+
 });
 
 Ext.define('Admin.view.controls.TedImportColumn', {

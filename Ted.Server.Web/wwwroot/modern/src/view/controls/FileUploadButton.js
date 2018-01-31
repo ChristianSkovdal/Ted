@@ -11,7 +11,7 @@ Ext.define('Admin.view.controls.FileUploadButton', {
             if (ff) {
                 ff.destroy();
             }
-
+            //debugger;
             parent.add({
                 hidden: true,
                 xtype: 'filefield',

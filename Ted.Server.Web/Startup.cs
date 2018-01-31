@@ -32,6 +32,7 @@ namespace Ted.Server.Web
             services.AddTransient<ConfigRepository, ConfigRepository>();
             services.AddTransient<UserRepository, UserRepository>();
             services.AddTransient<WorkspaceRepository, WorkspaceRepository>();
+            services.AddTransient<ModuleRepository, ModuleRepository>();
             services.AddTransient<AuthenticationHandler, AuthenticationHandler>();
             services.AddSingleton<IConfiguration>(this.Configuration);
 

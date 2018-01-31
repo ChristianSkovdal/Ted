@@ -41,6 +41,8 @@ namespace Ted.Server.Models
 
         public virtual ICollection<Page> pages { get; set; } = new List<Page>();
 
+        public virtual ICollection<Module> modules { get; set; } = new List<Module>();
+
         public int UserId { get; set; }
 
         //public ICollection<TreeNode> nodes { get; set; } = new List<TreeNode>();

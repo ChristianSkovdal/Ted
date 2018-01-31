@@ -9,6 +9,8 @@ Ext.define('Admin.view.authentication.AuthBase', {
         'Admin.view.authentication.AuthModel'
     ],
 
+    
+
     baseCls: 'auth-locked',
 
     layout: {

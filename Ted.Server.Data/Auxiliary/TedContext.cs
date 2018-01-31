@@ -23,6 +23,7 @@ namespace Ted.Server.Data
 
         public DbSet<Table> Tables { get; set; }
 
+        public DbSet<Module> Modules { get; set; }
         //public DbSet<TreeNode> TreeNode { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

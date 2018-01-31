@@ -141,10 +141,49 @@
     },
 
     onAddSomething(panel) {
-        
-        // Add linked table
 
-    }
+
+        //Ext.define('MyComponent', {
+        //    id: 'myComponent',
+
+        //    constructor() {
+        //        debugger;
+        //        Ext.apply(this, {
+        //            loader: {
+        //                url: 'mycomponent.json',
+        //                method: 'GET',
+        //                success: this.onSuccess
+        //            }
+        //        });
+        //        this.callParent(arguments);
+        //    },
+
+        //    load: function (url) {
+        //        if (url) {
+        //            this.loader.url = url;
+        //        }
+        //        this.loader.load();
+        //    },
+
+        //    onSuccess: function () {
+        //        console.log('Success!');
+        //        //this.load('/some/other/url');
+        //    }
+        //});
+
+        //let cmp = Ext.create('MyComponent', {});
+        //cmp.load();
+        //panel.getClient().add(cmp);
+
+
+        //let newItem = {
+        //    xtype: 'container',
+        //    componentJson: '[{"xtype":"button", "text":"Testing", "handler";"tst"}]',
+            
+        //};
+
+        //panel.getClient().fireEvent('addItem', panel.getClient(), newItem);
+    },
     
 
 

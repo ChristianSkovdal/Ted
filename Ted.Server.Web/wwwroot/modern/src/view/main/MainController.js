@@ -390,7 +390,7 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     openWorkspace(ws) {
-        debugger;
+        let vm = this.getViewModel();
         vm.set('workspace', ws);
         this.redirectTo('page:' + ws.get('startPageId'));
     },
@@ -560,16 +560,16 @@ Ext.define('Admin.view.main.MainController', {
                 xtype: 'tedform',
                 itemId: Util.createCmpGuid(),
                 items: [
-                    {
-                        html: '<input type="file" />',
-                        itemId: Util.createCmpGuid()
-                    },
-                    {
-                        xtype: 'button',
-                        itemId: Util.createCmpGuid(),
-                        text: 'Browse',
-                        handler: 'browseButtonClick'
-                    }
+                    //{
+                    //    html: '<input type="file" accept="image/*" />',
+                    //    itemId: Util.createCmpGuid()
+                    //},
+                    //{
+                    //    xtype: 'button',
+                    //    itemId: Util.createCmpGuid(),
+                    //    text: 'Browse',
+                    //    handler: 'browseButtonClick'
+                    //}
                 ]
             }, 'New Form Panel', true);
     },

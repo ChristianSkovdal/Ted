@@ -6,7 +6,12 @@
     getUser() {
         return this.getMainView().getViewModel().get('user');
     },
+
     getMainView() {
         return Admin.getApplication().getMainView();
+    },
+
+    getWorkspace() {
+        return this.getMainView().getViewModel().get('workspace');
     }
 });

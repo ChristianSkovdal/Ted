@@ -16,8 +16,8 @@
                 let hostPanel = this.getView().getParent();
                 let listeners = Ext.ComponentQuery.query('panelhost[masterTableId=' + hostPanel.getItemId() + ']');
                 for (let linked of listeners) {
-                    let grid = linked.down('tedgrid');
-                    grid.fireEvent('refreshLinkedData', cmp, records[0]);
+                    //let grid = linked.down('tedgrid');
+                    linked.fireEvent('refreshLinkedData', cmp, records[0]);
                 }
             },
 
@@ -279,7 +279,7 @@
         let user = App.getUser();
 
         let hdr = grid.getHeaderContainer();
-        
+
 
         if (index >= 0) {
             hdr.insert(index, obj);
@@ -354,7 +354,7 @@
             let text = e.target.result;
             const columNamesInFirstRow = true;
             let lines = text.split('\n');
-            
+
             for (var i = 0; i < lines.length; i++) {
                 lines[0] = lines[0].trim().replace('\r', '');
             }
@@ -377,20 +377,21 @@
 
                         let obj = {};
                         let tokens = lines[i].split(';');
-                        if (tokens.length > 1) {                        
+                        if (tokens.length > 1) {
                             for (let i = 0; i < Math.min(tokens.length, columnNames.length); i++) {
                                 obj[columnNames[i]] = tokens[i];
                             }
                             data.push(obj);
                         }
-                    }                }
-                
+                    }
+                }
+
                 var store = Ext.create('Ext.data.Store', {
                     fields: columnNames,
                     data: data,
                     originalData: data
                 });
-                
+
                 let w = Ext.create({
                     xtype: 'importdlg',
                     controller: 'tedgrid',
@@ -427,7 +428,7 @@
         let dst = dlg.destinationGrid.getStore();
 
         let src = srcgrid.getStore();
-        
+
         // First let se if we have to create any columns
         for (let col of srcgrid.getColumns()) {
             if (col.importAction === 'create') {
@@ -439,7 +440,7 @@
                 }
             }
         }
-        
+
         let columns = srcgrid.getColumns();
         let postData = [];
         for (let row of src.originalData) {
@@ -455,7 +456,7 @@
             }
             postData.push(newRow);
         }
-        
+
         AjaxUtil.post('/api/data/' + App.getUser().token + '/' + dlg.destinationGrid.upsafe('panelhost').dataSourceId,
             postData,
             () => {
@@ -472,7 +473,7 @@
         //    });
         //}
         //dst.resumeAutoSync();
-        
+
         ////dst.add(src.getRange());
         ////debugger;
         //dst.sync();
@@ -521,7 +522,7 @@
             text = column.oldText + ' (Create)';
             action = 'create';
         }
-        else if (item.getItemId() === 'column-ignore') {            
+        else if (item.getItemId() === 'column-ignore') {
             text = column.oldText + ' (Ignore)';
             action = 'ignore';
         }
@@ -532,13 +533,13 @@
         }
 
         column.importAction = action;
-        column.setText(text);        
+        column.setText(text);
 
     },
 
     uploadFileButtonClick(cmp, file) {
         let ws = App.getMainView().getViewModel().get('workspace');
-        let fileInfoValue = cmp.up('editor').getValue() || '{ "fileGuid": "0" }';
+        let fileInfoValue = cmp.upsafe('editor').getValue() || '{ "fileGuid": "0" }';
         let fileInfo = JSON.parse(fileInfoValue);
         let url = 'api/file/' + App.getUser().token + '/' + ws.id + '/' + fileInfo.fileGuid;
         let xhr = new XMLHttpRequest();
@@ -556,7 +557,7 @@
                 fi.data.type = file.type;
                 fi.data.size = file.size;
 
-                cmp.up('editor').updateValue(JSON.stringify(fi.data));
+                cmp.upsafe('editor').updateValue(JSON.stringify(fi.data));
             }
         };
         fd.append("file", file);
@@ -567,14 +568,22 @@
 
 
     pictureCellRenderer(value, record, index, cell, column) {
-        let obj = JSON.parse(value);
-        return Ext.String.format('<a href="api/file/{3}/{0}/{1}" alt="{2}">{2}</a>',
-            obj.fileGuid, obj.version, obj.name, App.getUser().token);
+        if (value) {
+            let obj = JSON.parse(value);
+            return Ext.String.format('{0} ({1})', obj.name, Util.bytesToSize(obj.size));
+            //return Ext.String.format('<a href="api/file/{3}/{0}/{1}" target="_new" alt="{2}">{2} ({4})</a>',
+            //    obj.fileGuid, obj.version, obj.name, App.getUser().token, Util.bytesToSize(obj.size, 1));
+        }
     },
 
 
-    deleteFileButtonClick() {
-        this.originalTextField.setValue(null);
+    deleteFileButtonClick(cmp) {
+        Ext.Msg.confirm('Delete File', 'Are you sure?', a => {
+            if (a === 'yes') {
+                cmp.upsafe('editor').updateValue(null);
+            }
+        });
+        
     },
 
 });

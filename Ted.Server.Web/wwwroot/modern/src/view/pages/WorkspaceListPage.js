@@ -65,6 +65,7 @@ Ext.define('Admin.view.pages.WorkspaceListPage', {
                         selection: '{selectedWorkspace}'
                     },
                     cls: 'dataview-multisort-item',
+                    
 
                     itemTpl: '<div class="dataview-multisort-item">' +
                     '<img draggable="false" src="/images/ws.png" />' +

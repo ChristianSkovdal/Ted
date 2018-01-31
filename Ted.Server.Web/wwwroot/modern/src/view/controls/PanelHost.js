@@ -38,6 +38,10 @@ Ext.define('Admin.view.controls.PanelHost', {
         child.setStore(store);
     },
 
+    getClient() {
+        return this.downsafe('container[hostedItem=true]');
+    },
+
     tbar: [
     ],
 

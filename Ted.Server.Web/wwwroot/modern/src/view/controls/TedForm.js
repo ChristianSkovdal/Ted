@@ -3,15 +3,18 @@ Ext.define('Admin.view.controls.TedForm', {
     xtype: 'tedform',
 
     requires: [
+        'Admin.view.controls.TedFormController'
     ],
 
     hostedItem: true,
+    controller: 'tedform',
+
     defaults: {
         margin: 10
     },
     
     getSerializableProperties() {
-        return ['itemId'];
+        return ['itemId', 'componentTree'];
     },
 
     getChildren() {

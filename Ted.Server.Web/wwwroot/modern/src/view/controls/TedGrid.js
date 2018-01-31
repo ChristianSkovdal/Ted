@@ -8,7 +8,6 @@ Ext.define('Admin.view.controls.TedGrid', {
     ],
 
     hostedItem: true,
-
     controller: 'tedgrid',
 
     //plugins: [{
@@ -160,10 +159,6 @@ Ext.define('Admin.view.controls.TedGrid', {
 
         return buttons;
     }
-
-
-
-
 
 
 });
